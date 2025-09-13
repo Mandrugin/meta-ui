@@ -24,9 +24,9 @@ namespace UseCases
             _wheels = await _hangarData.GetAllWheels(_currentVehicle);
         }
 
-        public async UniTask<bool> BuyWheels(int wheelsIndex)
+        public UniTask<bool> BuyWheels(int wheelsIndex)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public UniTask<bool> TryWheelsOut(int wheelsIndex)
@@ -39,17 +39,17 @@ namespace UseCases
             throw new NotImplementedException();
         }
 
-        public UniTask<List<Wheels>> GetAllWheels()
+        public UniTask<List<WheelsData>> GetAllWheels()
         {
             throw new NotImplementedException();
         }
 
-        public UniTask<List<Wheels>> GetBoughtWheels()
+        public UniTask<List<WheelsData>> GetBoughtWheels()
         {
             throw new NotImplementedException();
         }
 
-        public UniTask<Wheels> GetCurrentWheels()
+        public UniTask<WheelsData> GetCurrentWheels()
         {
             throw new NotImplementedException();
         }
