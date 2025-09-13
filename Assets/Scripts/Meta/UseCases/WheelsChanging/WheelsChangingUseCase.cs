@@ -1,12 +1,17 @@
+using System;
+
 namespace UseCases
 {
-    public class WheelsChangingUseCase
+    public class WheelsChangingUseCase : IWheelsChangingUseCase
     {
         private WheelsData[] _wheelsData;
-        
-        public WheelsChangingUseCase(WheelsData[] wheelsData)
+        public event Action<WheelsData[]> WheelsDataUpdated;
+        public event Action<WheelsData> WheelsTriedOut;
+        public event Action<WheelsData> WheelsSet;
+
+        public void UpdateWheelsData()
         {
-            _wheelsData = wheelsData;
+            
         }
         
         public void TryWheelsOut(int wheelIndex)
@@ -18,10 +23,20 @@ namespace UseCases
         {
             
         }
-    }
 
-    public abstract class WheelChangingPresenterBase
-    {
-        
+        protected virtual void OnWheelsDataUpdated(WheelsData[] obj)
+        {
+            WheelsDataUpdated?.Invoke(obj);
+        }
+
+        protected virtual void OnWheelsTriedOut(WheelsData obj)
+        {
+            WheelsTriedOut?.Invoke(obj);
+        }
+
+        protected virtual void OnWheelsSet(WheelsData obj)
+        {
+            WheelsSet?.Invoke(obj);
+        }
     }
 }

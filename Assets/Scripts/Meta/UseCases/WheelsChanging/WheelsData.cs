@@ -1,7 +1,7 @@
 namespace UseCases
 {
-    public class WheelsData
+    public struct WheelsData
     {
-    
+        public string Id;
     }
 }
