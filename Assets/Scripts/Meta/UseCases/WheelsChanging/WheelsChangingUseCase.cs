@@ -1,42 +1,57 @@
 using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Entities;
 
 namespace UseCases
 {
     public class WheelsChangingUseCase : IWheelsChangingUseCase
     {
-        private WheelsData[] _wheelsData;
-        public event Action<WheelsData[]> WheelsDataUpdated;
-        public event Action<WheelsData> WheelsTriedOut;
-        public event Action<WheelsData> WheelsSet;
+        private List<Wheels> _wheels;
+        private Vehicle _currentVehicle;
 
-        public void UpdateWheelsData()
+        private IHangarData _hangarData;
+
+        public WheelsChangingUseCase(IHangarData hangarData)
         {
-            
+            _hangarData = hangarData;
+            Update().Forget();
         }
         
-        public void TryWheelsOut(int wheelIndex)
+        private async UniTaskVoid Update()
         {
-            
+            _currentVehicle = await _hangarData.GetCurrentVehicle();
+            _wheels = await _hangarData.GetAllWheels(_currentVehicle);
         }
 
-        public void SetWheels(int wheelIndex)
+        public async UniTask<bool> BuyWheels(int wheelsIndex)
         {
-            
+            throw new System.NotImplementedException();
         }
 
-        protected virtual void OnWheelsDataUpdated(WheelsData[] obj)
+        public UniTask<bool> TryWheelsOut(int wheelsIndex)
         {
-            WheelsDataUpdated?.Invoke(obj);
+            throw new NotImplementedException();
         }
 
-        protected virtual void OnWheelsTriedOut(WheelsData obj)
+        public UniTask<bool> SetWheels(int wheelsIndex)
         {
-            WheelsTriedOut?.Invoke(obj);
+            throw new NotImplementedException();
         }
 
-        protected virtual void OnWheelsSet(WheelsData obj)
+        public UniTask<List<Wheels>> GetAllWheels()
         {
-            WheelsSet?.Invoke(obj);
+            throw new NotImplementedException();
+        }
+
+        public UniTask<List<Wheels>> GetBoughtWheels()
+        {
+            throw new NotImplementedException();
+        }
+
+        public UniTask<Wheels> GetCurrentWheels()
+        {
+            throw new NotImplementedException();
         }
     }
 }
