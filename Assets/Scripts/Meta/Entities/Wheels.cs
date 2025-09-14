@@ -1,4 +1,4 @@
-namespace Entities
+namespace Meta.Entities
 {
     public class Wheels
     {

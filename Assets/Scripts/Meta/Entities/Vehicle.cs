@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Entities
+namespace Meta.Entities
 {
     public class Vehicle
     {

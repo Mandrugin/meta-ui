@@ -1,9 +1,10 @@
 using UnityEngine;
-using UseCases;
 using VContainer;
 
-public class WheelsMenuView : MonoBehaviour
+namespace Meta.Views
 {
-    [Inject]
-    IWheelsChangingUseCase _wheelsChangingUseCase;
+    public class WheelsMenuView : MonoBehaviour
+    {
+        [Inject] private WheelsMenuPresenter _wheelsMenuPresenter;
+    }
 }

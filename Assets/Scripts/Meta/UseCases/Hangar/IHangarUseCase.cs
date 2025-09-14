@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 
-namespace UseCases
+namespace Meta.UseCases
 {
     public interface IHangarUseCase
     {

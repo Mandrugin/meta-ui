@@ -1,4 +1,4 @@
-﻿namespace UseCases
+﻿namespace Meta.UseCases
 {
     public struct VehicleData
     {

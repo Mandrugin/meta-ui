@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Entities;
+using Meta.Entities;
 
-namespace UseCases
+namespace Meta.UseCases
 {
     public class WheelsChangingUseCase : IWheelsChangingUseCase
     {
