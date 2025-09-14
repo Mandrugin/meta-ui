@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Entities;
 
 namespace Meta.UseCases
 {
-    public class WheelsChangingUseCase : IWheelsChangingUseCase
+    public class WheelsChangingUseCase : IWheelsChangingUseCase, IDisposable
     {
         private List<Wheels> _wheels;
         private Vehicle _currentVehicle;
+        
+        private CancellationTokenSource _cancellationTokenSource;
 
         private readonly IHangarBackend _hangarBackend;
 
@@ -52,6 +55,11 @@ namespace Meta.UseCases
         public UniTask<WheelsData> GetCurrentWheels()
         {
             throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            _cancellationTokenSource?.Dispose();
         }
     }
 }
