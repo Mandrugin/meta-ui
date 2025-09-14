@@ -20,6 +20,12 @@ namespace Meta.UseCases
             throw new System.NotImplementedException();
         }
 
+        public UniTaskVoid StartWheelsChanging()
+        {
+            // todo: expel WheelsChangingLifetimeScope
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
         {
             _cancellationTokenSource?.Dispose();
