@@ -4,13 +4,13 @@ using Meta.Entities;
 
 namespace Meta.UseCases
 {
-    public class LocalHangarData : IHangarData
+    public class LocalHangarBackend : IHangarBackend
     {
         private List<Vehicle> _allVehicles;
         private List<Vehicle> _boughtVehicles;
         private Vehicle _currentVehicle;
 
-        public LocalHangarData()
+        public LocalHangarBackend()
         {
             _allVehicles = new List<Vehicle>()
             {
@@ -83,12 +83,6 @@ namespace Meta.UseCases
             return _boughtVehicles;
         }
 
-        public async UniTask<bool> BuyVehicle(Vehicle vehicle)
-        {
-            await UniTask.WaitForSeconds(1);
-            throw new System.NotImplementedException();
-        }
-
         public async UniTask<Vehicle> GetCurrentVehicle()
         {
             await UniTask.WaitForSeconds(1);
@@ -96,6 +90,12 @@ namespace Meta.UseCases
         }
 
         public async UniTask<bool> SetCurrentVehicle(Vehicle vehicle)
+        {
+            await UniTask.WaitForSeconds(1);
+            throw new System.NotImplementedException();
+        }
+
+        public async UniTask<bool> BuyVehicle(Vehicle vehicle)
         {
             await UniTask.WaitForSeconds(1);
             throw new System.NotImplementedException();
@@ -113,12 +113,6 @@ namespace Meta.UseCases
             throw new System.NotImplementedException();
         }
 
-        public async UniTask<bool> BuyWheels(Vehicle vehicle, Wheels wheel)
-        {
-            await UniTask.WaitForSeconds(1);
-            throw new System.NotImplementedException();
-        }
-
         public async UniTask<Wheels> GetCurrentWheels(Vehicle vehicle)
         {
             await UniTask.WaitForSeconds(1);
@@ -126,6 +120,12 @@ namespace Meta.UseCases
         }
 
         public async UniTaskVoid SetCurrentWheels(Vehicle vehicle, Wheels wheels)
+        {
+            await UniTask.WaitForSeconds(1);
+            throw new System.NotImplementedException();
+        }
+
+        public async UniTask<bool> BuyWheels(Vehicle vehicle, Wheels wheel)
         {
             await UniTask.WaitForSeconds(1);
             throw new System.NotImplementedException();

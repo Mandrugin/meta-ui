@@ -10,18 +10,18 @@ namespace Meta.UseCases
         private List<Wheels> _wheels;
         private Vehicle _currentVehicle;
 
-        private IHangarData _hangarData;
+        private readonly IHangarBackend _hangarBackend;
 
-        public WheelsChangingUseCase(IHangarData hangarData)
+        public WheelsChangingUseCase(IHangarBackend hangarBackend)
         {
-            _hangarData = hangarData;
+            _hangarBackend = hangarBackend;
             Update().Forget();
         }
         
         private async UniTaskVoid Update()
         {
-            _currentVehicle = await _hangarData.GetCurrentVehicle();
-            _wheels = await _hangarData.GetAllWheels(_currentVehicle);
+            _currentVehicle = await _hangarBackend.GetCurrentVehicle();
+            _wheels = await _hangarBackend.GetAllWheels(_currentVehicle);
         }
 
         public UniTask<bool> BuyWheels(int wheelsIndex)
