@@ -2,5 +2,7 @@
 {
     public struct VehicleData
     {
+        public string Id;
+        public WheelsData WheelsData;
     }
 }
