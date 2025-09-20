@@ -1,10 +1,10 @@
 {
-    "name": "UseCases",
+    "name": "Views",
     "rootNamespace": "",
     "references": [
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:1155edb7b9bec6649bf8a9b5c3ec027e",
-        "GUID:7929516ff61e69c49a3677720c70a274"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:a31613c367451c2409022d2369a53594"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

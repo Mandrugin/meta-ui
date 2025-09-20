@@ -27,32 +27,32 @@ namespace Meta.UseCases
             _wheels = await _hangarBackend.GetAllWheels(_currentVehicle);
         }
 
-        public UniTask<bool> BuyWheels(int wheelsIndex)
+        public UniTask<bool> BuyWheels(int wheelsIndex, CancellationToken  cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public UniTask<bool> TryWheelsOut(int wheelsIndex)
+        public UniTask<bool> TryWheelsOut(int wheelsIndex, CancellationToken  cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public UniTask<bool> SetWheels(int wheelsIndex)
+        public UniTask<bool> SetWheels(int wheelsIndex, CancellationToken  cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public UniTask<List<WheelsData>> GetAllWheels()
+        public UniTask<List<WheelsData>> GetAllWheels(CancellationToken  cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public UniTask<List<WheelsData>> GetBoughtWheels()
+        public UniTask<List<WheelsData>> GetBoughtWheels(CancellationToken  cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public UniTask<WheelsData> GetCurrentWheels()
+        public UniTask<WheelsData> GetCurrentWheels(CancellationToken  cancellationToken)
         {
             throw new NotImplementedException();
         }

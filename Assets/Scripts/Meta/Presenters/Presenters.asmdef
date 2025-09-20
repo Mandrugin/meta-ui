@@ -1,10 +1,9 @@
 {
-    "name": "UseCases",
+    "name": "Presenters",
     "rootNamespace": "",
     "references": [
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:1155edb7b9bec6649bf8a9b5c3ec027e",
-        "GUID:7929516ff61e69c49a3677720c70a274"
+        "GUID:ee77721895fae7d4f96e148b0f47887c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
