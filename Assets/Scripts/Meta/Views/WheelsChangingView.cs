@@ -1,10 +1,14 @@
 using UnityEngine;
-using VContainer;
 
 namespace Meta.Views
 {
     public class WheelsChangingView : MonoBehaviour
     {
-        [Inject] private WheelsChangingPresenter _wheelsChangingPresenter;
+        WheelsChangingPresenter _wheelsChangingPresenter;
+
+        private void Construct(WheelsChangingPresenter wheelsChangingPresenter)
+        {
+            _wheelsChangingPresenter = wheelsChangingPresenter;
+        }
     }
 }

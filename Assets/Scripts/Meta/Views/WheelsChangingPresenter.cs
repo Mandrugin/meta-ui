@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Meta.UseCases;
 
@@ -9,15 +10,24 @@ namespace Meta.Views
         private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
-        public WheelsChangingPresenter(IWheelsChangingUseCase wheelsChangingUseCase)
+        private List<WheelsData> _wheelsData;
+
+        public event Action<List<WheelsData>> WheelsListChanged; 
+
+        public WheelsChangingPresenter(IWheelsChangingUseCase wheelsChangingUseCase, CancellationTokenSource cancellationTokenSource)
         {
             _wheelsChangingUseCase = wheelsChangingUseCase;
-            _cancellationTokenSource = new CancellationTokenSource();
+            _cancellationTokenSource = cancellationTokenSource;
+        }
+
+        public void TryWheels(WheelsData data)
+        {
+            
         }
 
         public void Dispose()
         {
-            _cancellationTokenSource?.Cancel();
+            
         }
     }
 }

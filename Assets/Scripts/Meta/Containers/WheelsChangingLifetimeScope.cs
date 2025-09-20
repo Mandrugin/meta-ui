@@ -1,3 +1,4 @@
+using System.Threading;
 using Meta.UseCases;
 using Meta.Views;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class WheelsChangingLifetimeScope : LifetimeScope
     
     protected override void Configure(IContainerBuilder builder)
     {
+        builder.Register<CancellationToken>(Lifetime.Transient).AsSelf();
         builder.Register<WheelsChangingUseCase>(Lifetime.Scoped).AsImplementedInterfaces();
         builder.Register<WheelsChangingPresenter>(Lifetime.Scoped).AsImplementedInterfaces();
         builder.RegisterComponent(wheelsChangingView);
