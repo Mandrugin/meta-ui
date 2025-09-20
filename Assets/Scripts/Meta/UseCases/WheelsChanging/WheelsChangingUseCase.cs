@@ -14,17 +14,21 @@ namespace Meta.UseCases
         private CancellationTokenSource _cancellationTokenSource;
 
         private readonly IHangarBackend _hangarBackend;
+        
+        private bool isBusy = false;
 
         public WheelsChangingUseCase(IHangarBackend hangarBackend)
         {
             _hangarBackend = hangarBackend;
-            Update().Forget();
+            Fetch().Forget();
         }
         
-        private async UniTaskVoid Update()
+        private async UniTaskVoid Fetch()
         {
+            isBusy = true;
             _currentVehicle = await _hangarBackend.GetCurrentVehicle();
             _wheels = await _hangarBackend.GetAllWheels(_currentVehicle);
+            isBusy = false;
         }
 
         public UniTask<bool> BuyWheels(int wheelsIndex, CancellationToken  cancellationToken)
@@ -42,9 +46,13 @@ namespace Meta.UseCases
             throw new NotImplementedException();
         }
 
-        public UniTask<List<WheelsData>> GetAllWheels(CancellationToken  cancellationToken)
+        public async UniTask<List<WheelsData>> GetAllWheels(CancellationToken  cancellationToken)
         {
-            throw new NotImplementedException();
+            var wheelsDataList = new List<WheelsData>();
+            await UniTask.WaitForSeconds(1, cancellationToken: cancellationToken);
+            await UniTask.WaitWhile(() => isBusy, PlayerLoopTiming.Update, cancellationToken);
+            _wheels.ForEach(x => wheelsDataList.Add(new WheelsData { Id = x.Id }));
+            return wheelsDataList;
         }
 
         public UniTask<List<WheelsData>> GetBoughtWheels(CancellationToken  cancellationToken)

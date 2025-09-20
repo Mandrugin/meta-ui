@@ -91,7 +91,7 @@ namespace Meta.UseCases
         public async UniTask<Vehicle> GetCurrentVehicle()
         {
             await UniTask.WaitForSeconds(1, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
-            throw new System.NotImplementedException();
+            return _currentVehicle;
         }
 
         public async UniTask<bool> SetCurrentVehicle(Vehicle vehicle)
@@ -109,7 +109,7 @@ namespace Meta.UseCases
         public async UniTask<List<Wheels>> GetAllWheels(Vehicle vehicle)
         {
             await UniTask.WaitForSeconds(1, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
-            throw new System.NotImplementedException();
+            return vehicle.AllWheels;
         }
 
         public async UniTask<List<Wheels>> GetBoughtWheels(Vehicle vehicle)

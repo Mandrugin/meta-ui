@@ -9,22 +9,22 @@ namespace Meta.Presenters
     public class WheelsChangingPresenter: IDisposable
     {
         private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
-        private readonly CancellationToken _cancellationToken;
+        private readonly CancellationTokenSource _cancellationTokenSource;
 
         private List<WheelsData> _wheelsData;
 
-        public event Action<List<WheelsDataView>> WheelsListChanged = delegate { }; 
+        public event Action<List<WheelsDataView>> WheelsListChanged = delegate { };
 
-        public WheelsChangingPresenter(IWheelsChangingUseCase wheelsChangingUseCase, CancellationToken cancellationToken)
+        public WheelsChangingPresenter(IWheelsChangingUseCase wheelsChangingUseCase)
         {
             _wheelsChangingUseCase = wheelsChangingUseCase;
-            _cancellationToken = cancellationToken;
+            _cancellationTokenSource = new CancellationTokenSource();
         }
 
         public async UniTaskVoid UpdateWheelsData()
         {
             var wheelsDataViews = new  List<WheelsDataView>();
-            var wheelsData = await _wheelsChangingUseCase.GetAllWheels(_cancellationToken);
+            var wheelsData = await _wheelsChangingUseCase.GetAllWheels(_cancellationTokenSource.Token);
             wheelsData.ForEach(x => wheelsDataViews.Add(new WheelsDataView {Id = x.Id}));
             WheelsListChanged(wheelsDataViews);
         }
@@ -36,7 +36,7 @@ namespace Meta.Presenters
 
         public void Dispose()
         {
-            
+            _cancellationTokenSource.Dispose();
         }
     }
 }
