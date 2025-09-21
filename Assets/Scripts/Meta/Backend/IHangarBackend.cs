@@ -12,7 +12,6 @@ namespace Meta.Backend
         public UniTask<Vehicle> GetCurrentVehicle();
         public UniTask<bool> SetCurrentVehicle(Vehicle vehicle);
         public UniTask<bool> BuyVehicle(Vehicle vehicle);
-
 #endregion
 
 #region Wheels
@@ -21,7 +20,6 @@ namespace Meta.Backend
         public UniTask<Wheels> GetCurrentWheels(Vehicle vehicle);
         public UniTaskVoid SetCurrentWheels(Vehicle vehicle, Wheels wheels);
         public UniTask<bool> BuyWheels(Vehicle vehicle, Wheels wheel);
-
 #endregion
         
     }

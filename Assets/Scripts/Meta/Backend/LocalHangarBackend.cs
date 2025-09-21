@@ -8,16 +8,16 @@ namespace Meta.Backend
 {
     public class LocalHangarBackend : IHangarBackend, IDisposable
     {
-        private readonly List<Vehicle> _allVehicles;
-        private readonly List<Vehicle> _boughtVehicles;
-        private Vehicle _currentVehicle;
+        private readonly Storage _storage;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
         public LocalHangarBackend()
         {
             _cancellationTokenSource = new CancellationTokenSource();
             
-            _allVehicles = new List<Vehicle>()
+            _storage = new Storage();
+            
+            _storage.AllVehicles = new List<Vehicle>()
             {
                 new Vehicle()
                 {
@@ -64,48 +64,55 @@ namespace Meta.Backend
                     }
                 }
             };
-            foreach (var vehicle in _allVehicles)
+            foreach (var vehicle in _storage.AllVehicles)
             {
                 vehicle.BoughtWheels = new List<Wheels>();
                 vehicle.BoughtWheels.AddRange(vehicle.AllWheels);
                 vehicle.CurrentWheels = vehicle.BoughtWheels[0];
             }
-            _boughtVehicles = new List<Vehicle>();
-            _boughtVehicles.AddRange(_allVehicles);
-            _currentVehicle = _boughtVehicles[0];
+            _storage.BoughtVehicles = new List<Vehicle>();
+            _storage.BoughtVehicles.AddRange(_storage.AllVehicles);
+            _storage.CurrentVehicle = _storage.BoughtVehicles[0];
         }
 
-
+        #region Vehicles
         public async UniTask<List<Vehicle>> GetAllVehicles()
         {
             await UniTask.WaitForSeconds(1, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
-            return _allVehicles;
+            return _storage.AllVehicles;
         }
 
         public async UniTask<List<Vehicle>> GetBoughtVehicles()
         {
             await UniTask.WaitForSeconds(1, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
-            return _boughtVehicles;
+            return _storage.BoughtVehicles;
         }
 
         public async UniTask<Vehicle> GetCurrentVehicle()
         {
             await UniTask.WaitForSeconds(1, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
-            return _currentVehicle;
+            return _storage.CurrentVehicle;
         }
 
         public async UniTask<bool> SetCurrentVehicle(Vehicle vehicle)
         {
             await UniTask.WaitForSeconds(1, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
-            throw new System.NotImplementedException();
+            _storage.CurrentVehicle = vehicle;
+            return true;
         }
 
         public async UniTask<bool> BuyVehicle(Vehicle vehicle)
         {
             await UniTask.WaitForSeconds(1, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
-            throw new System.NotImplementedException();
+            if (vehicle.BuyPrice > _storage.Wallet.Soft)
+                return false;
+            
+            _storage.BoughtVehicles.Add(vehicle);
+            return true;
         }
+        #endregion Vehicles
 
+        #region Wheels
         public async UniTask<List<Wheels>> GetAllWheels(Vehicle vehicle)
         {
             await UniTask.WaitForSeconds(1, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
@@ -135,6 +142,7 @@ namespace Meta.Backend
             await UniTask.WaitForSeconds(1, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
             throw new System.NotImplementedException();
         }
+        #endregion Wheels
 
         public void Dispose()
         {
