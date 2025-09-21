@@ -15,55 +15,57 @@ namespace Meta.Backend
         {
             _cancellationTokenSource = new CancellationTokenSource();
             
-            _storage = new Storage();
-            
-            _storage.AllVehicles = new List<Vehicle>()
+            _storage = new Storage
             {
-                new Vehicle()
+                AllVehicles = new List<Vehicle>()
                 {
-                    Id = "firstVehicle",
-                    AllWheels = new List<Wheels>()
+                    new Vehicle()
                     {
-                        new Wheels()
+                        Id = "firstVehicle",
+                        AllWheels = new List<Wheels>()
                         {
-                            Id = "small",
-                            Price = 10
-                        },
-                        new Wheels()
-                        {
-                            Id = "medium",
-                            Price = 20
-                        },
-                        new Wheels()
-                        {
-                            Id = "large",
-                            Price = 30
+                            new Wheels()
+                            {
+                                Id = "small",
+                                Price = 10
+                            },
+                            new Wheels()
+                            {
+                                Id = "medium",
+                                Price = 20
+                            },
+                            new Wheels()
+                            {
+                                Id = "large",
+                                Price = 30
+                            }
                         }
-                    }
-                },
-                new Vehicle()
-                {
-                    Id = "secondVehicle",
-                    AllWheels = new List<Wheels>()
+                    },
+                    new Vehicle()
                     {
-                        new Wheels()
+                        Id = "secondVehicle",
+                        AllWheels = new List<Wheels>()
                         {
-                            Id = "small",
-                            Price = 100
-                        },
-                        new Wheels()
-                        {
-                            Id = "medium",
-                            Price = 200
-                        },
-                        new Wheels()
-                        {
-                            Id = "large",
-                            Price = 300
+                            new Wheels()
+                            {
+                                Id = "small",
+                                Price = 100
+                            },
+                            new Wheels()
+                            {
+                                Id = "medium",
+                                Price = 200
+                            },
+                            new Wheels()
+                            {
+                                Id = "large",
+                                Price = 300
+                            }
                         }
                     }
                 }
             };
+
             foreach (var vehicle in _storage.AllVehicles)
             {
                 vehicle.BoughtWheels = new List<Wheels>();
