@@ -29,7 +29,18 @@ public class VehicleView : MonoBehaviour
 
     private void OnTriedOutWheels(WheelsDataView wheelsDataView)
     {
-        SetRandomWheels();
+        switch (wheelsDataView.Id)
+        {
+            case "small":
+                SetWheels(0);
+                break;
+            case "medium":
+                SetWheels(1);
+                break;
+            case "large":
+                SetWheels(2);
+                break;
+        }
     }
 
     public void SetWheels(int index)
