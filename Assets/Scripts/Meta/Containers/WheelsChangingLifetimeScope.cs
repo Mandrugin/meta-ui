@@ -9,5 +9,7 @@ public class WheelsChangingLifetimeScope : LifetimeScope
     {
         builder.Register<WheelsChangingUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
         builder.Register<WheelsChangingPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+        
+        builder.Register<VehiclePresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
     }
 }

@@ -10,6 +10,7 @@ namespace Meta.UseCases
     public class WheelsChangingUseCase : UseCase, IWheelsChangingUseCase, IDisposable
     {
         private List<Wheels> _wheels;
+        private List<WheelsData> _wheelsDataList = new List<WheelsData>();
         private Vehicle _currentVehicle;
         
         private CancellationTokenSource _cancellationTokenSource;
@@ -42,9 +43,12 @@ namespace Meta.UseCases
             throw new NotImplementedException();
         }
 
+        public event Action<WheelsData> OnWheelsTriedOut = delegate { };
+
         public UniTask<bool> TryWheelsOut(int wheelsIndex, CancellationToken  cancellationToken)
         {
-            throw new NotImplementedException();
+            OnWheelsTriedOut.Invoke(_wheelsDataList[wheelsIndex]);
+            return UniTask.FromResult(true);
         }
 
         public UniTask<bool> SetWheels(int wheelsIndex, CancellationToken  cancellationToken)
@@ -54,11 +58,11 @@ namespace Meta.UseCases
 
         public async UniTask<List<WheelsData>> GetAllWheels(CancellationToken  cancellationToken)
         {
-            var wheelsDataList = new List<WheelsData>();
+            _wheelsDataList.Clear();
             await UniTask.WaitForSeconds(1, cancellationToken: cancellationToken);
             await UniTask.WaitWhile(() => _isBusy, PlayerLoopTiming.Update, cancellationToken);
-            _wheels.ForEach(x => wheelsDataList.Add(new WheelsData { Id = x.Id }));
-            return wheelsDataList;
+            _wheels.ForEach(x => _wheelsDataList.Add(new WheelsData { Id = x.Id }));
+            return _wheelsDataList;
         }
 
         public UniTask<List<WheelsData>> GetBoughtWheels(CancellationToken  cancellationToken)

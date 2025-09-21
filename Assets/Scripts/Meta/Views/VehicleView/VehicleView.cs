@@ -1,9 +1,14 @@
 using System.Collections.Generic;
+using Meta.Presenters;
 using UnityEditor;
 using UnityEngine;
+using VContainer;
+using Random = UnityEngine.Random;
 
 public class VehicleView : MonoBehaviour
 {
+    [Inject] private VehiclePresenter _vehiclePresenter;
+    
     [SerializeField] private List<GameObject> leftWheels;
     [SerializeField] private List<GameObject> rightWheels;
     
@@ -11,6 +16,21 @@ public class VehicleView : MonoBehaviour
     [SerializeField] private Transform _wheelSlotFR;
     [SerializeField] private Transform _wheelSlotRL;
     [SerializeField] private Transform _wheelSlotRR;
+
+    private void Awake()
+    {
+        _vehiclePresenter.OnTriedOutWheels += OnTriedOutWheels;
+    }
+
+    private void OnDestroy()
+    {
+        _vehiclePresenter.OnTriedOutWheels -= OnTriedOutWheels;
+    }
+
+    private void OnTriedOutWheels(WheelsDataView wheelsDataView)
+    {
+        SetRandomWheels();
+    }
 
     public void SetWheels(int index)
     {
