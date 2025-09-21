@@ -1,3 +1,5 @@
+using Meta.Backend;
+using Meta.Presenters;
 using Meta.UseCases;
 using VContainer;
 using VContainer.Unity;
@@ -6,7 +8,9 @@ public class HangarLifetimeScope : LifetimeScope
 {
     protected override void Configure(IContainerBuilder builder)
     {
-        builder.Register<LocalHangarBackend>(Lifetime.Scoped).AsImplementedInterfaces();
-        builder.Register<HangarUseCase>(Lifetime.Scoped).AsImplementedInterfaces();
+        builder.Register<LocalHangarBackend>(Lifetime.Singleton).AsImplementedInterfaces();
+
+        builder.Register<HangarUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
+        builder.Register<HangarPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
     }
 }

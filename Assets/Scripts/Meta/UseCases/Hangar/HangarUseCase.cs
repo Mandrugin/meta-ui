@@ -1,30 +1,21 @@
 using System;
 using System.Threading;
-using Cysharp.Threading.Tasks;
 
 namespace Meta.UseCases
 {
-    public class HangarUseCase : IHangarUseCase, IDisposable
+    public class HangarUseCase : UseCase, IHangarUseCase, IDisposable
     {
-        private readonly IHangarBackend _hangarBackend;
-        private readonly CancellationTokenSource _cancellationTokenSource;
+        public event Action OnStartWheelsChanging = delegate { };
+        public event Action OnFinishWheelsChanging = delegate { };
 
-        public HangarUseCase(IHangarBackend hangarBackend)
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
+
+        public void StartWheelsChanging()
         {
-            _hangarBackend = hangarBackend;
-            _cancellationTokenSource = new CancellationTokenSource();
+            OnStartWheelsChanging.Invoke();
         }
 
-        public UniTask<VehicleData> GetCurrentVehicle()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public UniTaskVoid StartWheelsChanging()
-        {
-            // todo: expel WheelsChangingLifetimeScope
-            throw new NotImplementedException();
-        }
+        public void FinishWheelsChanging() => OnFinishWheelsChanging.Invoke();
 
         public void Dispose()
         {

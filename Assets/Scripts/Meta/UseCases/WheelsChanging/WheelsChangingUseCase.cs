@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Meta.Backend;
 using Meta.Entities;
 
 namespace Meta.UseCases
 {
-    public class WheelsChangingUseCase : IWheelsChangingUseCase, IDisposable
+    public class WheelsChangingUseCase : UseCase, IWheelsChangingUseCase, IDisposable
     {
         private List<Wheels> _wheels;
         private Vehicle _currentVehicle;
@@ -14,21 +15,26 @@ namespace Meta.UseCases
         private CancellationTokenSource _cancellationTokenSource;
 
         private readonly IHangarBackend _hangarBackend;
+        private readonly IHangarUseCase _hangarUseCase;
         
-        private bool isBusy = false;
+        private bool _isBusy;
 
-        public WheelsChangingUseCase(IHangarBackend hangarBackend)
+        public WheelsChangingUseCase(IHangarBackend hangarBackend, IHangarUseCase hangarUseCase)
         {
             _hangarBackend = hangarBackend;
+            _hangarUseCase = hangarUseCase;
+            _hangarUseCase.OnStartWheelsChanging += StartUseCase;
+            _hangarUseCase.OnFinishWheelsChanging += FinishUseCase;
+
             Fetch().Forget();
         }
         
         private async UniTaskVoid Fetch()
         {
-            isBusy = true;
+            _isBusy = true;
             _currentVehicle = await _hangarBackend.GetCurrentVehicle();
             _wheels = await _hangarBackend.GetAllWheels(_currentVehicle);
-            isBusy = false;
+            _isBusy = false;
         }
 
         public UniTask<bool> BuyWheels(int wheelsIndex, CancellationToken  cancellationToken)
@@ -50,7 +56,7 @@ namespace Meta.UseCases
         {
             var wheelsDataList = new List<WheelsData>();
             await UniTask.WaitForSeconds(1, cancellationToken: cancellationToken);
-            await UniTask.WaitWhile(() => isBusy, PlayerLoopTiming.Update, cancellationToken);
+            await UniTask.WaitWhile(() => _isBusy, PlayerLoopTiming.Update, cancellationToken);
             _wheels.ForEach(x => wheelsDataList.Add(new WheelsData { Id = x.Id }));
             return wheelsDataList;
         }
@@ -67,6 +73,8 @@ namespace Meta.UseCases
 
         public void Dispose()
         {
+            _hangarUseCase.OnStartWheelsChanging -= StartUseCase;
+            _hangarUseCase.OnFinishWheelsChanging -= FinishUseCase;
             _cancellationTokenSource?.Dispose();
         }
     }

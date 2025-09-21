@@ -17,8 +17,9 @@ namespace Meta.Views
         {
             elementPrefab.gameObject.SetActive(false);
             _wheelsChangingPresenter = wheelsChangingPresenter;
+            _wheelsChangingPresenter.OnStartUseCase += Show;
+            _wheelsChangingPresenter.OnFinishUseCase += Hide;
             _wheelsChangingPresenter.WheelsListChanged += OnWheelsListChanged;
-            _wheelsChangingPresenter.UpdateWheelsData().Forget();
         }
 
         private void OnDestroy()
@@ -41,7 +42,19 @@ namespace Meta.Views
                 var element =  Instantiate(elementPrefab, transform);
                 element.wheelsIdText.text = wheelsDataView.Id;
                 element.gameObject.SetActive(true);
+                elements.Add(element);
             }
+        }
+
+        private void Show()
+        {
+            _wheelsChangingPresenter.UpdateWheelsData().Forget();
+            gameObject.SetActive(true);
+        }
+
+        private void Hide()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
 
 namespace Meta.UseCases
 {
-    public interface IHangarUseCase
+    public interface IHangarUseCase: IUseCase
     {
-        public UniTaskVoid StartWheelsChanging();
-        public UniTask<VehicleData> GetCurrentVehicle();
+        public event Action OnStartWheelsChanging;
+        public event Action OnFinishWheelsChanging;
+        public void StartWheelsChanging();
+        public void FinishWheelsChanging();
     }
 }

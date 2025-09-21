@@ -4,7 +4,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Entities;
 
-namespace Meta.UseCases
+namespace Meta.Backend
 {
     public class LocalHangarBackend : IHangarBackend, IDisposable
     {

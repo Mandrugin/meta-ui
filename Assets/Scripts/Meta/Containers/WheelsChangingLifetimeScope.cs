@@ -7,7 +7,7 @@ public class WheelsChangingLifetimeScope : LifetimeScope
 {
     protected override void Configure(IContainerBuilder builder)
     {
-        builder.Register<WheelsChangingUseCase>(Lifetime.Scoped).AsImplementedInterfaces();
-        builder.Register<WheelsChangingPresenter>(Lifetime.Scoped).AsImplementedInterfaces().AsSelf();
+        builder.Register<WheelsChangingUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
+        builder.Register<WheelsChangingPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
     }
 }

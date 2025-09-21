@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 
 namespace Meta.UseCases
 {
-    public interface IWheelsChangingUseCase
+    public interface IWheelsChangingUseCase : IUseCase
     {
         UniTask<bool> BuyWheels(int wheelsIndex, CancellationToken  cancellationToken);
         UniTask<bool> TryWheelsOut(int wheelsIndex, CancellationToken  cancellationToken);
