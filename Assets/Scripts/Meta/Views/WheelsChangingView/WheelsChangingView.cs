@@ -40,7 +40,7 @@ namespace Meta.Views
             foreach (var wheelsDataView in wheelsDataViews)
             {
                 var element =  Instantiate(elementPrefab, transform);
-                element.wheelsIdText.text = wheelsDataView.Id;
+                element.Set(wheelsDataView, _wheelsChangingPresenter);
                 element.gameObject.SetActive(true);
                 elements.Add(element);
             }
