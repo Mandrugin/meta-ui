@@ -4,7 +4,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Entities;
 
-namespace Meta.Backend
+namespace Meta.Gateway
 {
     public class HangarGateway : IHangarGateway, IDisposable
     {

@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Meta.Entities;
 
-namespace Meta.Backend
+namespace Meta.Gateway
 {
     public interface IHangarGateway
     {
