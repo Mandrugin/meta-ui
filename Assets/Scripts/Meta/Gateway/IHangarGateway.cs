@@ -4,7 +4,7 @@ using Meta.Entities;
 
 namespace Meta.Backend
 {
-    public interface IHangarBackend
+    public interface IHangarGateway
     {
 #region Vehicles
         public UniTask<List<Vehicle>> GetAllVehicles();

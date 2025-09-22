@@ -8,7 +8,7 @@ public class HangarLifetimeScope : LifetimeScope
 {
     protected override void Configure(IContainerBuilder builder)
     {
-        builder.Register<LocalHangarBackend>(Lifetime.Singleton).AsImplementedInterfaces();
+        builder.Register<HangarGateway>(Lifetime.Singleton).AsImplementedInterfaces();
 
         builder.Register<HangarUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
         builder.Register<HangarPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();

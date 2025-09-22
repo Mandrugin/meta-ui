@@ -15,14 +15,14 @@ namespace Meta.UseCases
         
         private CancellationTokenSource _cancellationTokenSource;
 
-        private readonly IHangarBackend _hangarBackend;
+        private readonly IHangarGateway _hangarGateway;
         private readonly IHangarUseCase _hangarUseCase;
         
         private bool _isBusy;
 
-        public WheelsChangingUseCase(IHangarBackend hangarBackend, IHangarUseCase hangarUseCase)
+        public WheelsChangingUseCase(IHangarGateway hangarGateway, IHangarUseCase hangarUseCase)
         {
-            _hangarBackend = hangarBackend;
+            _hangarGateway = hangarGateway;
             _hangarUseCase = hangarUseCase;
             _hangarUseCase.OnStartWheelsChanging += StartUseCase;
             _hangarUseCase.OnFinishWheelsChanging += FinishUseCase;
@@ -33,8 +33,8 @@ namespace Meta.UseCases
         private async UniTaskVoid Fetch()
         {
             _isBusy = true;
-            _currentVehicle = await _hangarBackend.GetCurrentVehicle();
-            _wheels = await _hangarBackend.GetAllWheels(_currentVehicle);
+            _currentVehicle = await _hangarGateway.GetCurrentVehicle();
+            _wheels = await _hangarGateway.GetAllWheels(_currentVehicle);
             _isBusy = false;
         }
 

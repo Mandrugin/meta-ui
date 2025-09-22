@@ -6,12 +6,12 @@ using Meta.Entities;
 
 namespace Meta.Backend
 {
-    public class LocalHangarBackend : IHangarBackend, IDisposable
+    public class HangarGateway : IHangarGateway, IDisposable
     {
         private readonly Storage _storage;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
-        public LocalHangarBackend()
+        public HangarGateway()
         {
             _cancellationTokenSource = new CancellationTokenSource();
             
