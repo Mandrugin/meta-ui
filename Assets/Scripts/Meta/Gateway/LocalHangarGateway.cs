@@ -6,12 +6,12 @@ using Meta.Entities;
 
 namespace Meta.Gateway
 {
-    public class HangarGateway : IHangarGateway, IDisposable
+    public class LocalHangarGateway : IHangarGateway, IDisposable
     {
         private readonly Storage _storage;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
-        public HangarGateway()
+        public LocalHangarGateway()
         {
             _cancellationTokenSource = new CancellationTokenSource();
             
