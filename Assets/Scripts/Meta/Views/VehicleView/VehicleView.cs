@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Meta.Configs;
 using Meta.Presenters;
 using UnityEditor;
 using UnityEngine;
@@ -7,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class VehicleView : MonoBehaviour
 {
+    [Inject] private VehiclesPrefabConfig _vehiclesPrefabConfig;
+    [Inject] private WheelsPrefabConfig _wheelsPrefabConfig;
     [Inject] private VehiclePresenter _vehiclePresenter;
     
     [SerializeField] private List<GameObject> leftWheels;
@@ -29,6 +32,8 @@ public class VehicleView : MonoBehaviour
 
     private void OnTriedOutWheels(WheelsDataView wheelsDataView)
     {
+        
+        
         switch (wheelsDataView.Id)
         {
             case "small":
@@ -43,7 +48,7 @@ public class VehicleView : MonoBehaviour
         }
     }
 
-    public void SetWheels(int index)
+    private void SetWheels(int index)
     {
         DeleteWheels();
 

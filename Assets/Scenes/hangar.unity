@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
-    TypeName: HangarLifetimeScope
+    TypeName: Meta.Containers.HangarLifetimeScope
   autoRun: 1
   autoInjectGameObjects:
   - {fileID: 1121166817}
@@ -427,6 +427,8 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects:
   - {fileID: 1287210907}
+  vehiclesPrefabConfig: {fileID: 11400000, guid: 30cf2483262b7ad48823918084e5a8c1, type: 2}
+  wheelsPrefabConfig: {fileID: 11400000, guid: 54c9e21a2348cfc42a6b66f54789005c, type: 2}
 --- !u!4 &354130101
 Transform:
   m_ObjectHideFlags: 0

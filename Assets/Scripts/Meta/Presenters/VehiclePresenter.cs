@@ -24,7 +24,7 @@ namespace Meta.Presenters
 
         protected virtual void OnOnTriedOutWheels(WheelsData wheelsData)
         {
-            OnTriedOutWheels(new WheelsDataView(){Id = wheelsData.Id});
+            OnTriedOutWheels(new WheelsDataView {Id = wheelsData.Id});
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 
 namespace Meta.UseCases
 {
@@ -8,5 +9,6 @@ namespace Meta.UseCases
         public event Action OnFinishWheelsChanging;
         public void StartWheelsChanging();
         public void FinishWheelsChanging();
+        public UniTask<VehicleData> GetCurrentVehicle();
     }
 }
