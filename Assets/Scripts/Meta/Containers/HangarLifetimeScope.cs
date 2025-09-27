@@ -4,13 +4,16 @@ using Meta.UseCases;
 using VContainer;
 using VContainer.Unity;
 
-public class HangarLifetimeScope : LifetimeScope
+namespace Meta.Containers
 {
-    protected override void Configure(IContainerBuilder builder)
+    public class HangarLifetimeScope : LifetimeScope
     {
-        builder.Register<LocalHangarGateway>(Lifetime.Singleton).AsImplementedInterfaces();
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.Register<LocalHangarGateway>(Lifetime.Singleton).AsImplementedInterfaces();
 
-        builder.Register<HangarUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
-        builder.Register<HangarPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<HangarUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<HangarPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+        }
     }
 }

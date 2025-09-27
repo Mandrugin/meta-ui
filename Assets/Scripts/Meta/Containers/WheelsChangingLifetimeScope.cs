@@ -3,13 +3,16 @@ using Meta.UseCases;
 using VContainer;
 using VContainer.Unity;
 
-public class WheelsChangingLifetimeScope : LifetimeScope
+namespace Meta.Containers
 {
-    protected override void Configure(IContainerBuilder builder)
+    public class WheelsChangingLifetimeScope : LifetimeScope
     {
-        builder.Register<WheelsChangingUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
-        builder.Register<WheelsChangingPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.Register<WheelsChangingUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<WheelsChangingPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
         
-        builder.Register<VehiclePresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<VehiclePresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+        }
     }
 }

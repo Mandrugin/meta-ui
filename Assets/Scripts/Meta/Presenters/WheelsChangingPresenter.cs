@@ -39,7 +39,8 @@ namespace Meta.Presenters
         {
             var wheelsDataViews = new  List<WheelsDataView>();
             _wheelsData = await _wheelsChangingUseCase.GetAllWheels(_cancellationTokenSource.Token);
-            _wheelsData.ForEach(x => wheelsDataViews.Add(new WheelsDataView {Id = x.Id}));
+            foreach (var x in _wheelsData)
+                wheelsDataViews.Add(new WheelsDataView {Id = x.Id});
             WheelsListChanged(wheelsDataViews);
         }
 
