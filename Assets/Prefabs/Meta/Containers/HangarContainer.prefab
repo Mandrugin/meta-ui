@@ -48,3 +48,5 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  vehiclesPrefabConfig: {fileID: 11400000, guid: 30cf2483262b7ad48823918084e5a8c1, type: 2}
+  wheelsPrefabConfig: {fileID: 11400000, guid: 54c9e21a2348cfc42a6b66f54789005c, type: 2}
