@@ -24,6 +24,8 @@ namespace Meta.Views
 
         private void OnDestroy()
         {
+            _wheelsChangingPresenter.OnStartUseCase -= Show;
+            _wheelsChangingPresenter.OnFinishUseCase -= Hide;
             _wheelsChangingPresenter.WheelsListChanged -= OnWheelsListChanged;
         }
 
