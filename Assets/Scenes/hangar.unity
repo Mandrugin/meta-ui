@@ -433,8 +433,10 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects:
   - {fileID: 1287210907}
-  viewVehiclesConfig: {fileID: 11400000, guid: 30cf2483262b7ad48823918084e5a8c1, type: 2}
-  viewWheelsConfig: {fileID: 11400000, guid: 54c9e21a2348cfc42a6b66f54789005c, type: 2}
+  vehiclesDataConfig: {fileID: 11400000, guid: 509c4dfcf84ddd74798aad2087a583b5, type: 2}
+  wheelsDataConfig: {fileID: 11400000, guid: 7e993514baf25e44a872cd8008bbce13, type: 2}
+  vehiclesViewConfig: {fileID: 11400000, guid: 30cf2483262b7ad48823918084e5a8c1, type: 2}
+  wheelsViewConfig: {fileID: 11400000, guid: 54c9e21a2348cfc42a6b66f54789005c, type: 2}
 --- !u!4 &354130101
 Transform:
   m_ObjectHideFlags: 0

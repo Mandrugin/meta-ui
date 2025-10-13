@@ -12,67 +12,47 @@ namespace Meta.Gateway
         private readonly Storage _storage;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
-        public LocalHangarGateway()
+        public LocalHangarGateway(VehiclesDataConfig vehiclesDataConfig, WheelsDataConfig wheelsDataConfig)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            
+
             _storage = new Storage
             {
-                AllVehicles = new List<Vehicle>()
-                {
-                    new Vehicle()
-                    {
-                        Id = "firstVehicle",
-                        AllWheels = new List<Wheels>()
-                        {
-                            new Wheels()
-                            {
-                                Id = "small",
-                                Price = 10
-                            },
-                            new Wheels()
-                            {
-                                Id = "medium",
-                                Price = 20
-                            },
-                            new Wheels()
-                            {
-                                Id = "large",
-                                Price = 30
-                            }
-                        }
-                    },
-                    new Vehicle()
-                    {
-                        Id = "secondVehicle",
-                        AllWheels = new List<Wheels>()
-                        {
-                            new Wheels()
-                            {
-                                Id = "small",
-                                Price = 100
-                            },
-                            new Wheels()
-                            {
-                                Id = "medium",
-                                Price = 200
-                            },
-                            new Wheels()
-                            {
-                                Id = "large",
-                                Price = 300
-                            }
-                        }
-                    }
-                }
+                AllVehicles = new(),
+                Wallet = new Wallet()
             };
 
-            foreach (var vehicle in _storage.AllVehicles)
+            foreach (var vehicleData in vehiclesDataConfig.vehicles)
             {
+                var vehicle = new Vehicle
+                {
+                    Id = vehicleData.id,
+                    AllWheels = new List<Wheels>(),
+                    BoughtWheels = new List<Wheels>(),
+                    BuyPrice = vehicleData.price,
+                };
+
+                foreach (var wheelsData in wheelsDataConfig.wheels)
+                {
+                    if(wheelsData.vehicleId != vehicleData.id)
+                        continue;
+
+                    var wheels = new Wheels
+                    {
+                        Id = wheelsData.id,
+                        Price = wheelsData.price,
+                    };
+                    
+                    vehicle.AllWheels.Add(wheels);
+                }
+                
                 vehicle.BoughtWheels = new List<Wheels>();
                 vehicle.BoughtWheels.AddRange(vehicle.AllWheels);
-                vehicle.CurrentWheels = vehicle.BoughtWheels[0];
+                vehicle.CurrentWheels = vehicle.BoughtWheels.Count > 0 ? vehicle.BoughtWheels[0] : null;
+                
+                _storage.AllVehicles.Add(vehicle);
             }
+
             _storage.BoughtVehicles = new List<Vehicle>();
             _storage.BoughtVehicles.AddRange(_storage.AllVehicles);
             _storage.CurrentVehicle = _storage.BoughtVehicles[0];

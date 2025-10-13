@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Meta.Configs
 {
     [CreateAssetMenu(fileName = "ViewVehiclesConfig", menuName = "Scriptable Objects/ViewVehiclesConfig")]
-    public class ViewVehiclesConfig : ScriptableObject
+    public class VehiclesViewConfig : ScriptableObject
     {
         public List<Data> vehicles;
 

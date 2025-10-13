@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13d3499e58bf3d14182d3f3eb123c937, type: 3}
-  m_Name: ViewWheelsConfig
+  m_Name: WheelsViewConfig
   m_EditorClassIdentifier: 
-  wheelsConfig:
+  wheels:
   - vehicleId: Buggy
     wheelsId: 1
     left: {fileID: 1584323937723070, guid: 76c0c4640d7bf3147af47b01a33f8bf9, type: 3}

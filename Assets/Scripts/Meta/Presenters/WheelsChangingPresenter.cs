@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.UseCases;
+using UnityEngine.Scripting;
 
 namespace Meta.Presenters
 {
+    [Preserve]
     public class WheelsChangingPresenter: IDisposable
     {
         private readonly IWheelsChangingUseCase _wheelsChangingUseCase;

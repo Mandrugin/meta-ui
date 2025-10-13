@@ -1,12 +1,7 @@
 {
-    "name": "Backend",
+    "name": "DataConfigs",
     "rootNamespace": "",
-    "references": [
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:1155edb7b9bec6649bf8a9b5c3ec027e",
-        "GUID:ee77721895fae7d4f96e148b0f47887c",
-        "GUID:cef1520f26046cb44a83aa5bcbd24cec"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

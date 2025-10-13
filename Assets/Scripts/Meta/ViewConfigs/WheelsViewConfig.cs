@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Meta.Configs
 {
     [CreateAssetMenu(fileName = "ViewWheelsConfig", menuName = "Scriptable Objects/ViewWheelsConfig")]
-    public class ViewWheelsConfig : ScriptableObject
+    public class WheelsViewConfig : ScriptableObject
     {
-        public List<Data> wheelsConfig;
+        [FormerlySerializedAs("wheelsConfig")] public List<Data> wheels;
 
         [Serializable]
         public class Data

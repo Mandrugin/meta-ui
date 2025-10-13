@@ -1,19 +1,13 @@
-using System.Collections.Generic;
 using Meta.Configs;
 using Meta.Presenters;
-using UnityEditor;
 using UnityEngine;
 using VContainer;
-using Random = UnityEngine.Random;
 
 public class VehicleView : MonoBehaviour
 {
-    [Inject] private ViewVehiclesConfig _viewVehiclesConfig;
-    [Inject] private ViewWheelsConfig _viewWheelsConfig;
+    [Inject] private VehiclesViewConfig _vehiclesViewConfig;
+    [Inject] private WheelsViewConfig _wheelsViewConfig;
     [Inject] private VehiclePresenter _vehiclePresenter;
-    
-    [SerializeField] private List<GameObject> leftWheels;
-    [SerializeField] private List<GameObject> rightWheels;
     
     [SerializeField] private Transform _wheelSlotFL;
     [SerializeField] private Transform _wheelSlotFR;
@@ -32,30 +26,18 @@ public class VehicleView : MonoBehaviour
 
     private void OnTriedOutWheels(WheelsDataView wheelsDataView)
     {
-        
-        
-        switch (wheelsDataView.Id)
-        {
-            case "small":
-                SetWheels(0);
-                break;
-            case "medium":
-                SetWheels(1);
-                break;
-            case "large":
-                SetWheels(2);
-                break;
-        }
+        var viewData = _wheelsViewConfig.wheels.Find(x => x.wheelsId == wheelsDataView.Id);
+        SetWheels(viewData.left, viewData.right);
     }
 
-    private void SetWheels(int index)
+    private void SetWheels(GameObject leftWheels, GameObject rightWheels)
     {
         DeleteWheels();
 
-        var fl = Instantiate(leftWheels[index], _wheelSlotFL);
-        var fr = Instantiate(rightWheels[index], _wheelSlotFR);
-        var rl = Instantiate(leftWheels[index], _wheelSlotRL);
-        var rr = Instantiate(rightWheels[index], _wheelSlotRR);
+        var fl = Instantiate(leftWheels, _wheelSlotFL);
+        var fr = Instantiate(rightWheels, _wheelSlotFR);
+        var rl = Instantiate(leftWheels, _wheelSlotRL);
+        var rr = Instantiate(rightWheels, _wheelSlotRR);
     }
 
     private void DeleteWheels()
@@ -80,17 +62,5 @@ public class VehicleView : MonoBehaviour
             Destroy(g);
 #endif
         }        
-    }
-
-    [MenuItem("Custom/Rnadom Wheels")]
-    private static void SetRandomWheels()
-    {
-        FindAnyObjectByType<VehicleView>().SetWheels(Random.Range(0, 5));
-    }
-
-    [MenuItem("Custom/Clean")]
-    private static void Clean()
-    {
-        FindAnyObjectByType<VehicleView>().DeleteWheels();
     }
 }

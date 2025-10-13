@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4653643adc68c7428e71b908ea66478, type: 3}
-  m_Name: ViewVehiclesConfig
+  m_Name: VehiclesViewConfig
   m_EditorClassIdentifier: 
   vehicles:
   - id: Buggy
