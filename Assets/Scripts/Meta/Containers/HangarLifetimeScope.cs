@@ -10,8 +10,8 @@ namespace Meta.Containers
 {
     public class HangarLifetimeScope : LifetimeScope
     {
-        [SerializeField] private VehiclesPrefabConfig vehiclesPrefabConfig;
-        [SerializeField] private WheelsPrefabConfig wheelsPrefabConfig;
+        [SerializeField] private ViewVehiclesConfig viewVehiclesConfig;
+        [SerializeField] private ViewWheelsConfig viewWheelsConfig;
         
         protected override void Configure(IContainerBuilder builder)
         {
@@ -20,8 +20,8 @@ namespace Meta.Containers
             builder.Register<HangarUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<HangarPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             
-            builder.RegisterInstance(vehiclesPrefabConfig).AsSelf();
-            builder.RegisterInstance(wheelsPrefabConfig).AsSelf();
+            builder.RegisterInstance(viewVehiclesConfig).AsSelf();
+            builder.RegisterInstance(viewWheelsConfig).AsSelf();
         }
     }
 }

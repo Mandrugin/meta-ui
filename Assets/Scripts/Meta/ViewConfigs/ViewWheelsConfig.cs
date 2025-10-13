@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Meta.Configs
 {
-    [CreateAssetMenu(fileName = "WheelsPrefabConfig", menuName = "Scriptable Objects/WheelsPrefabConfig")]
-    public class WheelsPrefabConfig : ScriptableObject
+    [CreateAssetMenu(fileName = "ViewWheelsConfig", menuName = "Scriptable Objects/ViewWheelsConfig")]
+    public class ViewWheelsConfig : ScriptableObject
     {
         public List<Data> wheelsConfig;
 

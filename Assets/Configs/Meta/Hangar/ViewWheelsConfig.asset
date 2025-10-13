@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13d3499e58bf3d14182d3f3eb123c937, type: 3}
-  m_Name: WheelsPrefabConfig
+  m_Name: ViewWheelsConfig
   m_EditorClassIdentifier: 
   wheelsConfig:
   - vehicleId: Buggy

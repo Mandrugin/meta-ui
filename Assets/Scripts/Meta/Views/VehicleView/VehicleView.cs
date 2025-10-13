@@ -8,8 +8,8 @@ using Random = UnityEngine.Random;
 
 public class VehicleView : MonoBehaviour
 {
-    [Inject] private VehiclesPrefabConfig _vehiclesPrefabConfig;
-    [Inject] private WheelsPrefabConfig _wheelsPrefabConfig;
+    [Inject] private ViewVehiclesConfig _viewVehiclesConfig;
+    [Inject] private ViewWheelsConfig _viewWheelsConfig;
     [Inject] private VehiclePresenter _vehiclePresenter;
     
     [SerializeField] private List<GameObject> leftWheels;
