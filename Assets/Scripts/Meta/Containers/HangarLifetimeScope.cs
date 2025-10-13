@@ -3,7 +3,6 @@ using Meta.Gateway;
 using Meta.Presenters;
 using Meta.UseCases;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VContainer;
 using VContainer.Unity;
 
@@ -11,7 +10,7 @@ namespace Meta.Containers
 {
     public class HangarLifetimeScope : LifetimeScope
     {
-        [FormerlySerializedAs("vehicleDataConfig")] [SerializeField] private VehiclesDataConfig vehiclesDataConfig;
+        [SerializeField] private VehiclesDataConfig vehiclesDataConfig;
         [SerializeField] private WheelsDataConfig wheelsDataConfig;
 
         [SerializeField] private VehiclesViewConfig vehiclesViewConfig;
