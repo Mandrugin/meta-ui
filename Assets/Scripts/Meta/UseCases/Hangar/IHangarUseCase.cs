@@ -7,8 +7,10 @@ namespace Meta.UseCases
     {
         public event Action OnStartWheelsChanging;
         public event Action OnFinishWheelsChanging;
+        public event Action<WheelsData> OnTryWheelsOut;
         public void StartWheelsChanging();
         public void FinishWheelsChanging();
+        UniTask<bool> TryWheelsOut(WheelsData wheelsData);
         public UniTask<VehicleData> GetCurrentVehicle();
     }
 }

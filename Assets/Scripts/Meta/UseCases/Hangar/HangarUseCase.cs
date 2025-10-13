@@ -11,11 +11,18 @@ namespace Meta.UseCases
 
         public event Action OnStartWheelsChanging = delegate { };
         public event Action OnFinishWheelsChanging = delegate { };
+        public event Action<WheelsData> OnTryWheelsOut;
 
         private readonly CancellationTokenSource _cancellationTokenSource = new();
 
         public void StartWheelsChanging() => OnStartWheelsChanging.Invoke();
         public void FinishWheelsChanging() => OnFinishWheelsChanging.Invoke();
+        public async UniTask<bool> TryWheelsOut(WheelsData wheelsData)
+        {
+            OnTryWheelsOut?.Invoke(wheelsData);
+            return await UniTask.FromResult(true);
+        }
+
         public async UniTask<VehicleData> GetCurrentVehicle()
         {
             var vehicle = await _hangarGateway.GetCurrentVehicle();

@@ -8,18 +8,16 @@ namespace Meta.Presenters
         public event Action<WheelsDataView> OnTriedOutWheels = delegate { };
         
         private readonly IHangarUseCase _hangarUseCase;
-        private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
 
-        public VehiclePresenter(IHangarUseCase hangarUseCase, IWheelsChangingUseCase wheelsChangingUseCase)
+        public VehiclePresenter(IHangarUseCase hangarUseCase)
         {
             _hangarUseCase = hangarUseCase;
-            _wheelsChangingUseCase = wheelsChangingUseCase;
-            _wheelsChangingUseCase.OnWheelsTriedOut += OnOnTriedOutWheels;
+            _hangarUseCase.OnTryWheelsOut += OnOnTriedOutWheels;
         }
 
         public void Dispose()
         {
-            _wheelsChangingUseCase.OnWheelsTriedOut -= OnOnTriedOutWheels;
+            _hangarUseCase.OnTryWheelsOut -= OnOnTriedOutWheels;
         }
 
         protected virtual void OnOnTriedOutWheels(WheelsData wheelsData)

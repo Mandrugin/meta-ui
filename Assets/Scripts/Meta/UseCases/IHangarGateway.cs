@@ -21,6 +21,5 @@ namespace Meta.UseCases
         public UniTaskVoid SetCurrentWheels(Vehicle vehicle, Wheels wheels);
         public UniTask<bool> BuyWheels(Vehicle vehicle, Wheels wheel);
 #endregion
-        
     }
 }

@@ -20,6 +20,7 @@ namespace Meta.UseCases
             _hangarUseCase.OnFinishUseCase += FinishUseCaseInvocator;
             _hangarUseCase.OnStartWheelsChanging += StartWheelsChangingInvocator;
             _hangarUseCase.OnFinishWheelsChanging += FinishWheelsChangingInvocator;
+            _hangarUseCase.OnTryWheelsOut += TryWheelsOutInvocator;
 
             _logger.Log("HangarUseCase Created");
         }
@@ -31,10 +32,12 @@ namespace Meta.UseCases
             _hangarUseCase.OnFinishUseCase -= FinishUseCaseInvocator;
             _hangarUseCase.OnStartWheelsChanging -= StartWheelsChangingInvocator;
             _hangarUseCase.OnFinishWheelsChanging -= FinishWheelsChangingInvocator;
+            _hangarUseCase.OnTryWheelsOut -= TryWheelsOutInvocator;
             _logger.Log("HangarUseCase Destroyed");
         }
-        
+
         public event Action OnStartUseCase;
+
         public event Action OnFinishUseCase;
 
         private void StartUseCaseInvocator()
@@ -48,7 +51,13 @@ namespace Meta.UseCases
             _logger.Log("HangarUseCase OnFinishUseCase");
             OnFinishUseCase?.Invoke();
         }
-        
+
+        private void TryWheelsOutInvocator(WheelsData obj)
+        {
+            _logger.Log("HangarUseCase OnTryWheelsOut");
+            OnTryWheelsOut?.Invoke(obj);
+        }
+
         public void StartUseCase()
         {
             _logger.Log("HangarUseCase StartUseCase");
@@ -63,6 +72,7 @@ namespace Meta.UseCases
 
         public event Action OnStartWheelsChanging;
         public event Action OnFinishWheelsChanging;
+        public event Action<WheelsData> OnTryWheelsOut;
 
         private void StartWheelsChangingInvocator()
         {
@@ -86,6 +96,12 @@ namespace Meta.UseCases
         {
             _logger.Log("HangarUseCase FinishWheelsChanging");
             _hangarUseCase.FinishWheelsChanging();
+        }
+
+        public async UniTask<bool> TryWheelsOut(WheelsData wheelsData)
+        {
+            _logger.Log("HangarUseCase TryWheelsOut");
+            return await _hangarUseCase.TryWheelsOut(wheelsData);
         }
 
         public async UniTask<VehicleData> GetCurrentVehicle()

@@ -19,6 +19,7 @@ namespace Meta.Containers
 
             builder.Register<HangarUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<HangarPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<VehiclePresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             
             builder.RegisterInstance(viewVehiclesConfig).AsSelf();
             builder.RegisterInstance(viewWheelsConfig).AsSelf();

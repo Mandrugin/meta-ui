@@ -9,7 +9,7 @@ namespace Meta.UseCases
     public class WheelsChangingUseCase : UseCase, IWheelsChangingUseCase, IDisposable
     {
         private List<Wheels> _wheels;
-        private List<WheelsData> _wheelsDataList = new();
+        private readonly List<WheelsData> _wheelsDataList = new();
         private Vehicle _currentVehicle;
         
         private CancellationTokenSource _cancellationTokenSource;
@@ -42,12 +42,9 @@ namespace Meta.UseCases
             throw new NotImplementedException();
         }
 
-        public event Action<WheelsData> OnWheelsTriedOut = delegate { };
-
-        public UniTask<bool> TryWheelsOut(int wheelsIndex, CancellationToken  cancellationToken)
+        public async UniTask<bool> TryWheelsOut(int wheelsIndex, CancellationToken  cancellationToken)
         {
-            OnWheelsTriedOut.Invoke(_wheelsDataList[wheelsIndex]);
-            return UniTask.FromResult(true);
+            return await _hangarUseCase.TryWheelsOut(_wheelsDataList[wheelsIndex]);
         }
 
         public UniTask<bool> SetWheels(int wheelsIndex, CancellationToken  cancellationToken)
