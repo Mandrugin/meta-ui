@@ -4,9 +4,11 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Entities;
 using Meta.UseCases;
+using UnityEngine.Scripting;
 
 namespace Meta.Gateway
 {
+    [Preserve]
     public class LocalHangarGateway : IHangarGateway, IDisposable
     {
         private readonly Storage _storage;

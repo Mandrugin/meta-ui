@@ -31,7 +31,8 @@ namespace Meta.UseCases
                 Id = vehicle.Id,
                 WheelsData = new WheelsData
                 {
-                    Id = vehicle.CurrentWheels.Id
+                    Id = vehicle.CurrentWheels.Id,
+                    Price = vehicle.CurrentWheels.Price
                 }
             };
         }

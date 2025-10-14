@@ -3,5 +3,6 @@
     public struct WheelsDataView
     {
         public string Id;
+        public long Price;
     }
 }

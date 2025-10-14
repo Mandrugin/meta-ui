@@ -57,7 +57,11 @@ namespace Meta.UseCases
             _wheelsDataList.Clear();
             await UniTask.WaitForSeconds(1, cancellationToken: cancellationToken);
             await UniTask.WaitWhile(IsBusy, PlayerLoopTiming.Update, cancellationToken);
-            _wheels.ForEach(x => _wheelsDataList.Add(new WheelsData { Id = x.Id }));
+            _wheels.ForEach(x => _wheelsDataList.Add(new WheelsData
+            {
+                Id = x.Id,
+                Price = x.Price
+            }));
             return _wheelsDataList;
             
             bool IsBusy() => _isBusy;

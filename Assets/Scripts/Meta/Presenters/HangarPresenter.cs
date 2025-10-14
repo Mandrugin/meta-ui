@@ -1,8 +1,10 @@
 using System;
 using Meta.UseCases;
+using UnityEngine.Scripting;
 
 namespace Meta.Presenters
 {
+    [Preserve]
     public class HangarPresenter : IDisposable
     {
         private readonly IHangarUseCase _hangarUseCase;
