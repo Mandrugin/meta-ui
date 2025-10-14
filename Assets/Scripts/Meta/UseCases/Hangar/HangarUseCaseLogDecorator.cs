@@ -1,9 +1,11 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Meta.UseCases
 {
+    [Preserve]
     public class HangarUseCaseLogDecorator : IHangarUseCase
     {
         private readonly IHangarUseCase _hangarUseCase;

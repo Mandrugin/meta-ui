@@ -5,6 +5,7 @@ using VContainer;
 
 namespace Meta.UseCases
 {
+    [UnityEngine.Scripting.Preserve]
     public class HangarUseCase : UseCase, IHangarUseCase, IDisposable
     {
         [Inject] private IHangarGateway _hangarGateway;

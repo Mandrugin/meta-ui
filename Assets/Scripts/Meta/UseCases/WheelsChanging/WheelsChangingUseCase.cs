@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Entities;
+using UnityEngine.Scripting;
 
 namespace Meta.UseCases
 {
+    [Preserve]
     public class WheelsChangingUseCase : UseCase, IWheelsChangingUseCase, IDisposable
     {
         private List<Wheels> _wheels;
