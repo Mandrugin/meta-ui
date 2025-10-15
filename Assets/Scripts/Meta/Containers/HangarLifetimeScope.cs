@@ -1,5 +1,5 @@
 using Meta.DataConfigs;
-using Meta.Gateway;
+using Meta.Gateways;
 using Meta.Presenters;
 using Meta.UseCases;
 using Meta.ViewConfigs;
@@ -13,6 +13,8 @@ namespace Meta.Containers
     {
         [SerializeField] private VehiclesDataConfig vehiclesDataConfig;
         [SerializeField] private WheelsDataConfig wheelsDataConfig;
+        
+        [SerializeField] private ProfileDataConfig profileDataConfig;
 
         [SerializeField] private VehiclesViewConfig vehiclesViewConfig;
         [SerializeField] private WheelsViewConfig wheelsViewConfig;
@@ -27,6 +29,8 @@ namespace Meta.Containers
             
             builder.RegisterInstance(vehiclesDataConfig).AsSelf();
             builder.RegisterInstance(wheelsDataConfig).AsSelf();
+            
+            builder.RegisterInstance(profileDataConfig).AsSelf();
 
             builder.RegisterInstance(vehiclesViewConfig).AsSelf();
             builder.RegisterInstance(wheelsViewConfig).AsSelf();

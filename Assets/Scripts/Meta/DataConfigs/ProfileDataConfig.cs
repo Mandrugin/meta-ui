@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Meta.DataConfigs
@@ -8,7 +9,21 @@ namespace Meta.DataConfigs
         public long hard;
         public long soft;
 
-        public string[] vehicleIds;
-        public string[] wheelsIds;
+        public string currentVehicleId;
+        public VehicleData[] vehiclesData;
+        public WheelsData[] wheelsData;
+
+        [Serializable]
+        public class VehicleData
+        {
+            public string id;
+            public string currentWheelsId;
+        }
+        
+        [Serializable]
+        public class WheelsData
+        {
+            public string id;
+        }
     }
 }
