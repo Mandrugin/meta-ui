@@ -13,15 +13,27 @@ MonoBehaviour:
   m_Name: WheelsDataConfig
   m_EditorClassIdentifier: DataConfigs::WheelsDataConfig
   wheels:
-  - id: 2
+  - id: Buggy-1
     vehicleId: Buggy
     displayName: 1
-    price: 20
-  - id: 4
+    price: 0
+  - id: Buggy-2
     vehicleId: Buggy
     displayName: 2
-    price: 30
-  - id: 5
+    price: 20
+  - id: Buggy-3
     vehicleId: Buggy
     displayName: 3
+    price: 30
+  - id: Buggy-4
+    vehicleId: Buggy
+    displayName: 4
     price: 50
+  - id: Buggy-5
+    vehicleId: Buggy
+    displayName: 5
+    price: 80
+  - id: Buggy-6
+    vehicleId: Buggy
+    displayName: 6
+    price: 130
