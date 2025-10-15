@@ -1,16 +1,19 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "VehiclesDataConfig", menuName = "Scriptable Objects/VehiclesDataConfig")]
-public class VehiclesDataConfig : ScriptableObject
+namespace Meta.DataConfigs
 {
-    public Data[] vehicles;
-    
-    [Serializable]
-    public class Data
+    [CreateAssetMenu(fileName = "VehiclesDataConfig", menuName = "Scriptable Objects/VehiclesDataConfig")]
+    public class VehiclesDataConfig : ScriptableObject
     {
-        public string id;
-        public string displayName;
-        public long price;
+        public Data[] vehicles;
+    
+        [Serializable]
+        public class Data
+        {
+            public string id;
+            public string displayName;
+            public long price;
+        }
     }
 }

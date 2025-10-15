@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Meta.Configs
+namespace Meta.ViewConfigs
 {
     [CreateAssetMenu(fileName = "ViewVehiclesConfig", menuName = "Scriptable Objects/ViewVehiclesConfig")]
     public class VehiclesViewConfig : ScriptableObject

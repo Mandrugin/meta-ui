@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Meta.Configs
+namespace Meta.ViewConfigs
 {
     [CreateAssetMenu(fileName = "ViewWheelsConfig", menuName = "Scriptable Objects/ViewWheelsConfig")]
     public class WheelsViewConfig : ScriptableObject

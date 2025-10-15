@@ -1,7 +1,8 @@
-using Meta.Configs;
+using Meta.DataConfigs;
 using Meta.Gateway;
 using Meta.Presenters;
 using Meta.UseCases;
+using Meta.ViewConfigs;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;

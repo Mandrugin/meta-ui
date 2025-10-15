@@ -1,5 +1,5 @@
-using Meta.Configs;
 using Meta.Presenters;
+using Meta.ViewConfigs;
 using UnityEngine;
 using VContainer;
 
