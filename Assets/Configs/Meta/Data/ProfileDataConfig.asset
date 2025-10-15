@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: DataConfigs::Meta.DataConfigs.ProfileDataConfig
   hard: 100
   soft: 100500
-  vehicleIds:
-  - Buggy
-  - Minibus
-  - LCoupe
-  wheelsIds:
-  - Buggy-1
-  - Buggy-4
-  - Buggy-5
+  currentVehicleId: Buggy
+  vehiclesData:
+  - id: Buggy
+    currentWheelsId: Buggy-5
+  wheelsData:
+  - id: Buggy-1
+  - id: Buggy-4
+  - id: Buggy-5

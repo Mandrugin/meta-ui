@@ -4,5 +4,6 @@
     {
         public string Id;
         public long Price;
+        public string Status;
     }
 }
