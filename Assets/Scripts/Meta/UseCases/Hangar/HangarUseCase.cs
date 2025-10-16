@@ -1,23 +1,34 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using VContainer;
+using UnityEngine.Scripting;
 
 namespace Meta.UseCases
 {
-    [UnityEngine.Scripting.Preserve]
+    [Preserve]
     public class HangarUseCase : UseCase, IHangarUseCase, IDisposable
     {
-        [Inject] private IHangarGateway _hangarGateway;
-
+        private readonly IHangarGateway _hangarGateway;
         public event Action OnStartWheelsChanging = delegate { };
         public event Action OnFinishWheelsChanging = delegate { };
+        public event Action<long> OnHardChanged = delegate { };
+        public event Action<long> OnSoftChanged = delegate { };
         public event Action<WheelsData> OnTryWheelsOut;
 
         private readonly CancellationTokenSource _cancellationTokenSource = new();
 
+        public HangarUseCase(IHangarGateway hangarGateway)
+        {
+            _hangarGateway = hangarGateway;
+            _hangarGateway.OnHardChanged += OnOnHardChanged;
+            _hangarGateway.OnSoftChanged += OnOnSoftChanged;
+        }
+
         public void StartWheelsChanging() => OnStartWheelsChanging.Invoke();
         public void FinishWheelsChanging() => OnFinishWheelsChanging.Invoke();
+        private void OnOnHardChanged(long hard) => OnHardChanged.Invoke(hard);
+        private void OnOnSoftChanged(long soft) => OnSoftChanged.Invoke(soft);
+
         public async UniTask<bool> TryWheelsOut(WheelsData wheelsData)
         {
             OnTryWheelsOut?.Invoke(wheelsData);
@@ -41,6 +52,9 @@ namespace Meta.UseCases
         public void Dispose()
         {
             _cancellationTokenSource?.Dispose();
+            
+            _hangarGateway.OnHardChanged -= OnOnHardChanged;
+            _hangarGateway.OnSoftChanged -= OnOnSoftChanged;
         }
     }
 }

@@ -7,6 +7,8 @@ namespace Meta.UseCases
     {
         public event Action OnStartWheelsChanging;
         public event Action OnFinishWheelsChanging;
+        public event Action<long> OnHardChanged;
+        public event Action<long> OnSoftChanged;
         public event Action<WheelsData> OnTryWheelsOut;
         public void StartWheelsChanging();
         public void FinishWheelsChanging();

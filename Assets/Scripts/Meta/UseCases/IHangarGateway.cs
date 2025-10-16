@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Meta.Entities;
 
@@ -6,6 +7,11 @@ namespace Meta.UseCases
 {
     public interface IHangarGateway
     {
+#region Money
+    public event Action<long> OnHardChanged;
+    public event Action<long> OnSoftChanged;
+#endregion
+
 #region Vehicles
         public UniTask<List<Vehicle>> GetAllVehicles();
         public UniTask<List<Vehicle>> GetBoughtVehicles();

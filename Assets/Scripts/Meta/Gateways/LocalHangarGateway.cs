@@ -95,6 +95,11 @@ namespace Meta.Gateways
                 vehicle.CurrentWheels = vehicle.AllWheels.FirstOrDefault(x =>  x.Id == profileVehicleData.currentWheelsId);
             }
         }
+        
+        #region Money
+        public event Action<long> OnHardChanged;
+        public event Action<long> OnSoftChanged;        
+        #endregion
 
         #region Vehicles
         public async UniTask<List<Vehicle>> GetAllVehicles()

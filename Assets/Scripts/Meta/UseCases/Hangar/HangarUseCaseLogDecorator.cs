@@ -22,6 +22,8 @@ namespace Meta.UseCases
             _hangarUseCase.OnFinishUseCase += FinishUseCaseInvocator;
             _hangarUseCase.OnStartWheelsChanging += StartWheelsChangingInvocator;
             _hangarUseCase.OnFinishWheelsChanging += FinishWheelsChangingInvocator;
+            _hangarUseCase.OnHardChanged += OnHardChangedInvocator;
+            _hangarUseCase.OnSoftChanged += OnSoftChangedInvocator;
             _hangarUseCase.OnTryWheelsOut += TryWheelsOutInvocator;
 
             _logger.Log("HangarUseCase Created");
@@ -34,6 +36,8 @@ namespace Meta.UseCases
             _hangarUseCase.OnFinishUseCase -= FinishUseCaseInvocator;
             _hangarUseCase.OnStartWheelsChanging -= StartWheelsChangingInvocator;
             _hangarUseCase.OnFinishWheelsChanging -= FinishWheelsChangingInvocator;
+            _hangarUseCase.OnHardChanged -= OnHardChangedInvocator;
+            _hangarUseCase.OnSoftChanged -= OnSoftChangedInvocator;
             _hangarUseCase.OnTryWheelsOut -= TryWheelsOutInvocator;
             _logger.Log("HangarUseCase Destroyed");
         }
@@ -74,6 +78,8 @@ namespace Meta.UseCases
 
         public event Action OnStartWheelsChanging;
         public event Action OnFinishWheelsChanging;
+        public event Action<long> OnHardChanged;
+        public event Action<long> OnSoftChanged;
         public event Action<WheelsData> OnTryWheelsOut;
 
         private void StartWheelsChangingInvocator()
@@ -86,6 +92,18 @@ namespace Meta.UseCases
         {
             _logger.Log("HangarUseCase OnFinishWheelsChanging");
             OnFinishWheelsChanging?.Invoke();
+        }
+
+        private void OnHardChangedInvocator(long hard)
+        {
+            _logger.Log($"HangarUseCase OnHardChanged {hard}");
+            OnHardChanged?.Invoke(hard);
+        }
+
+        private void OnSoftChangedInvocator(long soft)
+        {
+            _logger.Log($"HangarUseCase OnSoftChanged {soft}");
+            OnSoftChanged?.Invoke(soft);
         }
         
         public void StartWheelsChanging()
