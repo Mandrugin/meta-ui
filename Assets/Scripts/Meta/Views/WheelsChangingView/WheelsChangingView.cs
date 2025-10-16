@@ -3,12 +3,16 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Presenters;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 public class WheelsChangingView : MonoBehaviour
 {
     [SerializeField] private WheelsChangingViewElement elementPrefab;
-    [SerializeField] private List<WheelsChangingViewElement> elements =  new();
+    [SerializeField] private Button setButton;
+    [SerializeField] private Button buyButton;
+    
+    private readonly List<WheelsChangingViewElement> _elements =  new();
 
     private WheelsChangingPresenter _wheelsChangingPresenter;
     private CancellationTokenSource _cancellationTokenSource;
@@ -20,6 +24,9 @@ public class WheelsChangingView : MonoBehaviour
         _wheelsChangingPresenter = wheelsChangingPresenter;
         _wheelsChangingPresenter.OnStartUseCase += Show;
         _wheelsChangingPresenter.OnFinishUseCase += Hide;
+        _wheelsChangingPresenter.OnSetAvailable += OnOnSetAvailable;
+        _wheelsChangingPresenter.OnBuyAvailable += OnOnBuyAvailable;
+        
         _cancellationTokenSource = new CancellationTokenSource();
     }
 
@@ -27,24 +34,36 @@ public class WheelsChangingView : MonoBehaviour
     {
         _wheelsChangingPresenter.OnStartUseCase -= Show;
         _wheelsChangingPresenter.OnFinishUseCase -= Hide;
+        _wheelsChangingPresenter.OnSetAvailable -= OnOnSetAvailable;
+        _wheelsChangingPresenter.OnBuyAvailable -= OnOnBuyAvailable;
+    }
+
+    private void OnOnSetAvailable(bool isAvailable)
+    {
+        setButton.gameObject.SetActive(isAvailable);
+    }
+
+    private void OnOnBuyAvailable(bool isAvailable)
+    {
+        buyButton.gameObject.SetActive(isAvailable);
     }
 
     private void OnWheelsListChanged(List<WheelsDataView> wheelsDataViews)
     {
         // TODO: instead of destroying an old list of GOs and creating a new one we can reuse old GOs
-        foreach (var element in elements)
+        foreach (var element in _elements)
         {
             Destroy(element.gameObject);
         }
         
-        elements.Clear();
+        _elements.Clear();
 
         foreach (var wheelsDataView in wheelsDataViews)
         {
-            var element =  Instantiate(elementPrefab, transform);
+            var element =  Instantiate(elementPrefab, elementPrefab.transform.parent);
             element.Set(wheelsDataView, this);
             element.gameObject.SetActive(true);
-            elements.Add(element);
+            _elements.Add(element);
         }
     }
 
@@ -68,8 +87,8 @@ public class WheelsChangingView : MonoBehaviour
         OnWheelsListChanged(wheelsDataView);
     }
 
-    public void TryWheels(WheelsDataView wheelsDataView)
+    public async UniTask<bool> TryWheels(WheelsDataView wheelsDataView)
     {
-        _wheelsChangingPresenter.TryWheels(wheelsDataView);
+        return await _wheelsChangingPresenter.TryOutWheels(wheelsDataView);
     }
 }

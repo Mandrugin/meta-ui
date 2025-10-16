@@ -13,12 +13,6 @@ namespace Meta.UseCases
         public event Action OnFinishWheelsChanging = delegate { };
         public event Action<long> OnHardChanged = delegate { };
         public event Action<long> OnSoftChanged = delegate { };
-        public event Action<WheelsData> OnTryWheelsOut;
-
-        public void TryWheelsOut(WheelsData wheelsData)
-        {
-            OnTryWheelsOut?.Invoke(wheelsData);
-        }
 
         public async UniTask<long> GetHardBalance(CancellationToken cancellationToken)
         {

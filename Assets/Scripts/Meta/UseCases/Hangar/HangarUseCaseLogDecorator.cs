@@ -25,7 +25,6 @@ namespace Meta.UseCases
             _hangarUseCase.OnFinishWheelsChanging += FinishWheelsChangingInvocator;
             _hangarUseCase.OnHardChanged += OnHardChangedInvocator;
             _hangarUseCase.OnSoftChanged += OnSoftChangedInvocator;
-            _hangarUseCase.OnTryWheelsOut += TryWheelsOutInvocator;
 
             _logger.Log("HangarUseCase Created");
         }
@@ -39,7 +38,6 @@ namespace Meta.UseCases
             _hangarUseCase.OnFinishWheelsChanging -= FinishWheelsChangingInvocator;
             _hangarUseCase.OnHardChanged -= OnHardChangedInvocator;
             _hangarUseCase.OnSoftChanged -= OnSoftChangedInvocator;
-            _hangarUseCase.OnTryWheelsOut -= TryWheelsOutInvocator;
             _logger.Log("HangarUseCase Destroyed");
         }
 
@@ -59,12 +57,6 @@ namespace Meta.UseCases
             OnFinishUseCase?.Invoke();
         }
 
-        private void TryWheelsOutInvocator(WheelsData obj)
-        {
-            _logger.Log("HangarUseCase OnTryWheelsOut");
-            OnTryWheelsOut?.Invoke(obj);
-        }
-
         public void StartUseCase()
         {
             _logger.Log("HangarUseCase StartUseCase");
@@ -82,12 +74,6 @@ namespace Meta.UseCases
         public event Action<long> OnHardChanged;
         public event Action<long> OnSoftChanged;
 
-        public void TryWheelsOut(WheelsData wheelsData)
-        {
-            _logger.Log("HangarUseCase TryWheelsOut");
-            _hangarUseCase.TryWheelsOut(wheelsData);
-        }
-
         public async UniTask<long> GetHardBalance(CancellationToken cancellationToken)
         {
             return await _hangarUseCase.GetHardBalance(cancellationToken);
@@ -97,8 +83,6 @@ namespace Meta.UseCases
         {
             return await _hangarUseCase.GetSoftBalance(cancellationToken);
         }
-
-        public event Action<WheelsData> OnTryWheelsOut;
 
         private void StartWheelsChangingInvocator()
         {

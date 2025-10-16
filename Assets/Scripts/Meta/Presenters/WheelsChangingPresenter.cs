@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Meta.UseCases;
 using UnityEngine.Scripting;
@@ -17,6 +16,10 @@ namespace Meta.Presenters
 
         public event Action OnStartUseCase = delegate { };
         public event Action OnFinishUseCase = delegate { };
+        
+        public event Action<bool> OnSetAvailable = delegate { };
+        public event Action<bool> OnBuyAvailable = delegate { };
+        
         public WheelsChangingPresenter(IHangarUseCase hangarUseCase, IWheelsChangingUseCase wheelsChangingUseCase)
         {
             _hangarUseCase = hangarUseCase;
@@ -26,6 +29,7 @@ namespace Meta.Presenters
             
             _cancellationTokenSource = new CancellationTokenSource();
         }
+
 
         public void Dispose()
         {
@@ -37,30 +41,16 @@ namespace Meta.Presenters
         private void Start() => OnStartUseCase.Invoke();
         private void Finish() => OnFinishUseCase.Invoke();
 
-        public async UniTask<List<WheelsDataView>> GetAllWheels(VehicleDataView vehicleDataView)
+        public async UniTask<bool> TryOutWheels(WheelsDataView wheelsDataView)
         {
-            var wheelsData = await _wheelsChangingUseCase.GetAllWheels(new VehicleData{Id = vehicleDataView.Id}, _cancellationTokenSource.Token);
-            var wheelsDataViews = new List<WheelsDataView>();
-            foreach (var x in wheelsData)
-                wheelsDataViews.Add(new WheelsDataView
-                {
-                    Id = x.Id,
-                    Price = x.Price
-                });
-            return wheelsDataViews;
-        }
-        public void TryWheels(WheelsDataView wheelsDataView)
-        {
-            _wheelsChangingUseCase.TryWheelsOut(new WheelsData{Id = wheelsDataView.Id, Price = wheelsDataView.Price}, _cancellationTokenSource.Token);
-        }
+            var wheelsData = new WheelsData { Id = wheelsDataView.Id, Price = wheelsDataView.Price };
+            var result = await _wheelsChangingUseCase.TryWheelsOut(wheelsData, _cancellationTokenSource.Token);
+            if (!result)
+                return false;
 
-        public async Task<VehicleDataView> GetCurrentVehicle(CancellationToken token)
-        {
-            VehicleData vehicleData = await _hangarUseCase.GetCurrentVehicle(token);
-            return new VehicleDataView
-            {
-                Id = vehicleData.Id,
-            };
+            OnSetAvailable.Invoke(await _wheelsChangingUseCase.IsSetAvailable(wheelsData, _cancellationTokenSource.Token));
+            OnBuyAvailable.Invoke(await _wheelsChangingUseCase.IsBuyAvailable(wheelsData, _cancellationTokenSource.Token));
+            return true;
         }
 
         public async UniTask<List<WheelsDataView>> GetWheelsDataView(CancellationToken cancellationToken)
