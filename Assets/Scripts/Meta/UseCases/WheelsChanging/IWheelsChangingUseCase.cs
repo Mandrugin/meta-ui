@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
@@ -6,11 +7,11 @@ namespace Meta.UseCases
 {
     public interface IWheelsChangingUseCase : IUseCase
     {
-        UniTask<bool> TryWheelsOut(int wheelsIndex, CancellationToken  cancellationToken);
-        UniTask<bool> BuyWheels(int wheelsIndex, CancellationToken  cancellationToken);
-        UniTask<bool> SetWheels(int wheelsIndex, CancellationToken  cancellationToken);
-        UniTask<List<WheelsData>> GetAllWheels(CancellationToken  cancellationToken);
-        UniTask<List<WheelsData>> GetBoughtWheels(CancellationToken  cancellationToken);
-        UniTask<WheelsData> GetCurrentWheels(CancellationToken  cancellationToken);
+        UniTask<bool> TryWheelsOut(WheelsData wheelsData, CancellationToken  cancellationToken);
+        UniTask<bool> BuyWheels(WheelsData wheelsData, CancellationToken  cancellationToken);
+        UniTask<bool> SetWheels(WheelsData wheelsData, CancellationToken  cancellationToken);
+        UniTask<List<WheelsData>> GetAllWheels(VehicleData vehicleData, CancellationToken  cancellationToken);
+        UniTask<List<WheelsData>> GetBoughtWheels(VehicleData vehicleData, CancellationToken  cancellationToken);
+        UniTask<WheelsData> GetCurrentWheels(VehicleData vehicleData, CancellationToken  cancellationToken);
     }
 }

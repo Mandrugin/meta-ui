@@ -8,21 +8,22 @@ public class WheelsChangingViewElement : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private TextMeshProUGUI priceText;
-    
-    private WheelsDataView _wheelsDataView;
-    private WheelsChangingPresenter _wheelsChangingPresenter;
 
-    public void Set(WheelsDataView wheelsDataView, WheelsChangingPresenter wheelsChangingPresenter)
+    private WheelsDataView _wheelsDataView;
+    private WheelsChangingView _wheelsChangingView;
+
+    public void Set(WheelsDataView wheelsDataView, WheelsChangingView wheelsChangingView)
     {
         _wheelsDataView = wheelsDataView;
         titleText.text = _wheelsDataView.Id;
         statusText.text = _wheelsDataView.Status;
         priceText.text = _wheelsDataView.Price.ToString();
 
-        _wheelsChangingPresenter = wheelsChangingPresenter;
+        _wheelsChangingView = wheelsChangingView;
     }
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        _wheelsChangingPresenter.TryWheels(_wheelsDataView);
+        _wheelsChangingView.TryWheels(_wheelsDataView);
     }
 }

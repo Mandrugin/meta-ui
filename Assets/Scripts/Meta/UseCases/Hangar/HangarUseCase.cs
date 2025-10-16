@@ -13,6 +13,12 @@ namespace Meta.UseCases
         public event Action OnFinishWheelsChanging = delegate { };
         public event Action<long> OnHardChanged = delegate { };
         public event Action<long> OnSoftChanged = delegate { };
+        public event Action<WheelsData> OnTryWheelsOut;
+
+        public void TryWheelsOut(WheelsData wheelsData)
+        {
+            OnTryWheelsOut?.Invoke(wheelsData);
+        }
 
         public async UniTask<long> GetHardBalance(CancellationToken cancellationToken)
         {
@@ -23,8 +29,6 @@ namespace Meta.UseCases
         {
             return await _hangarGateway.GetSoftBalance(cancellationToken);
         }
-
-        public event Action<WheelsData> OnTryWheelsOut;
 
         private readonly CancellationTokenSource _cancellationTokenSource = new();
 
@@ -40,23 +44,12 @@ namespace Meta.UseCases
         private void OnOnHardChanged(long hard) => OnHardChanged.Invoke(hard);
         private void OnOnSoftChanged(long soft) => OnSoftChanged.Invoke(soft);
 
-        public async UniTask<bool> TryWheelsOut(WheelsData wheelsData)
+        public async UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken)
         {
-            OnTryWheelsOut?.Invoke(wheelsData);
-            return await UniTask.FromResult(true);
-        }
-
-        public async UniTask<VehicleData> GetCurrentVehicle()
-        {
-            var vehicle = await _hangarGateway.GetCurrentVehicle();
+            var vehicle = await _hangarGateway.GetCurrentVehicle(cancellationToken);
             return new VehicleData
             {
-                Id = vehicle.Id,
-                WheelsData = new WheelsData
-                {
-                    Id = vehicle.CurrentWheels.Id,
-                    Price = vehicle.CurrentWheels.Price
-                }
+                Id = vehicle.Id
             };
         }
 

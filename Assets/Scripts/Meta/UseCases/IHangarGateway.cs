@@ -16,17 +16,17 @@ namespace Meta.UseCases
 #endregion
 
 #region Vehicles
-        public UniTask<List<Vehicle>> GetAllVehicles();
+        public UniTask<List<Vehicle>> GetAllVehicles(CancellationToken cancellationToken);
         public UniTask<List<Vehicle>> GetBoughtVehicles();
-        public UniTask<Vehicle> GetCurrentVehicle();
+        public UniTask<Vehicle> GetCurrentVehicle(CancellationToken cancellationToken);
         public UniTask<bool> SetCurrentVehicle(Vehicle vehicle);
         public UniTask<bool> BuyVehicle(Vehicle vehicle);
 #endregion
 
 #region Wheels
-        public UniTask<List<Wheels>> GetAllWheels(Vehicle vehicle);
-        public UniTask<List<Wheels>> GetBoughtWheels(Vehicle vehicle);
-        public UniTask<Wheels> GetCurrentWheels(Vehicle vehicle);
+        public UniTask<List<Wheels>> GetAllWheels(string vehicleId, CancellationToken cancellationToken);
+        public UniTask<List<Wheels>> GetBoughtWheels(string vehicleId, CancellationToken cancellationToken);
+        public UniTask<Wheels> GetCurrentWheels(string vehicleId, CancellationToken cancellationToken);
         public UniTaskVoid SetCurrentWheels(Vehicle vehicle, Wheels wheels);
         public UniTask<bool> BuyWheels(Vehicle vehicle, Wheels wheel);
 #endregion

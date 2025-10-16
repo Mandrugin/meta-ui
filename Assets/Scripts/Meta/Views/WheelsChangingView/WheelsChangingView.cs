@@ -1,62 +1,75 @@
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Meta.Presenters;
 using UnityEngine;
 using VContainer;
 
-namespace Meta.Views
+public class WheelsChangingView : MonoBehaviour
 {
-    public class WheelsChangingView : MonoBehaviour
+    [SerializeField] private WheelsChangingViewElement elementPrefab;
+    [SerializeField] private List<WheelsChangingViewElement> elements =  new();
+
+    private WheelsChangingPresenter _wheelsChangingPresenter;
+    private CancellationTokenSource _cancellationTokenSource;
+
+    [Inject]
+    private void Construct(WheelsChangingPresenter wheelsChangingPresenter)
     {
-        [SerializeField] private WheelsChangingViewElement elementPrefab;
-        [SerializeField] private List<WheelsChangingViewElement> elements =  new();
+        elementPrefab.gameObject.SetActive(false);
+        _wheelsChangingPresenter = wheelsChangingPresenter;
+        _wheelsChangingPresenter.OnStartUseCase += Show;
+        _wheelsChangingPresenter.OnFinishUseCase += Hide;
+        _cancellationTokenSource = new CancellationTokenSource();
+    }
 
-        private WheelsChangingPresenter _wheelsChangingPresenter;
+    private void OnDestroy()
+    {
+        _wheelsChangingPresenter.OnStartUseCase -= Show;
+        _wheelsChangingPresenter.OnFinishUseCase -= Hide;
+    }
 
-        [Inject]
-        private void Construct(WheelsChangingPresenter wheelsChangingPresenter)
+    private void OnWheelsListChanged(List<WheelsDataView> wheelsDataViews)
+    {
+        // TODO: instead of destroying an old list of GOs and creating a new one we can reuse old GOs
+        foreach (var element in elements)
         {
-            elementPrefab.gameObject.SetActive(false);
-            _wheelsChangingPresenter = wheelsChangingPresenter;
-            _wheelsChangingPresenter.OnStartUseCase += Show;
-            _wheelsChangingPresenter.OnFinishUseCase += Hide;
-            _wheelsChangingPresenter.WheelsListChanged += OnWheelsListChanged;
+            Destroy(element.gameObject);
         }
+        
+        elements.Clear();
 
-        private void OnDestroy()
+        foreach (var wheelsDataView in wheelsDataViews)
         {
-            _wheelsChangingPresenter.OnStartUseCase -= Show;
-            _wheelsChangingPresenter.OnFinishUseCase -= Hide;
-            _wheelsChangingPresenter.WheelsListChanged -= OnWheelsListChanged;
+            var element =  Instantiate(elementPrefab, transform);
+            element.Set(wheelsDataView, this);
+            element.gameObject.SetActive(true);
+            elements.Add(element);
         }
+    }
 
-        private void OnWheelsListChanged(List<WheelsDataView> wheelsDataViews)
-        {
-            // TODO: instead of destroying an old list of GOs and creating a new one we can reuse old GOs
-            foreach (var element in elements)
-            {
-                Destroy(element.gameObject);
-            }
-            
-            elements.Clear();
+    private void Show()
+    {
+        gameObject.SetActive(true);
+        ShowWheels().Forget();
+    }
 
-            foreach (var wheelsDataView in wheelsDataViews)
-            {
-                var element =  Instantiate(elementPrefab, transform);
-                element.Set(wheelsDataView, _wheelsChangingPresenter);
-                element.gameObject.SetActive(true);
-                elements.Add(element);
-            }
-        }
+    private void Hide()
+    {
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource.Dispose();
+        _cancellationTokenSource = new CancellationTokenSource();
+        gameObject.SetActive(false);
+    }
 
-        private void Show()
-        {
-            _wheelsChangingPresenter.UpdateWheelsData().Forget();
-            gameObject.SetActive(true);
-        }
+    private async UniTaskVoid ShowWheels()
+    {
+        var wheelsDataView = await _wheelsChangingPresenter.GetWheelsDataView(_cancellationTokenSource.Token);
+        OnWheelsListChanged(wheelsDataView);
+    }
 
-        private void Hide()
-        {
-            gameObject.SetActive(false);
-        }
+    public void TryWheels(WheelsDataView wheelsDataView)
+    {
+        _wheelsChangingPresenter.TryWheels(wheelsDataView);
     }
 }

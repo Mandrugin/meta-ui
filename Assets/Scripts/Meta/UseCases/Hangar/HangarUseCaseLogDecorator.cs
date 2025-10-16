@@ -81,7 +81,13 @@ namespace Meta.UseCases
         public event Action OnFinishWheelsChanging;
         public event Action<long> OnHardChanged;
         public event Action<long> OnSoftChanged;
-        
+
+        public void TryWheelsOut(WheelsData wheelsData)
+        {
+            _logger.Log("HangarUseCase TryWheelsOut");
+            _hangarUseCase.TryWheelsOut(wheelsData);
+        }
+
         public async UniTask<long> GetHardBalance(CancellationToken cancellationToken)
         {
             return await _hangarUseCase.GetHardBalance(cancellationToken);
@@ -130,16 +136,10 @@ namespace Meta.UseCases
             _hangarUseCase.FinishWheelsChanging();
         }
 
-        public async UniTask<bool> TryWheelsOut(WheelsData wheelsData)
-        {
-            _logger.Log("HangarUseCase TryWheelsOut");
-            return await _hangarUseCase.TryWheelsOut(wheelsData);
-        }
-
-        public async UniTask<VehicleData> GetCurrentVehicle()
+        public async UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken)
         {
             _logger.Log("HangarUseCase GetCurrentVehicle");
-            return await _hangarUseCase.GetCurrentVehicle();
+            return await _hangarUseCase.GetCurrentVehicle(cancellationToken);
         }
     }
 }
