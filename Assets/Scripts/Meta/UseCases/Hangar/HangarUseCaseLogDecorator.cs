@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Scripting;
@@ -80,6 +81,17 @@ namespace Meta.UseCases
         public event Action OnFinishWheelsChanging;
         public event Action<long> OnHardChanged;
         public event Action<long> OnSoftChanged;
+        
+        public async UniTask<long> GetHardBalance(CancellationToken cancellationToken)
+        {
+            return await _hangarUseCase.GetHardBalance(cancellationToken);
+        }
+
+        public async UniTask<long> GetSoftBalance(CancellationToken cancellationToken)
+        {
+            return await _hangarUseCase.GetSoftBalance(cancellationToken);
+        }
+
         public event Action<WheelsData> OnTryWheelsOut;
 
         private void StartWheelsChangingInvocator()

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Meta.Presenters;
 using TMPro;
 using UnityEngine;
@@ -21,6 +22,9 @@ public class HangarView : MonoBehaviour
         
         _hangarPresenter.OnHardChanged += OnHardChanged;
         _hangarPresenter.OnSoftChanged += OnSoftChanged;
+
+        _hangarPresenter.GetHardBalance(destroyCancellationToken).ContinueWith(hard => hardText.text = hard.ToString());
+        _hangarPresenter.GetSoftBalance(destroyCancellationToken).ContinueWith(soft => softText.text = soft.ToString());
     }
 
     private void OnHardChanged(long hard)

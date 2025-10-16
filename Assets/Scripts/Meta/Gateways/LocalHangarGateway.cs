@@ -99,30 +99,42 @@ namespace Meta.Gateways
         #region Money
         public event Action<long> OnHardChanged;
         public event Action<long> OnSoftChanged;        
+
+        public async UniTask<long> GetHardBalance(CancellationToken cancellationToken)
+        {
+            await AwaitableDummy(cancellationToken);
+            return _storage.Wallet.Hard = _profileDataConfig.hard;
+        }
+
+        public async UniTask<long> GetSoftBalance(CancellationToken cancellationToken)
+        {
+            await AwaitableDummy(cancellationToken);
+            return _storage.Wallet.Soft = _profileDataConfig.soft;
+        }
         #endregion
 
         #region Vehicles
         public async UniTask<List<Vehicle>> GetAllVehicles()
         {
-            await UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
+            await AwaitableDummy(_cancellationTokenSource.Token);
             return _storage.AllVehicles;
         }
 
         public async UniTask<List<Vehicle>> GetBoughtVehicles()
         {
-            await UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
+            await AwaitableDummy(_cancellationTokenSource.Token);
             return _storage.BoughtVehicles;
         }
 
         public async UniTask<Vehicle> GetCurrentVehicle()
         {
-            await UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
+            await AwaitableDummy(_cancellationTokenSource.Token);
             return _storage.CurrentVehicle;
         }
 
         public async UniTask<bool> SetCurrentVehicle(Vehicle vehicle)
         {
-            await UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
+            await AwaitableDummy(_cancellationTokenSource.Token);
             _storage.CurrentVehicle = vehicle;
             _profileDataConfig.currentVehicleId = vehicle.Id;
             return true;
@@ -130,7 +142,7 @@ namespace Meta.Gateways
 
         public async UniTask<bool> BuyVehicle(Vehicle vehicle)
         {
-            await UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
+            await AwaitableDummy(_cancellationTokenSource.Token);
             if (_storage.BoughtVehicles.Contains(vehicle))
                 return false;
             
@@ -145,32 +157,32 @@ namespace Meta.Gateways
         #region Wheels
         public async UniTask<List<Wheels>> GetAllWheels(Vehicle vehicle)
         {
-            await UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
+            await AwaitableDummy(_cancellationTokenSource.Token);
             return vehicle.AllWheels;
         }
 
         public async UniTask<List<Wheels>> GetBoughtWheels(Vehicle vehicle)
         {
-            await UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
+            await AwaitableDummy(_cancellationTokenSource.Token);
             return vehicle.BoughtWheels;
         }
 
         public async UniTask<Wheels> GetCurrentWheels(Vehicle vehicle)
         {
-            await UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
+            await AwaitableDummy(_cancellationTokenSource.Token);
             return vehicle.CurrentWheels;
         }
 
         public async UniTaskVoid SetCurrentWheels(Vehicle vehicle, Wheels wheels)
         {
-            await UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
+            await AwaitableDummy(_cancellationTokenSource.Token);
             vehicle.CurrentWheels = wheels;
             _profileDataConfig.vehiclesData.First(x => x.id == vehicle.Id).currentWheelsId = wheels.Id;
         }
 
         public async UniTask<bool> BuyWheels(Vehicle vehicle, Wheels wheel)
         {
-            await UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  _cancellationTokenSource.Token);
+            await AwaitableDummy(_cancellationTokenSource.Token);
             throw new System.NotImplementedException();
         }
         #endregion Wheels
@@ -179,6 +191,11 @@ namespace Meta.Gateways
         {
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource?.Dispose();
+        }
+
+        private UniTask AwaitableDummy(CancellationToken cancellationToken)
+        {
+            return UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  cancellationToken);
         }
     }
 }
