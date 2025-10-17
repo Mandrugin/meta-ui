@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Meta.Entities;
 using UnityEngine.Scripting;
 
 namespace Meta.UseCases
@@ -10,12 +11,16 @@ namespace Meta.UseCases
     [Preserve]
     public class WheelsChangingUseCase : UseCase, IWheelsChangingUseCase, IDisposable
     {
-        private CancellationTokenSource _cancellationTokenSource;
-
         private readonly IHangarGateway _hangarGateway;
         private readonly IHangarUseCase _hangarUseCase;
-        
-        public event Action<WheelsData> OnTriedOutWheels = delegate { };
+
+        private Vehicle _currentVehicle;
+        private Wheels _currentWheels;
+        private List<Wheels> _allCurrentWheels;
+
+        public event Action<WheelsData> OnWheelsTriedOut = delegate { };
+        public event Action<WheelsData> OnWheelsChanged;
+        public event Action<WheelsData> OnWheelsBought;
 
         public WheelsChangingUseCase(IHangarGateway hangarGateway, IHangarUseCase hangarUseCase)
         {
@@ -29,12 +34,6 @@ namespace Meta.UseCases
         {
             _hangarUseCase.OnStartWheelsChanging -= StartUseCase;
             _hangarUseCase.OnFinishWheelsChanging -= TryFinishUseCase;
-            _cancellationTokenSource?.Dispose();
-        }
-
-        public async UniTaskVoid Reset(CancellationToken cancellationToken)
-        {
-            
         }
 
         private void TryFinishUseCase()
@@ -42,23 +41,23 @@ namespace Meta.UseCases
             FinishUseCase();
         }
 
-        public UniTask<bool> BuyWheels(WheelsData wheelsData, CancellationToken  cancellationToken)
+        public async UniTask<bool> TryWheelsOut(WheelsData wheelsData, CancellationToken  cancellationToken)
+        {
+            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
+            _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
+            var wheels = _allCurrentWheels.FirstOrDefault(x => x.Id == wheelsData.Id);
+            if (wheels == null)
+                return false;
+            OnWheelsTriedOut.Invoke(wheelsData);
+            return true;
+        }
+
+        public UniTask<bool> SetWheels(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public async UniTask<bool> TryWheelsOut(WheelsData wheelsData, CancellationToken  cancellationToken)
-        {
-            var vehicle = await _hangarGateway.GetCurrentVehicle(cancellationToken);
-            var allWheels = await _hangarGateway.GetAllWheels(vehicle.Id, cancellationToken);
-            var wheels = allWheels.FirstOrDefault(x => x.Id == wheelsData.Id);
-            if (wheels == null)
-                return false;
-            OnTriedOutWheels.Invoke(wheelsData);
-            return true;
-        }
-
-        public UniTask<bool> SetWheels(WheelsData wheelsData, CancellationToken  cancellationToken)
+        public UniTask<bool> BuyWheels(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

@@ -28,6 +28,9 @@ public class WheelsChangingView : MonoBehaviour
         _wheelsChangingPresenter.OnBuyAvailable += OnOnBuyAvailable;
         
         _cancellationTokenSource = new CancellationTokenSource();
+
+        setButton.onClick.AddListener(() => _wheelsChangingPresenter.SetWheels().Forget());
+        //buyButton.onClick.AddListener(() => wheelsChangingPresenter.BuyWheel());
     }
 
     private void OnDestroy()

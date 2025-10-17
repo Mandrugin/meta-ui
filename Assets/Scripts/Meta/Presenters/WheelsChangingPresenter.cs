@@ -30,12 +30,16 @@ namespace Meta.Presenters
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
-
         public void Dispose()
         {
             _wheelsChangingUseCase.OnStartUseCase -= Start;
             _wheelsChangingUseCase.OnFinishUseCase -= Finish;
             _cancellationTokenSource.Dispose();
+        }
+
+        public async UniTask<bool> SetWheels()
+        {
+            return await _wheelsChangingUseCase.SetWheels(_cancellationTokenSource.Token);
         }
 
         private void Start() => OnStartUseCase.Invoke();
@@ -71,9 +75,7 @@ namespace Meta.Presenters
                 };
 
                 if (boughtWheelsData.Contains(wheelsData))
-                {
                     wheelsDataView.Status = "Bought";
-                }
 
                 if (wheelsData.Equals(currentWheelsData))
                     wheelsDataView.Status = "Current";

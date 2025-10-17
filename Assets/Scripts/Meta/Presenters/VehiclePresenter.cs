@@ -14,15 +14,15 @@ namespace Meta.Presenters
         public VehiclePresenter(IWheelsChangingUseCase wheelsChangingUseCase)
         {
             _wheelsChangingUseCase = wheelsChangingUseCase;
-            _wheelsChangingUseCase.OnTriedOutWheels += OnOnTriedOutWheels;
+            _wheelsChangingUseCase.OnWheelsTriedOut += OnWheelsOnWheelsTriedOut;
         }
 
         public void Dispose()
         {
-            _wheelsChangingUseCase.OnTriedOutWheels -= OnOnTriedOutWheels;
+            _wheelsChangingUseCase.OnWheelsTriedOut -= OnWheelsOnWheelsTriedOut;
         }
 
-        protected virtual void OnOnTriedOutWheels(WheelsData wheelsData)
+        protected virtual void OnWheelsOnWheelsTriedOut(WheelsData wheelsData)
         {
             OnTriedOutWheels(new WheelsDataView
             {

@@ -1,4 +1,5 @@
 using System;
+using Meta.Entities;
 
 namespace Meta.UseCases
 {
@@ -17,6 +18,18 @@ namespace Meta.UseCases
         public override int GetHashCode()
         {
             return HashCode.Combine(Id, Price);
+        }
+    }
+
+    public static class WheelsDataExtensions
+    {
+        public static WheelsData ToWheelsData(this Wheels wheels)
+        {
+            return new WheelsData
+            {
+                Id = wheels.Id,
+                Price = wheels.Price
+            };
         }
     }
 }
