@@ -51,7 +51,7 @@ namespace Meta.Presenters
             OnSetAvailable.Invoke(false);
         }
 
-        private void OnWheelsBought(WheelsData obj)
+        private void OnWheelsBought(WheelsData wheelsData)
         {
             OnBuyAvailable.Invoke(false);
         }

@@ -64,10 +64,6 @@ namespace Meta.UseCases
             }
             _currentWheels = wheels;
             OnWheelsTriedOut.Invoke(wheelsData);
-            // OnWheelsListChanged.Invoke(
-            //     _allCurrentWheels.Select(x => x.ToWheelsData()).ToList(),
-            //     _allBoughtWheels.Select(x => x.ToWheelsData()).ToList(),
-            //     _setWheels.ToWheelsData());
             return true;
         }
 
@@ -103,30 +99,6 @@ namespace Meta.UseCases
         public UniTask<bool> BuyWheels(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
-        }
-
-        public async UniTask<List<WheelsData>> GetAllWheels(VehicleData vehicleData, CancellationToken  cancellationToken)
-        {
-            var wheelsDataList = new List<WheelsData>();
-            var wheels = await _hangarGateway.GetAllWheels(vehicleData.Id, cancellationToken);
-            wheels.ForEach(x => wheelsDataList.Add(new WheelsData
-            {
-                Id = x.Id,
-                Price = x.Price
-            }));
-            return wheelsDataList;
-        }
-
-        public async UniTask<List<WheelsData>> GetBoughtWheels(VehicleData vehicleData, CancellationToken  cancellationToken)
-        {
-            var wheelsDataList = new List<WheelsData>();
-            var wheels = await _hangarGateway.GetBoughtWheels(vehicleData.Id, cancellationToken);
-            wheels.ForEach(x => wheelsDataList.Add(new WheelsData
-            {
-                Id = x.Id,
-                Price = x.Price
-            }));
-            return wheelsDataList;
         }
 
         public async UniTask<WheelsData> GetSetWheels(CancellationToken  cancellationToken)

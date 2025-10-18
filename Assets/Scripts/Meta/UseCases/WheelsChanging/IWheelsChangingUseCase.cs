@@ -16,8 +16,6 @@ namespace Meta.UseCases
         UniTask<bool> TryWheelsOut(WheelsData wheelsData, CancellationToken  cancellationToken);
         UniTask<bool> SetWheels(CancellationToken cancellationToken);
         UniTask<bool> BuyWheels(CancellationToken cancellationToken);
-        UniTask<List<WheelsData>> GetAllWheels(VehicleData vehicleData, CancellationToken  cancellationToken);
-        UniTask<List<WheelsData>> GetBoughtWheels(VehicleData vehicleData, CancellationToken  cancellationToken);
         UniTask<WheelsData> GetSetWheels(CancellationToken  cancellationToken);
         UniTask UpdateWheelsDataView(CancellationToken cancellationToken);
     }
