@@ -20,12 +20,17 @@ namespace Meta.Presenters
         public event Action<bool> OnSetAvailable = delegate { };
         public event Action<bool> OnBuyAvailable = delegate { };
         
+        public event Action<List<WheelsDataView>> OnWheelsListChanged = delegate { };
+        
         public WheelsChangingPresenter(IHangarUseCase hangarUseCase, IWheelsChangingUseCase wheelsChangingUseCase)
         {
             _hangarUseCase = hangarUseCase;
             _wheelsChangingUseCase = wheelsChangingUseCase;
             _wheelsChangingUseCase.OnStartUseCase += Start;
             _wheelsChangingUseCase.OnFinishUseCase += Finish;
+            _wheelsChangingUseCase.OnWheelsListChanged += OnOnWheelsListChanged;
+            _wheelsChangingUseCase.OnWheelsSet += OnWheelsSet;
+            _wheelsChangingUseCase.OnWheelsBought += OnWheelsBought;
             
             _cancellationTokenSource = new CancellationTokenSource();
         }
@@ -34,7 +39,25 @@ namespace Meta.Presenters
         {
             _wheelsChangingUseCase.OnStartUseCase -= Start;
             _wheelsChangingUseCase.OnFinishUseCase -= Finish;
+            _wheelsChangingUseCase.OnWheelsListChanged -= OnOnWheelsListChanged;
+            _wheelsChangingUseCase.OnWheelsSet -= OnWheelsSet;
+            _wheelsChangingUseCase.OnWheelsBought -= OnWheelsBought;
             _cancellationTokenSource.Dispose();
+        }
+
+        private void OnWheelsSet(WheelsData wheelsData)
+        {
+            OnSetAvailable.Invoke(false);
+        }
+
+        private void OnWheelsBought(WheelsData obj)
+        {
+            OnBuyAvailable.Invoke(false);
+        }
+
+        private void OnOnWheelsListChanged(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
+        {
+            OnWheelsListChanged.Invoke(WheelsDataViews(allWheelsData, boughtWheelsData, setWheelsData));
         }
 
         public async UniTask<bool> SetWheels()
@@ -62,7 +85,14 @@ namespace Meta.Presenters
             var vehicle = await _hangarUseCase.GetCurrentVehicle(cancellationToken);
             var allWheelsData = await _wheelsChangingUseCase.GetAllWheels(vehicle, cancellationToken);
             var boughtWheelsData = await _wheelsChangingUseCase.GetBoughtWheels(vehicle, cancellationToken);
-            var currentWheelsData = await _wheelsChangingUseCase.GetCurrentWheels(cancellationToken);
+            var setWheelsData = await _wheelsChangingUseCase.GetSetWheels(cancellationToken);
+            var wheelsDataViews = WheelsDataViews(allWheelsData, boughtWheelsData, setWheelsData);
+
+            return wheelsDataViews;
+        }
+
+        private static List<WheelsDataView> WheelsDataViews(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
+        {
             var wheelsDataViews = new List<WheelsDataView>();
 
             foreach (var wheelsData in allWheelsData)
@@ -77,12 +107,12 @@ namespace Meta.Presenters
                 if (boughtWheelsData.Contains(wheelsData))
                     wheelsDataView.Status = "Bought";
 
-                if (wheelsData.Equals(currentWheelsData))
+                if (wheelsData.Equals(setWheelsData))
                     wheelsDataView.Status = "Current";
                 
                 wheelsDataViews.Add(wheelsDataView);
             }
-            
+
             return wheelsDataViews;
         }
     }

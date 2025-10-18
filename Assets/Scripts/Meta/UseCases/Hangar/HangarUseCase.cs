@@ -33,14 +33,10 @@ namespace Meta.UseCases
         public HangarUseCase(IHangarGateway hangarGateway)
         {
             _hangarGateway = hangarGateway;
-            _hangarGateway.OnHardChanged += OnOnHardChanged;
-            _hangarGateway.OnSoftChanged += OnOnSoftChanged;
         }
 
         public void StartWheelsChanging() => OnStartWheelsChanging.Invoke();
         public void FinishWheelsChanging() => OnFinishWheelsChanging.Invoke();
-        private void OnOnHardChanged(long hard) => OnHardChanged.Invoke(hard);
-        private void OnOnSoftChanged(long soft) => OnSoftChanged.Invoke(soft);
 
         public async UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken)
         {
@@ -58,9 +54,6 @@ namespace Meta.UseCases
         public void Dispose()
         {
             _cancellationTokenSource?.Dispose();
-            
-            _hangarGateway.OnHardChanged -= OnOnHardChanged;
-            _hangarGateway.OnSoftChanged -= OnOnSoftChanged;
         }
     }
 }

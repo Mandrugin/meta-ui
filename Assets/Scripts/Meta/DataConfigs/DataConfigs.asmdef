@@ -1,7 +1,7 @@
 {
     "name": "DataConfigs",
     "rootNamespace": "",
-    "references": [],
+    "references": ["GUID:ee77721895fae7d4f96e148b0f47887c"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

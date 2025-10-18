@@ -12,11 +12,12 @@ namespace Meta.UseCases
         public event Action<WheelsData> OnWheelsTriedOut;
         public event Action<WheelsData> OnWheelsSet;
         public event Action<WheelsData> OnWheelsBought;
+        public event Action<List<WheelsData>, List<WheelsData>, WheelsData> OnWheelsListChanged;
         UniTask<bool> TryWheelsOut(WheelsData wheelsData, CancellationToken  cancellationToken);
         UniTask<bool> SetWheels(CancellationToken cancellationToken);
         UniTask<bool> BuyWheels(CancellationToken cancellationToken);
         UniTask<List<WheelsData>> GetAllWheels(VehicleData vehicleData, CancellationToken  cancellationToken);
         UniTask<List<WheelsData>> GetBoughtWheels(VehicleData vehicleData, CancellationToken  cancellationToken);
-        UniTask<WheelsData> GetCurrentWheels(CancellationToken  cancellationToken);
+        UniTask<WheelsData> GetSetWheels(CancellationToken  cancellationToken);
     }
 }

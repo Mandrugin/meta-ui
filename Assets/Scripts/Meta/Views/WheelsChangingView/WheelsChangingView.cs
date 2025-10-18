@@ -26,6 +26,7 @@ public class WheelsChangingView : MonoBehaviour
         _wheelsChangingPresenter.OnFinishUseCase += Hide;
         _wheelsChangingPresenter.OnSetAvailable += OnOnSetAvailable;
         _wheelsChangingPresenter.OnBuyAvailable += OnOnBuyAvailable;
+        _wheelsChangingPresenter.OnWheelsListChanged += ChangeWheelsList;
         
         _cancellationTokenSource = new CancellationTokenSource();
 
@@ -42,6 +43,7 @@ public class WheelsChangingView : MonoBehaviour
         _wheelsChangingPresenter.OnFinishUseCase -= Hide;
         _wheelsChangingPresenter.OnSetAvailable -= OnOnSetAvailable;
         _wheelsChangingPresenter.OnBuyAvailable -= OnOnBuyAvailable;
+        _wheelsChangingPresenter.OnWheelsListChanged -= ChangeWheelsList;
     }
 
     private void OnOnSetAvailable(bool isAvailable)
@@ -54,7 +56,7 @@ public class WheelsChangingView : MonoBehaviour
         buyButton.gameObject.SetActive(isAvailable);
     }
 
-    private void OnWheelsListChanged(List<WheelsDataView> wheelsDataViews)
+    private void ChangeWheelsList(List<WheelsDataView> wheelsDataViews)
     {
         // TODO: instead of destroying an old list of GOs and creating a new one we can reuse old GOs
         foreach (var element in _elements)
@@ -90,7 +92,7 @@ public class WheelsChangingView : MonoBehaviour
     private async UniTaskVoid ShowWheels()
     {
         var wheelsDataView = await _wheelsChangingPresenter.GetWheelsDataView(_cancellationTokenSource.Token);
-        OnWheelsListChanged(wheelsDataView);
+        ChangeWheelsList(wheelsDataView);
     }
 
     public async UniTask<bool> TryWheels(WheelsDataView wheelsDataView, CancellationToken cancellationToken)

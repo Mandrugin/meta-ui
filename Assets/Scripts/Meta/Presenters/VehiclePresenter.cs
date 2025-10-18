@@ -20,7 +20,7 @@ namespace Meta.Presenters
         {
             _wheelsChangingUseCase = wheelsChangingUseCase;
             _wheelsChangingUseCase.OnWheelsTriedOut += ChangeWheels;
-            _wheelsChangingUseCase.GetCurrentWheels(_cancellationTokenSource.Token).ContinueWith(ChangeWheels);
+            _wheelsChangingUseCase.GetSetWheels(_cancellationTokenSource.Token).ContinueWith(ChangeWheels);
         }
 
         public void Dispose()

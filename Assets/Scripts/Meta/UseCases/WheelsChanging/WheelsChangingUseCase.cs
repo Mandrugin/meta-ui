@@ -19,10 +19,12 @@ namespace Meta.UseCases
         private Wheels _currentWheels;
         private Wheels _setWheels;
         private List<Wheels> _allCurrentWheels;
+        private List<Wheels> _allBoughtWheels;
 
         public event Action<WheelsData> OnWheelsTriedOut = delegate { };
         public event Action<WheelsData> OnWheelsSet = delegate { };
         public event Action<WheelsData> OnWheelsBought = delegate { };
+        public event Action<List<WheelsData>, List<WheelsData>, WheelsData> OnWheelsListChanged = delegate { };
 
         public WheelsChangingUseCase(IHangarGateway hangarGateway, IHangarUseCase hangarUseCase)
         {
@@ -47,14 +49,20 @@ namespace Meta.UseCases
         {
             _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
             _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
+            _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
+            _setWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
             var wheels = _allCurrentWheels.FirstOrDefault(x => x.Id == wheelsData.Id);
             if (wheels == null)
             {
                 Debug.LogError("No wheels found");
                 return false;
             }
-            _setWheels = wheels;
+            _currentWheels = wheels;
             OnWheelsTriedOut.Invoke(wheelsData);
+            // OnWheelsListChanged.Invoke(
+            //     _allCurrentWheels.Select(x => x.ToWheelsData()).ToList(),
+            //     _allBoughtWheels.Select(x => x.ToWheelsData()).ToList(),
+            //     _setWheels.ToWheelsData());
             return true;
         }
 
@@ -69,13 +77,19 @@ namespace Meta.UseCases
             if(_currentWheels == _setWheels)
                 throw new InvalidOperationException("Wheels already set");
             
+            _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
+            
             var result = await _hangarGateway.SetWheels(_currentVehicle, _currentWheels, cancellationToken);
 
             if (!result)
                 return false;
             
-            _currentWheels = _setWheels;
+            _setWheels = _currentWheels;
             OnWheelsSet.Invoke(_currentWheels.ToWheelsData());
+            OnWheelsListChanged(
+                _allCurrentWheels.Select(x => x.ToWheelsData()).ToList(),
+                _allBoughtWheels.Select(x => x.ToWheelsData()).ToList(),
+                _setWheels.ToWheelsData());
 
             return true;
         }
@@ -109,7 +123,7 @@ namespace Meta.UseCases
             return wheelsDataList;
         }
 
-        public async UniTask<WheelsData> GetCurrentWheels(CancellationToken  cancellationToken)
+        public async UniTask<WheelsData> GetSetWheels(CancellationToken  cancellationToken)
         {
             _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
             var currentWheels = await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
@@ -123,11 +137,12 @@ namespace Meta.UseCases
         public async UniTask<bool> IsSetAvailable(WheelsData wheelsData, CancellationToken cancellationToken)
         {
             _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
-            _currentWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
-            if (_currentWheels.Id == wheelsData.Id)
+            _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
+            _setWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
+            if (_setWheels.Id == wheelsData.Id)
                 return false;
 
-            var wheels = (await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken)).FirstOrDefault(x =>  x.Id == wheelsData.Id);
+            var wheels = _allCurrentWheels.FirstOrDefault(x =>  x.Id == wheelsData.Id);
             if (wheels == null)
                 throw new ArgumentException($"vehicle {_currentVehicle.Id} doesn't have wheels {wheelsData.Id}");
 

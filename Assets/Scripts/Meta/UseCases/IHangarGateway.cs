@@ -9,8 +9,6 @@ namespace Meta.UseCases
     public interface IHangarGateway
     {
 #region Money
-    public event Action<long> OnHardChanged;
-    public event Action<long> OnSoftChanged;
     public UniTask<long> GetHardBalance(CancellationToken cancellationToken);
     public UniTask<long> GetSoftBalance(CancellationToken cancellationToken);
 #endregion

@@ -14,7 +14,7 @@ namespace Meta.Gateways
     [Preserve]
     public class LocalHangarGateway : IHangarGateway, IDisposable
     {
-        private readonly ProfileDataConfig _profileDataConfig;
+        private readonly LocalProfile _localProfile;
         private readonly VehiclesDataConfig _vehiclesDataConfig;
         private readonly WheelsDataConfig _wheelsDataConfig;
         
@@ -26,7 +26,7 @@ namespace Meta.Gateways
             VehiclesDataConfig vehiclesDataConfig,
             WheelsDataConfig wheelsDataConfig)
         {
-            _profileDataConfig = profileDataConfig;
+            _localProfile = profileDataConfig.ToLocalProfile();
             _vehiclesDataConfig = vehiclesDataConfig;
             _wheelsDataConfig = wheelsDataConfig;
             _cancellationTokenSource = new CancellationTokenSource();
@@ -35,8 +35,8 @@ namespace Meta.Gateways
             {
                 Wallet = new Wallet
                 {
-                    Hard = profileDataConfig.hard,
-                    Soft = profileDataConfig.soft
+                    Hard = _localProfile.hard,
+                    Soft = _localProfile.soft
                 },
                 AllVehicles = new List<Vehicle>(),
                 BoughtVehicles = new List<Vehicle>()
@@ -71,17 +71,17 @@ namespace Meta.Gateways
 
                 _storage.AllVehicles.Add(vehicle);
 
-                var profileVehicleData = profileDataConfig.vehiclesData.FirstOrDefault(x => x.id == vehicle.Id);
+                var profileVehicleData = _localProfile.vehiclesData.FirstOrDefault(x => x.id == vehicle.Id);
 
                 if(profileVehicleData == null)
                     continue;
 
                 _storage.BoughtVehicles.Add(vehicle);
                 
-                if(vehicle.Id == profileDataConfig.currentVehicleId)
+                if(vehicle.Id == _localProfile.currentVehicleId)
                     _storage.CurrentVehicle = vehicle;
 
-                foreach (var wheelsData in profileDataConfig.wheelsData)
+                foreach (var wheelsData in _localProfile.wheelsData)
                 {
                     var wheels = vehicle.AllWheels.Find(x =>  x.Id == wheelsData.id);
                     if (wheels == null)
@@ -97,19 +97,16 @@ namespace Meta.Gateways
         }
         
         #region Money
-        public event Action<long> OnHardChanged;
-        public event Action<long> OnSoftChanged;        
-
         public async UniTask<long> GetHardBalance(CancellationToken cancellationToken)
         {
             await AwaitableDummy(cancellationToken);
-            return _storage.Wallet.Hard = _profileDataConfig.hard;
+            return _storage.Wallet.Hard = _localProfile.hard;
         }
 
         public async UniTask<long> GetSoftBalance(CancellationToken cancellationToken)
         {
             await AwaitableDummy(cancellationToken);
-            return _storage.Wallet.Soft = _profileDataConfig.soft;
+            return _storage.Wallet.Soft = _localProfile.soft;
         }
         #endregion
 
@@ -136,7 +133,7 @@ namespace Meta.Gateways
         {
             await AwaitableDummy(_cancellationTokenSource.Token);
             _storage.CurrentVehicle = vehicle;
-            _profileDataConfig.currentVehicleId = vehicle.Id;
+            _localProfile.currentVehicleId = vehicle.Id;
             return true;
         }
 
@@ -188,9 +185,9 @@ namespace Meta.Gateways
                 return false;
 
             vehicle.CurrentWheels = wheels;
-            for (var index = 0; index < _profileDataConfig.vehiclesData.Length; index++)
+            for (var index = 0; index < _localProfile.vehiclesData.Length; index++)
             {
-                var vehicleData = _profileDataConfig.vehiclesData[index];
+                var vehicleData = _localProfile.vehiclesData[index];
                 if (vehicleData.id != vehicle.Id)
                     continue;
 

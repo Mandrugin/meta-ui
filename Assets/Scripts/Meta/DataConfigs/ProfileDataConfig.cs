@@ -26,4 +26,19 @@ namespace Meta.DataConfigs
             public string id;
         }
     }
+
+    public static class ProfileDataConfigsExtensions
+    {
+        public static LocalProfile ToLocalProfile(this ProfileDataConfig config)
+        {
+            return new LocalProfile
+            {
+                hard = config.hard,
+                soft = config.soft,
+                currentVehicleId = config.currentVehicleId,
+                vehiclesData = config.vehiclesData,
+                wheelsData = config.wheelsData
+            };
+        }
+    }
 }
