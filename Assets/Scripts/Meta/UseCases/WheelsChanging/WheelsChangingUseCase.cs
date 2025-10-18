@@ -21,8 +21,8 @@ namespace Meta.UseCases
         private List<Wheels> _allCurrentWheels;
         private List<Wheels> _allBoughtWheels;
 
-        public event Action OnStartUseCase = delegate { };
-        public event Action OnFinishUseCase = delegate { };
+        public event Action OnShowPresenter = delegate { };
+        public event Action OnHidePresenter = delegate { };
         public event Action<WheelsData> OnCurrentWheelsChanged = delegate { };
         public event Action<WheelsData> OnWheelsSet = delegate { };
         public event Action<WheelsData> OnWheelsBought = delegate { };
@@ -34,22 +34,22 @@ namespace Meta.UseCases
         {
             _hangarGateway = hangarGateway;
             _hangarUseCase = hangarUseCase;
-            _hangarUseCase.OnStartWheelsChanging += StartUseCase;
+            _hangarUseCase.OnStartWheelsChanging += ShowPresenter;
             _hangarUseCase.OnFinishWheelsChanging += TryFinishUseCase;
         }
         
         public void Dispose()
         {
-            _hangarUseCase.OnStartWheelsChanging -= StartUseCase;
+            _hangarUseCase.OnStartWheelsChanging -= ShowPresenter;
             _hangarUseCase.OnFinishWheelsChanging -= TryFinishUseCase;
         }
 
-        public void StartUseCase() => OnStartUseCase.Invoke();
-        public void FinishUseCase() => OnFinishUseCase.Invoke();
+        public void ShowPresenter() => OnShowPresenter.Invoke();
+        public void HidePresenter() => OnHidePresenter.Invoke();
 
         private void TryFinishUseCase()
         {
-            FinishUseCase();
+            HidePresenter();
         }
 
         public async UniTask<bool> TryWheelsOut(WheelsData wheelsData, CancellationToken  cancellationToken)

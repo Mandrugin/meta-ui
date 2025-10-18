@@ -40,9 +40,9 @@ namespace Meta.Presenters
             });
         }
 
-        private void OnWheelsListChanged(List<WheelsData> arg1, List<WheelsData> arg2, WheelsData arg3)
+        private void OnWheelsListChanged(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
         {
-            ChangeCurrentWheels(arg3);
+            ChangeCurrentWheels(setWheelsData);
         }
     }
 }

@@ -20,8 +20,8 @@ namespace Meta.UseCases
             _logger.Log("HangarCuseCase Creating...");
             
             _hangarUseCase.OnCurrentVehicleChanged += OnCurrentVehicleChangedInvocator;
-            _hangarUseCase.OnStartUseCase += StartUseCaseInvocator;
-            _hangarUseCase.OnFinishUseCase += FinishUseCaseInvocator;
+            _hangarUseCase.OnShowPresenter += ShowPresenterInvocator;
+            _hangarUseCase.OnHidePresenter += HidePresenterInvocator;
             _hangarUseCase.OnStartWheelsChanging += StartWheelsChangingInvocator;
             _hangarUseCase.OnFinishWheelsChanging += FinishWheelsChangingInvocator;
             _hangarUseCase.OnHardChanged += OnHardChangedInvocator;
@@ -34,8 +34,8 @@ namespace Meta.UseCases
         {
             _logger.Log("HangarUseCase Destroying...");
             _hangarUseCase.OnCurrentVehicleChanged -= OnCurrentVehicleChangedInvocator;
-            _hangarUseCase.OnStartUseCase -= StartUseCaseInvocator;
-            _hangarUseCase.OnFinishUseCase -= FinishUseCaseInvocator;
+            _hangarUseCase.OnShowPresenter -= ShowPresenterInvocator;
+            _hangarUseCase.OnHidePresenter -= HidePresenterInvocator;
             _hangarUseCase.OnStartWheelsChanging -= StartWheelsChangingInvocator;
             _hangarUseCase.OnFinishWheelsChanging -= FinishWheelsChangingInvocator;
             _hangarUseCase.OnHardChanged -= OnHardChangedInvocator;
@@ -43,32 +43,32 @@ namespace Meta.UseCases
             _logger.Log("HangarUseCase Destroyed");
         }
 
-        public event Action OnStartUseCase;
+        public event Action OnShowPresenter;
 
-        public event Action OnFinishUseCase;
+        public event Action OnHidePresenter;
 
-        private void StartUseCaseInvocator()
+        private void ShowPresenterInvocator()
         {
             _logger.Log("HangarUseCase OnStartUseCase");
-            OnStartUseCase?.Invoke();
+            OnShowPresenter?.Invoke();
         }
 
-        private void FinishUseCaseInvocator()
+        private void HidePresenterInvocator()
         {
             _logger.Log("HangarUseCase OnFinishUseCase");
-            OnFinishUseCase?.Invoke();
+            OnHidePresenter?.Invoke();
         }
 
-        public void StartUseCase()
+        public void ShowPresenter()
         {
             _logger.Log("HangarUseCase StartUseCase");
-            _hangarUseCase.StartUseCase();
+            _hangarUseCase.ShowPresenter();
         }
 
-        public void FinishUseCase()
+        public void HidePresenter()
         {
             _logger.Log("HangarUseCase FinishUseCase");
-            _hangarUseCase.FinishUseCase();
+            _hangarUseCase.HidePresenter();
         }
 
         public event Action<VehicleData> OnCurrentVehicleChanged;

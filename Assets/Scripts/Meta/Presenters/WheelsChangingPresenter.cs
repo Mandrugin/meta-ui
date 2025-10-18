@@ -25,8 +25,8 @@ namespace Meta.Presenters
         public WheelsChangingPresenter(IHangarUseCase hangarUseCase, IWheelsChangingUseCase wheelsChangingUseCase)
         {
             _wheelsChangingUseCase = wheelsChangingUseCase;
-            _wheelsChangingUseCase.OnStartUseCase += Start;
-            _wheelsChangingUseCase.OnFinishUseCase += Finish;
+            _wheelsChangingUseCase.OnShowPresenter += Start;
+            _wheelsChangingUseCase.OnHidePresenter += Finish;
             _wheelsChangingUseCase.OnWheelsListChanged += OnOnWheelsListChanged;
             _wheelsChangingUseCase.OnWheelsSet += OnWheelsSet;
             _wheelsChangingUseCase.OnWheelsBought += OnWheelsBought;
@@ -38,8 +38,8 @@ namespace Meta.Presenters
 
         public void Dispose()
         {
-            _wheelsChangingUseCase.OnStartUseCase -= Start;
-            _wheelsChangingUseCase.OnFinishUseCase -= Finish;
+            _wheelsChangingUseCase.OnShowPresenter -= Start;
+            _wheelsChangingUseCase.OnHidePresenter -= Finish;
             _wheelsChangingUseCase.OnWheelsListChanged -= OnOnWheelsListChanged;
             _wheelsChangingUseCase.OnWheelsSet -= OnWheelsSet;
             _wheelsChangingUseCase.OnWheelsBought -= OnWheelsBought;

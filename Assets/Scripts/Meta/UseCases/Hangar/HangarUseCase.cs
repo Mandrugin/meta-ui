@@ -10,8 +10,8 @@ namespace Meta.UseCases
     public class HangarUseCase : IHangarUseCase, IDisposable
     {
         private readonly IHangarGateway _hangarGateway;
-        public event Action OnStartUseCase = delegate { };
-        public event Action OnFinishUseCase = delegate { };
+        public event Action OnShowPresenter = delegate { };
+        public event Action OnHidePresenter = delegate { };
         public event Action<VehicleData> OnCurrentVehicleChanged = delegate { };
         public event Action OnStartWheelsChanging = delegate { };
         public event Action OnFinishWheelsChanging = delegate { };
@@ -29,14 +29,14 @@ namespace Meta.UseCases
         {
         }
         
-        public void StartUseCase()
+        public void ShowPresenter()
         {
-            OnStartUseCase.Invoke();
+            OnShowPresenter.Invoke();
         }
 
-        public void FinishUseCase()
+        public void HidePresenter()
         {
-            OnFinishUseCase.Invoke();
+            OnHidePresenter.Invoke();
         }
 
         public async UniTask<long> GetHardBalance(CancellationToken cancellationToken)
