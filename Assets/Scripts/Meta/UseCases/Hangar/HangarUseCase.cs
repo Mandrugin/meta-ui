@@ -11,9 +11,9 @@ namespace Meta.UseCases
     {
         private readonly IHangarGateway _hangarGateway;
         private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
+        private readonly IVehicleUseCase _vehicleUseCase;
         public event Action OnShowPresenter = delegate { };
         public event Action OnHidePresenter = delegate { };
-        public event Action<VehicleData> OnCurrentVehicleChanged = delegate { };
         public event Action<long> OnHardChanged = delegate { };
         public event Action<long> OnSoftChanged = delegate { };
         
@@ -52,17 +52,6 @@ namespace Meta.UseCases
         public void StartWheelsChanging() => _wheelsChangingUseCase.ShowPresenter();
         public void FinishWheelsChanging() => _wheelsChangingUseCase.HidePresenter();
 
-        public async UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken)
-        {
-            var previousVehicle = _currentVehicle;
-            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
-            var vehicleData = new VehicleData
-            {
-                Id = _currentVehicle.Id
-            };
-            if(previousVehicle != _currentVehicle)
-                OnCurrentVehicleChanged.Invoke(vehicleData);
-            return vehicleData;
-        }
+
     }
 }

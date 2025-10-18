@@ -19,7 +19,6 @@ namespace Meta.UseCases
 
             _logger.Log("HangarCuseCase Creating...");
             
-            _hangarUseCase.OnCurrentVehicleChanged += OnCurrentVehicleChangedInvocator;
             _hangarUseCase.OnShowPresenter += ShowPresenterInvocator;
             _hangarUseCase.OnHidePresenter += HidePresenterInvocator;
             _hangarUseCase.OnHardChanged += OnHardChangedInvocator;
@@ -31,7 +30,6 @@ namespace Meta.UseCases
         ~HangarUseCaseLogDecorator()
         {
             _logger.Log("HangarUseCase Destroying...");
-            _hangarUseCase.OnCurrentVehicleChanged -= OnCurrentVehicleChangedInvocator;
             _hangarUseCase.OnShowPresenter -= ShowPresenterInvocator;
             _hangarUseCase.OnHidePresenter -= HidePresenterInvocator;
             _hangarUseCase.OnHardChanged -= OnHardChangedInvocator;
@@ -67,7 +65,6 @@ namespace Meta.UseCases
             _hangarUseCase.HidePresenter();
         }
 
-        public event Action<VehicleData> OnCurrentVehicleChanged;
         public event Action<long> OnHardChanged;
         public event Action<long> OnSoftChanged;
 
@@ -79,11 +76,6 @@ namespace Meta.UseCases
         public async UniTask<long> GetSoftBalance(CancellationToken cancellationToken)
         {
             return await _hangarUseCase.GetSoftBalance(cancellationToken);
-        }
-
-        private void OnCurrentVehicleChangedInvocator(VehicleData vehicleData)
-        {
-            OnCurrentVehicleChanged?.Invoke(vehicleData);
         }
 
         private void OnHardChangedInvocator(long hard)
@@ -108,12 +100,6 @@ namespace Meta.UseCases
         {
             _logger.Log("HangarUseCase FinishWheelsChanging");
             _hangarUseCase.FinishWheelsChanging();
-        }
-
-        public async UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken)
-        {
-            _logger.Log("HangarUseCase GetCurrentVehicle");
-            return await _hangarUseCase.GetCurrentVehicle(cancellationToken);
         }
     }
 }
