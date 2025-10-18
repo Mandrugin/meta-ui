@@ -15,7 +15,6 @@ public class WheelsChangingView : MonoBehaviour
     private readonly List<WheelsChangingViewElement> _elements =  new();
 
     private WheelsChangingPresenter _wheelsChangingPresenter;
-    private CancellationTokenSource _cancellationTokenSource;
 
     [Inject]
     private void Construct(WheelsChangingPresenter wheelsChangingPresenter)
@@ -28,8 +27,6 @@ public class WheelsChangingView : MonoBehaviour
         _wheelsChangingPresenter.OnBuyAvailable += OnOnBuyAvailable;
         _wheelsChangingPresenter.OnWheelsListChanged += ChangeWheelsList;
         
-        _cancellationTokenSource = new CancellationTokenSource();
-
         setButton.onClick.AddListener(() =>
         {
             _wheelsChangingPresenter.SetWheels().ContinueWith(result => Debug.Log(result ? "success" : "failure"));
@@ -83,15 +80,12 @@ public class WheelsChangingView : MonoBehaviour
 
     private void Hide()
     {
-        _cancellationTokenSource.Cancel();
-        _cancellationTokenSource.Dispose();
-        _cancellationTokenSource = new CancellationTokenSource();
         gameObject.SetActive(false);
     }
 
     private async UniTaskVoid ShowWheels()
     {
-        var wheelsDataView = await _wheelsChangingPresenter.GetWheelsDataView(_cancellationTokenSource.Token);
+        var wheelsDataView = await _wheelsChangingPresenter.GetWheelsDataView(destroyCancellationToken);
         ChangeWheelsList(wheelsDataView);
     }
 
