@@ -77,6 +77,7 @@ namespace Meta.UseCases
             if(_currentWheels == _setWheels)
                 throw new InvalidOperationException("Wheels already set");
             
+            _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
             _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
             
             var result = await _hangarGateway.SetWheels(_currentVehicle, _currentWheels, cancellationToken);
@@ -132,6 +133,19 @@ namespace Meta.UseCases
                 Id = currentWheels.Id,
                 Price = currentWheels.Price
             };
+        }
+
+        public async UniTask UpdateWheelsDataView(CancellationToken cancellationToken)
+        {
+            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
+            _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
+            _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
+            _setWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
+            
+            OnWheelsListChanged(
+                _allCurrentWheels.Select(x => x.ToWheelsData()).ToList(),
+                _allBoughtWheels.Select(x => x.ToWheelsData()).ToList(),
+                _setWheels.ToWheelsData());
         }
 
         public async UniTask<bool> IsSetAvailable(WheelsData wheelsData, CancellationToken cancellationToken)

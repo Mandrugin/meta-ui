@@ -21,6 +21,7 @@ namespace Meta.Presenters
         public event Action<bool> OnBuyAvailable = delegate { };
         
         public event Action<List<WheelsDataView>> OnWheelsListChanged = delegate { };
+        public event Action<WheelsDataView> OnSetActiveWheels = delegate { };
         
         public WheelsChangingPresenter(IHangarUseCase hangarUseCase, IWheelsChangingUseCase wheelsChangingUseCase)
         {
@@ -57,7 +58,17 @@ namespace Meta.Presenters
 
         private void OnOnWheelsListChanged(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
         {
-            OnWheelsListChanged.Invoke(WheelsDataViews(allWheelsData, boughtWheelsData, setWheelsData));
+            var wheelsDataViews = ConvertToWheelsDataViews(allWheelsData, boughtWheelsData, setWheelsData);
+            OnWheelsListChanged.Invoke(wheelsDataViews);
+
+            foreach (var wheelsDataView in wheelsDataViews)
+            {
+                if (wheelsDataView.Id != setWheelsData.Id)
+                    continue;
+
+                OnSetActiveWheels.Invoke(wheelsDataView);
+                return;
+            }
         }
 
         public async UniTask<bool> SetWheels()
@@ -80,18 +91,12 @@ namespace Meta.Presenters
             return true;
         }
 
-        public async UniTask<List<WheelsDataView>> GetWheelsDataView(CancellationToken cancellationToken)
+        public async UniTask UpdateWheelsDataView(CancellationToken cancellationToken)
         {
-            var vehicle = await _hangarUseCase.GetCurrentVehicle(cancellationToken);
-            var allWheelsData = await _wheelsChangingUseCase.GetAllWheels(vehicle, cancellationToken);
-            var boughtWheelsData = await _wheelsChangingUseCase.GetBoughtWheels(vehicle, cancellationToken);
-            var setWheelsData = await _wheelsChangingUseCase.GetSetWheels(cancellationToken);
-            var wheelsDataViews = WheelsDataViews(allWheelsData, boughtWheelsData, setWheelsData);
-
-            return wheelsDataViews;
+            await _wheelsChangingUseCase.UpdateWheelsDataView(cancellationToken);
         }
 
-        private static List<WheelsDataView> WheelsDataViews(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
+        private static List<WheelsDataView> ConvertToWheelsDataViews(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
         {
             var wheelsDataViews = new List<WheelsDataView>();
 

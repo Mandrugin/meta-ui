@@ -26,6 +26,7 @@ public class WheelsChangingView : MonoBehaviour
         _wheelsChangingPresenter.OnSetAvailable += OnOnSetAvailable;
         _wheelsChangingPresenter.OnBuyAvailable += OnOnBuyAvailable;
         _wheelsChangingPresenter.OnWheelsListChanged += ChangeWheelsList;
+        _wheelsChangingPresenter.OnSetActiveWheels += SetActiveWheels;
         
         setButton.onClick.AddListener(() =>
         {
@@ -41,6 +42,7 @@ public class WheelsChangingView : MonoBehaviour
         _wheelsChangingPresenter.OnSetAvailable -= OnOnSetAvailable;
         _wheelsChangingPresenter.OnBuyAvailable -= OnOnBuyAvailable;
         _wheelsChangingPresenter.OnWheelsListChanged -= ChangeWheelsList;
+        _wheelsChangingPresenter.OnSetActiveWheels -= SetActiveWheels;
     }
 
     private void OnOnSetAvailable(bool isAvailable)
@@ -65,17 +67,26 @@ public class WheelsChangingView : MonoBehaviour
 
         foreach (var wheelsDataView in wheelsDataViews)
         {
-            var element =  Instantiate(elementPrefab, elementPrefab.transform.parent);
-            element.Set(wheelsDataView, this);
+            var element = Instantiate(elementPrefab, elementPrefab.transform.parent);
+            element.SetWheelsDataView(wheelsDataView, this);
             element.gameObject.SetActive(true);
             _elements.Add(element);
+        }
+    }
+
+    public void SetActiveWheels(WheelsDataView wheelsDataView)
+    {
+        foreach (var element in _elements)
+        {
+            var isActive = element.GetWheelsDataView().Id == wheelsDataView.Id;
+            element.SetActive(isActive);
         }
     }
 
     private void Show()
     {
         gameObject.SetActive(true);
-        ShowWheels().Forget();
+        ShowWheels();
     }
 
     private void Hide()
@@ -83,10 +94,9 @@ public class WheelsChangingView : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private async UniTaskVoid ShowWheels()
+    private void ShowWheels()
     {
-        var wheelsDataView = await _wheelsChangingPresenter.GetWheelsDataView(destroyCancellationToken);
-        ChangeWheelsList(wheelsDataView);
+        _wheelsChangingPresenter.UpdateWheelsDataView(destroyCancellationToken).Forget();
     }
 
     public async UniTask<bool> TryWheels(WheelsDataView wheelsDataView, CancellationToken cancellationToken)
