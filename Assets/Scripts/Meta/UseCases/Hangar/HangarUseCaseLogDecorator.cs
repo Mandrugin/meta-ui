@@ -22,8 +22,6 @@ namespace Meta.UseCases
             _hangarUseCase.OnCurrentVehicleChanged += OnCurrentVehicleChangedInvocator;
             _hangarUseCase.OnShowPresenter += ShowPresenterInvocator;
             _hangarUseCase.OnHidePresenter += HidePresenterInvocator;
-            _hangarUseCase.OnStartWheelsChanging += StartWheelsChangingInvocator;
-            _hangarUseCase.OnFinishWheelsChanging += FinishWheelsChangingInvocator;
             _hangarUseCase.OnHardChanged += OnHardChangedInvocator;
             _hangarUseCase.OnSoftChanged += OnSoftChangedInvocator;
 
@@ -36,8 +34,6 @@ namespace Meta.UseCases
             _hangarUseCase.OnCurrentVehicleChanged -= OnCurrentVehicleChangedInvocator;
             _hangarUseCase.OnShowPresenter -= ShowPresenterInvocator;
             _hangarUseCase.OnHidePresenter -= HidePresenterInvocator;
-            _hangarUseCase.OnStartWheelsChanging -= StartWheelsChangingInvocator;
-            _hangarUseCase.OnFinishWheelsChanging -= FinishWheelsChangingInvocator;
             _hangarUseCase.OnHardChanged -= OnHardChangedInvocator;
             _hangarUseCase.OnSoftChanged -= OnSoftChangedInvocator;
             _logger.Log("HangarUseCase Destroyed");
@@ -72,8 +68,6 @@ namespace Meta.UseCases
         }
 
         public event Action<VehicleData> OnCurrentVehicleChanged;
-        public event Action OnStartWheelsChanging;
-        public event Action OnFinishWheelsChanging;
         public event Action<long> OnHardChanged;
         public event Action<long> OnSoftChanged;
 
@@ -90,18 +84,6 @@ namespace Meta.UseCases
         private void OnCurrentVehicleChangedInvocator(VehicleData vehicleData)
         {
             OnCurrentVehicleChanged?.Invoke(vehicleData);
-        }
-
-        private void StartWheelsChangingInvocator()
-        {
-            _logger.Log("HangarUseCase OnStartWheelsChanging");
-            OnStartWheelsChanging?.Invoke();
-        }
-
-        private void FinishWheelsChangingInvocator()
-        {
-            _logger.Log("HangarUseCase OnFinishWheelsChanging");
-            OnFinishWheelsChanging?.Invoke();
         }
 
         private void OnHardChangedInvocator(long hard)

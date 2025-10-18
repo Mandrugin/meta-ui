@@ -13,7 +13,6 @@ namespace Meta.UseCases
     public class WheelsChangingUseCase : IWheelsChangingUseCase, IDisposable
     {
         private readonly IHangarGateway _hangarGateway;
-        private readonly IHangarUseCase _hangarUseCase;
 
         private Vehicle _currentVehicle;
         private Wheels _currentWheels;
@@ -30,18 +29,14 @@ namespace Meta.UseCases
         public event Action<bool> OnBuyAvailable = delegate { };
         public event Action<List<WheelsData>, List<WheelsData>, WheelsData> OnWheelsListChanged = delegate { };
 
-        public WheelsChangingUseCase(IHangarGateway hangarGateway, IHangarUseCase hangarUseCase)
+        public WheelsChangingUseCase(IHangarGateway hangarGateway)
         {
             _hangarGateway = hangarGateway;
-            _hangarUseCase = hangarUseCase;
-            _hangarUseCase.OnStartWheelsChanging += ShowPresenter;
-            _hangarUseCase.OnFinishWheelsChanging += TryFinishUseCase;
         }
         
         public void Dispose()
         {
-            _hangarUseCase.OnStartWheelsChanging -= ShowPresenter;
-            _hangarUseCase.OnFinishWheelsChanging -= TryFinishUseCase;
+
         }
 
         public void ShowPresenter() => OnShowPresenter.Invoke();

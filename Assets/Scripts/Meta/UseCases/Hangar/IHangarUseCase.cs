@@ -4,11 +4,14 @@ using Cysharp.Threading.Tasks;
 
 namespace Meta.UseCases
 {
+    public interface IVehicleUseCase
+    {
+        
+    }
+
     public interface IHangarUseCase: IUseCase
     {
         public event Action<VehicleData> OnCurrentVehicleChanged;
-        public event Action OnStartWheelsChanging;
-        public event Action OnFinishWheelsChanging;
         public event Action<long> OnHardChanged;
         public event Action<long> OnSoftChanged;
         public UniTask<long> GetHardBalance(CancellationToken cancellationToken);

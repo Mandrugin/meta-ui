@@ -10,19 +10,19 @@ namespace Meta.UseCases
     public class HangarUseCase : IHangarUseCase, IDisposable
     {
         private readonly IHangarGateway _hangarGateway;
+        private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
         public event Action OnShowPresenter = delegate { };
         public event Action OnHidePresenter = delegate { };
         public event Action<VehicleData> OnCurrentVehicleChanged = delegate { };
-        public event Action OnStartWheelsChanging = delegate { };
-        public event Action OnFinishWheelsChanging = delegate { };
         public event Action<long> OnHardChanged = delegate { };
         public event Action<long> OnSoftChanged = delegate { };
         
         private Vehicle _currentVehicle;
 
-        public HangarUseCase(IHangarGateway hangarGateway)
+        public HangarUseCase(IHangarGateway hangarGateway, IWheelsChangingUseCase wheelsChangingUseCase)
         {
             _hangarGateway = hangarGateway;
+            _wheelsChangingUseCase = wheelsChangingUseCase;
         }
         
         public void Dispose()
@@ -49,8 +49,8 @@ namespace Meta.UseCases
             return await _hangarGateway.GetSoftBalance(cancellationToken);
         }
 
-        public void StartWheelsChanging() => OnStartWheelsChanging.Invoke();
-        public void FinishWheelsChanging() => OnFinishWheelsChanging.Invoke();
+        public void StartWheelsChanging() => _wheelsChangingUseCase.ShowPresenter();
+        public void FinishWheelsChanging() => _wheelsChangingUseCase.HidePresenter();
 
         public async UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken)
         {
