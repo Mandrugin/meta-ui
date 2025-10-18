@@ -171,7 +171,11 @@ namespace Meta.UseCases
         {
             var vehicle = await _hangarGateway.GetCurrentVehicle(cancellationToken);
             var boughtWheels = await _hangarGateway.GetBoughtWheels(vehicle.Id, cancellationToken);
-            return boughtWheels.All(x => x.Id != wheelsData.Id);
+            if (boughtWheels.Any(x => x.Id == wheelsData.Id))
+                return false;
+
+            var soft = await _hangarGateway.GetSoftBalance(cancellationToken);
+            return wheelsData.Price <= soft;
         }
     }
 }

@@ -33,12 +33,12 @@ namespace Meta.UseCases
 
         private void OnOnSoftChanged(long soft)
         {
-            OnHardChanged.Invoke(soft);
+            OnSoftChanged.Invoke(soft);
         }
 
         private void OnOnHardChanged(long hard)
         {
-            OnSoftChanged.Invoke(hard);
+            OnHardChanged.Invoke(hard);
         }
 
         public void ShowPresenter()

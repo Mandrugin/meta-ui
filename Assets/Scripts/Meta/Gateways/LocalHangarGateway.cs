@@ -215,6 +215,7 @@ namespace Meta.Gateways
             }
 
             _storage.Wallet.Soft -= wheels.Price;
+            _profileDataConfig.soft = _storage.Wallet.Soft;
             OnSoftChanged.Invoke(_storage.Wallet.Soft);
 
             vehicle.CurrentWheels = wheels;
