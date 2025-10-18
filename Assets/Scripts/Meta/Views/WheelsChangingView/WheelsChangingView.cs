@@ -21,24 +21,21 @@ public class WheelsChangingView : MonoBehaviour
     {
         elementPrefab.gameObject.SetActive(false);
         _wheelsChangingPresenter = wheelsChangingPresenter;
-        _wheelsChangingPresenter.OnStartUseCase += Show;
-        _wheelsChangingPresenter.OnFinishUseCase += Hide;
+        _wheelsChangingPresenter.OnShowPresenter += Show;
+        _wheelsChangingPresenter.OnHidePresenter += Hide;
         _wheelsChangingPresenter.OnSetAvailable += OnOnSetAvailable;
         _wheelsChangingPresenter.OnBuyAvailable += OnOnBuyAvailable;
         _wheelsChangingPresenter.OnWheelsListChanged += ChangeWheelsList;
         _wheelsChangingPresenter.OnSetActiveWheels += SetActiveWheels;
-        
-        setButton.onClick.AddListener(() =>
-        {
-            _wheelsChangingPresenter.SetWheels().ContinueWith(result => Debug.Log(result ? "success" : "failure"));
-        });
-        //buyButton.onClick.AddListener(() => wheelsChangingPresenter.BuyWheel());
+
+        setButton.onClick.AddListener(() => _wheelsChangingPresenter.SetWheels().Forget());
+        buyButton.onClick.AddListener(() => _wheelsChangingPresenter.BuyWheels().Forget());
     }
 
     private void OnDestroy()
     {
-        _wheelsChangingPresenter.OnStartUseCase -= Show;
-        _wheelsChangingPresenter.OnFinishUseCase -= Hide;
+        _wheelsChangingPresenter.OnShowPresenter -= Show;
+        _wheelsChangingPresenter.OnHidePresenter -= Hide;
         _wheelsChangingPresenter.OnSetAvailable -= OnOnSetAvailable;
         _wheelsChangingPresenter.OnBuyAvailable -= OnOnBuyAvailable;
         _wheelsChangingPresenter.OnWheelsListChanged -= ChangeWheelsList;

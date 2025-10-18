@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Meta.DataConfigs
@@ -10,8 +11,8 @@ namespace Meta.DataConfigs
         public long soft;
 
         public string currentVehicleId;
-        public VehicleData[] vehiclesData;
-        public WheelsData[] wheelsData;
+        public List<VehicleData> vehiclesData;
+        public List<WheelsData> wheelsData;
 
         [Serializable]
         public class VehicleData
@@ -24,21 +25,6 @@ namespace Meta.DataConfigs
         public class WheelsData
         {
             public string id;
-        }
-    }
-
-    public static class ProfileDataConfigsExtensions
-    {
-        public static LocalProfile ToLocalProfile(this ProfileDataConfig config)
-        {
-            return new LocalProfile
-            {
-                hard = config.hard,
-                soft = config.soft,
-                currentVehicleId = config.currentVehicleId,
-                vehiclesData = config.vehiclesData,
-                wheelsData = config.wheelsData
-            };
         }
     }
 }

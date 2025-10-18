@@ -77,13 +77,13 @@ namespace Meta.UseCases
             if(_currentWheels == _setWheels)
                 throw new InvalidOperationException("Wheels already set");
             
-            _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
-            _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
-            
             var result = await _hangarGateway.SetWheels(_currentVehicle, _currentWheels, cancellationToken);
 
             if (!result)
                 return false;
+            
+            _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
+            _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
             
             _setWheels = _currentWheels;
             OnCurrentWheelsChanged(_currentWheels.ToWheelsData());
@@ -99,9 +99,33 @@ namespace Meta.UseCases
             return true;
         }
 
-        public UniTask<bool> BuyWheels(CancellationToken cancellationToken)
+        public async UniTask<bool> BuyWheels(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if(_currentVehicle == null)
+                throw new NullReferenceException($"{nameof(_currentVehicle)} cannot be null");
+            
+            if(_currentWheels == null)
+                throw new NullReferenceException($"{nameof(_currentWheels)} cannot be null");
+            
+            var result = await _hangarGateway.BuyWheels(_currentVehicle, _currentWheels, cancellationToken);
+            
+            if (!result)
+                return false;
+            
+            _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
+            _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
+            
+            _setWheels = _currentWheels;
+            OnWheelsSet.Invoke(_currentWheels.ToWheelsData());
+            OnWheelsListChanged(
+                _allCurrentWheels.Select(x => x.ToWheelsData()).ToList(),
+                _allBoughtWheels.Select(x => x.ToWheelsData()).ToList(),
+                _setWheels.ToWheelsData());
+            
+            OnSetAvailable.Invoke(false);
+            OnBuyAvailable.Invoke(false);
+
+            return true;
         }
 
         public async UniTask<WheelsData> GetSetWheels(CancellationToken  cancellationToken)

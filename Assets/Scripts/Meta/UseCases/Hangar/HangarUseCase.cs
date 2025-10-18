@@ -23,12 +23,24 @@ namespace Meta.UseCases
         {
             _hangarGateway = hangarGateway;
             _wheelsChangingUseCase = wheelsChangingUseCase;
+            _hangarGateway.OnHardChanged += OnOnHardChanged;
+            _hangarGateway.OnSoftChanged += OnOnSoftChanged;
         }
-        
+
         public void Dispose()
         {
         }
-        
+
+        private void OnOnSoftChanged(long soft)
+        {
+            OnHardChanged.Invoke(soft);
+        }
+
+        private void OnOnHardChanged(long hard)
+        {
+            OnSoftChanged.Invoke(hard);
+        }
+
         public void ShowPresenter()
         {
             OnShowPresenter.Invoke();

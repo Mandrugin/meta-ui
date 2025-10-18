@@ -13,8 +13,8 @@ namespace Meta.Presenters
         private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
-        public event Action OnStartUseCase = delegate { };
-        public event Action OnFinishUseCase = delegate { };
+        public event Action OnShowPresenter = delegate { };
+        public event Action OnHidePresenter = delegate { };
         
         public event Action<bool> OnSetAvailable = delegate { };
         public event Action<bool> OnBuyAvailable = delegate { };
@@ -25,8 +25,8 @@ namespace Meta.Presenters
         public WheelsChangingPresenter(IHangarUseCase hangarUseCase, IWheelsChangingUseCase wheelsChangingUseCase)
         {
             _wheelsChangingUseCase = wheelsChangingUseCase;
-            _wheelsChangingUseCase.OnShowPresenter += Start;
-            _wheelsChangingUseCase.OnHidePresenter += Finish;
+            _wheelsChangingUseCase.OnShowPresenter += ShowPresenter;
+            _wheelsChangingUseCase.OnHidePresenter += HidePresenter;
             _wheelsChangingUseCase.OnWheelsListChanged += OnOnWheelsListChanged;
             _wheelsChangingUseCase.OnWheelsSet += OnWheelsSet;
             _wheelsChangingUseCase.OnWheelsBought += OnWheelsBought;
@@ -38,8 +38,8 @@ namespace Meta.Presenters
 
         public void Dispose()
         {
-            _wheelsChangingUseCase.OnShowPresenter -= Start;
-            _wheelsChangingUseCase.OnHidePresenter -= Finish;
+            _wheelsChangingUseCase.OnShowPresenter -= ShowPresenter;
+            _wheelsChangingUseCase.OnHidePresenter -= HidePresenter;
             _wheelsChangingUseCase.OnWheelsListChanged -= OnOnWheelsListChanged;
             _wheelsChangingUseCase.OnWheelsSet -= OnWheelsSet;
             _wheelsChangingUseCase.OnWheelsBought -= OnWheelsBought;
@@ -88,8 +88,13 @@ namespace Meta.Presenters
             return await _wheelsChangingUseCase.SetWheels(_cancellationTokenSource.Token);
         }
 
-        private void Start() => OnStartUseCase.Invoke();
-        private void Finish() => OnFinishUseCase.Invoke();
+        public async UniTask<bool> BuyWheels()
+        {
+            return await _wheelsChangingUseCase.BuyWheels(_cancellationTokenSource.Token);
+        }
+
+        private void ShowPresenter() => OnShowPresenter.Invoke();
+        private void HidePresenter() => OnHidePresenter.Invoke();
 
         public async UniTask<bool> TryOutWheels(WheelsDataView wheelsDataView, CancellationToken cancellationToken)
         {
