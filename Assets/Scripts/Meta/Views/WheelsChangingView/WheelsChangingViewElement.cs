@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Meta.Presenters;
 using TMPro;
 using UnityEngine;
@@ -24,6 +25,6 @@ public class WheelsChangingViewElement : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        _wheelsChangingView.TryWheels(_wheelsDataView);
+        _wheelsChangingView.TryWheels(_wheelsDataView, destroyCancellationToken).Forget();
     }
 }

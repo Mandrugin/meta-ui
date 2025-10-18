@@ -16,15 +16,15 @@ public class VehicleView : MonoBehaviour
 
     private void Awake()
     {
-        _vehiclePresenter.OnTriedOutWheels += OnTriedOutWheels;
+        _vehiclePresenter.OnWheelsChanged += OnWheelsChanged;
     }
 
     private void OnDestroy()
     {
-        _vehiclePresenter.OnTriedOutWheels -= OnTriedOutWheels;
+        _vehiclePresenter.OnWheelsChanged -= OnWheelsChanged;
     }
 
-    private void OnTriedOutWheels(WheelsDataView wheelsDataView)
+    private void OnWheelsChanged(WheelsDataView wheelsDataView)
     {
         var viewData = _wheelsViewConfig.wheels.Find(x => x.wheelsId == wheelsDataView.Id);
         SetWheels(viewData.left, viewData.right);

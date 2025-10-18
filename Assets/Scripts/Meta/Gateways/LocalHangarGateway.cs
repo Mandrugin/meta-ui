@@ -173,20 +173,23 @@ namespace Meta.Gateways
             return vehicle.BoughtWheels;
         }
 
-        public async UniTask<Wheels> GetCurrentWheels(string vehicleId, CancellationToken cancellationToken)
+        public async UniTask<Wheels> GetCurrentWheels(Vehicle vehicle, CancellationToken cancellationToken)
         {
             await AwaitableDummy(_cancellationTokenSource.Token);
-            var vehicle = _storage.AllVehicles.First(x => x.Id == vehicleId);
             if(vehicle == null)
-                throw new Exception($"vehicle not found: {vehicleId}");
+                throw new Exception("vehicle is null");
             return vehicle.CurrentWheels;
         }
 
-        public async UniTaskVoid SetCurrentWheels(Vehicle vehicle, Wheels wheels)
+        public async UniTask<bool> SetCurrentWheels(Vehicle vehicle, Wheels wheels, CancellationToken cancellationToken)
         {
             await AwaitableDummy(_cancellationTokenSource.Token);
+            if (!vehicle.AllWheels.Contains(wheels))
+                return false;
+
             vehicle.CurrentWheels = wheels;
             _profileDataConfig.vehiclesData.First(x => x.id == vehicle.Id).currentWheelsId = wheels.Id;
+            return true;
         }
 
         public async UniTask<bool> BuyWheels(Vehicle vehicle, Wheels wheel)

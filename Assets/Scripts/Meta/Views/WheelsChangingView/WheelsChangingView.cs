@@ -29,7 +29,10 @@ public class WheelsChangingView : MonoBehaviour
         
         _cancellationTokenSource = new CancellationTokenSource();
 
-        setButton.onClick.AddListener(() => _wheelsChangingPresenter.SetWheels().Forget());
+        setButton.onClick.AddListener(() =>
+        {
+            _wheelsChangingPresenter.SetWheels().ContinueWith(result => Debug.Log(result ? "success" : "failure"));
+        });
         //buyButton.onClick.AddListener(() => wheelsChangingPresenter.BuyWheel());
     }
 
@@ -90,8 +93,8 @@ public class WheelsChangingView : MonoBehaviour
         OnWheelsListChanged(wheelsDataView);
     }
 
-    public async UniTask<bool> TryWheels(WheelsDataView wheelsDataView)
+    public async UniTask<bool> TryWheels(WheelsDataView wheelsDataView, CancellationToken cancellationToken)
     {
-        return await _wheelsChangingPresenter.TryOutWheels(wheelsDataView);
+        return await _wheelsChangingPresenter.TryOutWheels(wheelsDataView, cancellationToken);
     }
 }

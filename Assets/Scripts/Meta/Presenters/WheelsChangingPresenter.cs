@@ -45,15 +45,15 @@ namespace Meta.Presenters
         private void Start() => OnStartUseCase.Invoke();
         private void Finish() => OnFinishUseCase.Invoke();
 
-        public async UniTask<bool> TryOutWheels(WheelsDataView wheelsDataView)
+        public async UniTask<bool> TryOutWheels(WheelsDataView wheelsDataView, CancellationToken cancellationToken)
         {
             var wheelsData = new WheelsData { Id = wheelsDataView.Id, Price = wheelsDataView.Price };
-            var result = await _wheelsChangingUseCase.TryWheelsOut(wheelsData, _cancellationTokenSource.Token);
+            var result = await _wheelsChangingUseCase.TryWheelsOut(wheelsData, cancellationToken);
             if (!result)
                 return false;
 
-            OnSetAvailable.Invoke(await _wheelsChangingUseCase.IsSetAvailable(wheelsData, _cancellationTokenSource.Token));
-            OnBuyAvailable.Invoke(await _wheelsChangingUseCase.IsBuyAvailable(wheelsData, _cancellationTokenSource.Token));
+            OnSetAvailable.Invoke(await _wheelsChangingUseCase.IsSetAvailable(wheelsData, cancellationToken));
+            OnBuyAvailable.Invoke(await _wheelsChangingUseCase.IsBuyAvailable(wheelsData, cancellationToken));
             return true;
         }
 
@@ -62,7 +62,7 @@ namespace Meta.Presenters
             var vehicle = await _hangarUseCase.GetCurrentVehicle(cancellationToken);
             var allWheelsData = await _wheelsChangingUseCase.GetAllWheels(vehicle, cancellationToken);
             var boughtWheelsData = await _wheelsChangingUseCase.GetBoughtWheels(vehicle, cancellationToken);
-            var currentWheelsData = await _wheelsChangingUseCase.GetCurrentWheels(vehicle, cancellationToken);
+            var currentWheelsData = await _wheelsChangingUseCase.GetCurrentWheels(cancellationToken);
             var wheelsDataViews = new List<WheelsDataView>();
 
             foreach (var wheelsData in allWheelsData)

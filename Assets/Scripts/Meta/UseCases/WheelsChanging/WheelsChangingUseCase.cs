@@ -16,11 +16,12 @@ namespace Meta.UseCases
 
         private Vehicle _currentVehicle;
         private Wheels _currentWheels;
+        private Wheels _setWheels;
         private List<Wheels> _allCurrentWheels;
 
         public event Action<WheelsData> OnWheelsTriedOut = delegate { };
-        public event Action<WheelsData> OnWheelsChanged;
-        public event Action<WheelsData> OnWheelsBought;
+        public event Action<WheelsData> OnWheelsSet = delegate { };
+        public event Action<WheelsData> OnWheelsBought = delegate { };
 
         public WheelsChangingUseCase(IHangarGateway hangarGateway, IHangarUseCase hangarUseCase)
         {
@@ -48,13 +49,31 @@ namespace Meta.UseCases
             var wheels = _allCurrentWheels.FirstOrDefault(x => x.Id == wheelsData.Id);
             if (wheels == null)
                 return false;
+            _setWheels = wheels;
             OnWheelsTriedOut.Invoke(wheelsData);
             return true;
         }
 
-        public UniTask<bool> SetWheels(CancellationToken cancellationToken)
+        public async UniTask<bool> SetWheels(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if(_currentVehicle == null)
+                throw new NullReferenceException($"{nameof(_currentVehicle)} cannot be null");
+            
+            if(_currentWheels == null)
+                throw new NullReferenceException($"{nameof(_currentWheels)} cannot be null");
+            
+            if(_currentWheels == _setWheels)
+                throw new InvalidOperationException("Wheels already set");
+            
+            var result = await _hangarGateway.SetCurrentWheels(_currentVehicle, _currentWheels, cancellationToken);
+
+            if (!result)
+                return false;
+            
+            _currentWheels = _setWheels;
+            OnWheelsSet.Invoke(_currentWheels.ToWheelsData());
+
+            return true;
         }
 
         public UniTask<bool> BuyWheels(CancellationToken cancellationToken)
@@ -86,9 +105,10 @@ namespace Meta.UseCases
             return wheelsDataList;
         }
 
-        public async UniTask<WheelsData> GetCurrentWheels(VehicleData vehicleData, CancellationToken  cancellationToken)
+        public async UniTask<WheelsData> GetCurrentWheels(CancellationToken  cancellationToken)
         {
-            var currentWheels = await _hangarGateway.GetCurrentWheels(vehicleData.Id, cancellationToken);
+            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
+            var currentWheels = await _hangarGateway.GetCurrentWheels(_currentVehicle, cancellationToken);
             return new WheelsData
             {
                 Id = currentWheels.Id,

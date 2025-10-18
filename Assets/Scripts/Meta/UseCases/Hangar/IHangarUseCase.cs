@@ -6,6 +6,7 @@ namespace Meta.UseCases
 {
     public interface IHangarUseCase: IUseCase
     {
+        public event Action<VehicleData> OnCurrentVehicleChanged;
         public event Action OnStartWheelsChanging;
         public event Action OnFinishWheelsChanging;
         public event Action<long> OnHardChanged;

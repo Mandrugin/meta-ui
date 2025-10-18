@@ -1,18 +1,22 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Meta.Entities;
 using UnityEngine.Scripting;
 
 namespace Meta.UseCases
 {
     [Preserve]
-    public class HangarUseCase : UseCase, IHangarUseCase, IDisposable
+    public class HangarUseCase : UseCase, IHangarUseCase, IDisposable, IUseCase
     {
         private readonly IHangarGateway _hangarGateway;
+        public event Action<VehicleData> OnCurrentVehicleChanged = delegate { };
         public event Action OnStartWheelsChanging = delegate { };
         public event Action OnFinishWheelsChanging = delegate { };
         public event Action<long> OnHardChanged = delegate { };
         public event Action<long> OnSoftChanged = delegate { };
+        
+        private Vehicle _currentVehicle;
 
         public async UniTask<long> GetHardBalance(CancellationToken cancellationToken)
         {
@@ -40,11 +44,15 @@ namespace Meta.UseCases
 
         public async UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken)
         {
-            var vehicle = await _hangarGateway.GetCurrentVehicle(cancellationToken);
-            return new VehicleData
+            var previousVehicle = _currentVehicle;
+            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
+            var vehicleData = new VehicleData
             {
-                Id = vehicle.Id
+                Id = _currentVehicle.Id
             };
+            if(previousVehicle != _currentVehicle)
+                OnCurrentVehicleChanged.Invoke(vehicleData);
+            return vehicleData;
         }
 
         public void Dispose()
