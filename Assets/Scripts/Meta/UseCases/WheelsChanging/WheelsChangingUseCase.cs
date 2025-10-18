@@ -23,9 +23,11 @@ namespace Meta.UseCases
 
         public event Action OnStartUseCase = delegate { };
         public event Action OnFinishUseCase = delegate { };
-        public event Action<WheelsData> OnWheelsTriedOut = delegate { };
+        public event Action<WheelsData> OnCurrentWheelsChanged = delegate { };
         public event Action<WheelsData> OnWheelsSet = delegate { };
         public event Action<WheelsData> OnWheelsBought = delegate { };
+        public event Action<bool> OnSetAvailable = delegate { };
+        public event Action<bool> OnBuyAvailable = delegate { };
         public event Action<List<WheelsData>, List<WheelsData>, WheelsData> OnWheelsListChanged = delegate { };
 
         public WheelsChangingUseCase(IHangarGateway hangarGateway, IHangarUseCase hangarUseCase)
@@ -63,7 +65,9 @@ namespace Meta.UseCases
                 return false;
             }
             _currentWheels = wheels;
-            OnWheelsTriedOut.Invoke(wheelsData);
+            OnCurrentWheelsChanged.Invoke(wheelsData);
+            OnSetAvailable.Invoke( await IsSetAvailable(wheelsData, cancellationToken));
+            OnBuyAvailable.Invoke( await IsBuyAvailable(wheelsData, cancellationToken));
             return true;
         }
 
@@ -87,11 +91,15 @@ namespace Meta.UseCases
                 return false;
             
             _setWheels = _currentWheels;
+            OnCurrentWheelsChanged(_currentWheels.ToWheelsData());
             OnWheelsSet.Invoke(_currentWheels.ToWheelsData());
             OnWheelsListChanged(
                 _allCurrentWheels.Select(x => x.ToWheelsData()).ToList(),
                 _allBoughtWheels.Select(x => x.ToWheelsData()).ToList(),
                 _setWheels.ToWheelsData());
+            
+            OnSetAvailable.Invoke(false);
+            OnBuyAvailable.Invoke(false);
 
             return true;
         }
@@ -104,15 +112,15 @@ namespace Meta.UseCases
         public async UniTask<WheelsData> GetSetWheels(CancellationToken  cancellationToken)
         {
             _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
-            var currentWheels = await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
+            _setWheels = await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
             return new WheelsData
             {
-                Id = currentWheels.Id,
-                Price = currentWheels.Price
+                Id = _setWheels.Id,
+                Price = _setWheels.Price
             };
         }
 
-        public async UniTask UpdateWheelsDataView(CancellationToken cancellationToken)
+        public async UniTask UpdateWheelsData(CancellationToken cancellationToken)
         {
             _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
             _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);

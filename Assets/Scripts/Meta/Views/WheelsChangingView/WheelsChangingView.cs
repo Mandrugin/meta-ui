@@ -96,7 +96,7 @@ public class WheelsChangingView : MonoBehaviour
 
     private void ShowWheels()
     {
-        _wheelsChangingPresenter.UpdateWheelsDataView(destroyCancellationToken).Forget();
+        _wheelsChangingPresenter.UpdateWheelsData(destroyCancellationToken).Forget();
     }
 
     public async UniTask<bool> TryWheels(WheelsDataView wheelsDataView, CancellationToken cancellationToken)

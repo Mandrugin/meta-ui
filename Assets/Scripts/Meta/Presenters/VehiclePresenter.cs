@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
-using Cysharp.Threading.Tasks;
 using Meta.UseCases;
 using UnityEngine.Scripting;
 
@@ -14,23 +14,24 @@ namespace Meta.Presenters
         private readonly IHangarUseCase _hangarUseCase;
         private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
         
-        private readonly CancellationTokenSource _cancellationTokenSource = new();
-
+        private readonly CancellationTokenSource _cancellationTokenSource = new ();
+        
         public VehiclePresenter(IWheelsChangingUseCase wheelsChangingUseCase)
         {
             _wheelsChangingUseCase = wheelsChangingUseCase;
-            _wheelsChangingUseCase.OnWheelsTriedOut += ChangeWheels;
-            _wheelsChangingUseCase.GetSetWheels(_cancellationTokenSource.Token).ContinueWith(ChangeWheels);
+            _wheelsChangingUseCase.OnCurrentWheelsChanged += ChangeCurrentWheels;
+            _wheelsChangingUseCase.OnWheelsListChanged += OnWheelsListChanged;
+            _wheelsChangingUseCase.UpdateWheelsData(_cancellationTokenSource.Token);
         }
 
         public void Dispose()
         {
-            _cancellationTokenSource.Cancel();
+            _wheelsChangingUseCase.OnCurrentWheelsChanged -= ChangeCurrentWheels;
+            _wheelsChangingUseCase.OnWheelsListChanged -= OnWheelsListChanged;
             _cancellationTokenSource.Dispose();
-            _wheelsChangingUseCase.OnWheelsTriedOut -= ChangeWheels;
         }
 
-        protected virtual void ChangeWheels(WheelsData wheelsData)
+        private void ChangeCurrentWheels(WheelsData wheelsData)
         {
             OnWheelsChanged(new WheelsDataView
             {
@@ -38,7 +39,10 @@ namespace Meta.Presenters
                 Price = wheelsData.Price
             });
         }
-        
-        
+
+        private void OnWheelsListChanged(List<WheelsData> arg1, List<WheelsData> arg2, WheelsData arg3)
+        {
+            ChangeCurrentWheels(arg3);
+        }
     }
 }

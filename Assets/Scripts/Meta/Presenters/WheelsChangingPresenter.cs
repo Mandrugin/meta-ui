@@ -10,7 +10,6 @@ namespace Meta.Presenters
     [Preserve]
     public class WheelsChangingPresenter: IDisposable
     {
-        private readonly IHangarUseCase _hangarUseCase;
         private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
@@ -25,13 +24,14 @@ namespace Meta.Presenters
         
         public WheelsChangingPresenter(IHangarUseCase hangarUseCase, IWheelsChangingUseCase wheelsChangingUseCase)
         {
-            _hangarUseCase = hangarUseCase;
             _wheelsChangingUseCase = wheelsChangingUseCase;
             _wheelsChangingUseCase.OnStartUseCase += Start;
             _wheelsChangingUseCase.OnFinishUseCase += Finish;
             _wheelsChangingUseCase.OnWheelsListChanged += OnOnWheelsListChanged;
             _wheelsChangingUseCase.OnWheelsSet += OnWheelsSet;
             _wheelsChangingUseCase.OnWheelsBought += OnWheelsBought;
+            _wheelsChangingUseCase.OnSetAvailable += OnOnSetAvailable;
+            _wheelsChangingUseCase.OnBuyAvailable += OnOnBuyAvailable;
             
             _cancellationTokenSource = new CancellationTokenSource();
         }
@@ -43,6 +43,8 @@ namespace Meta.Presenters
             _wheelsChangingUseCase.OnWheelsListChanged -= OnOnWheelsListChanged;
             _wheelsChangingUseCase.OnWheelsSet -= OnWheelsSet;
             _wheelsChangingUseCase.OnWheelsBought -= OnWheelsBought;
+            _wheelsChangingUseCase.OnSetAvailable -= OnOnSetAvailable;
+            _wheelsChangingUseCase.OnBuyAvailable -= OnOnBuyAvailable;
             _cancellationTokenSource.Dispose();
         }
 
@@ -54,6 +56,16 @@ namespace Meta.Presenters
         private void OnWheelsBought(WheelsData wheelsData)
         {
             OnBuyAvailable.Invoke(false);
+        }
+
+        private void OnOnSetAvailable(bool isAvailable)
+        {
+            OnSetAvailable.Invoke(isAvailable);
+        }
+
+        private void OnOnBuyAvailable(bool isAvailable)
+        {
+            OnBuyAvailable.Invoke(isAvailable);
         }
 
         private void OnOnWheelsListChanged(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
@@ -85,15 +97,12 @@ namespace Meta.Presenters
             var result = await _wheelsChangingUseCase.TryWheelsOut(wheelsData, cancellationToken);
             if (!result)
                 return false;
-
-            OnSetAvailable.Invoke(await _wheelsChangingUseCase.IsSetAvailable(wheelsData, cancellationToken));
-            OnBuyAvailable.Invoke(await _wheelsChangingUseCase.IsBuyAvailable(wheelsData, cancellationToken));
             return true;
         }
 
-        public async UniTask UpdateWheelsDataView(CancellationToken cancellationToken)
+        public async UniTask UpdateWheelsData(CancellationToken cancellationToken)
         {
-            await _wheelsChangingUseCase.UpdateWheelsDataView(cancellationToken);
+            await _wheelsChangingUseCase.UpdateWheelsData(cancellationToken);
         }
 
         private static List<WheelsDataView> ConvertToWheelsDataViews(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
