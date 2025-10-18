@@ -10,7 +10,7 @@ using UnityEngine.Scripting;
 namespace Meta.UseCases
 {
     [Preserve]
-    public class WheelsChangingUseCase : UseCase, IWheelsChangingUseCase, IDisposable
+    public class WheelsChangingUseCase : IWheelsChangingUseCase, IDisposable
     {
         private readonly IHangarGateway _hangarGateway;
         private readonly IHangarUseCase _hangarUseCase;
@@ -21,6 +21,8 @@ namespace Meta.UseCases
         private List<Wheels> _allCurrentWheels;
         private List<Wheels> _allBoughtWheels;
 
+        public event Action OnStartUseCase = delegate { };
+        public event Action OnFinishUseCase = delegate { };
         public event Action<WheelsData> OnWheelsTriedOut = delegate { };
         public event Action<WheelsData> OnWheelsSet = delegate { };
         public event Action<WheelsData> OnWheelsBought = delegate { };
@@ -39,6 +41,9 @@ namespace Meta.UseCases
             _hangarUseCase.OnStartWheelsChanging -= StartUseCase;
             _hangarUseCase.OnFinishWheelsChanging -= TryFinishUseCase;
         }
+
+        public void StartUseCase() => OnStartUseCase.Invoke();
+        public void FinishUseCase() => OnFinishUseCase.Invoke();
 
         private void TryFinishUseCase()
         {
