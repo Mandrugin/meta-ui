@@ -68,14 +68,14 @@ namespace Meta.Gateways
                     if (wheels.Price == 0)
                         vehicle.StockWheels = wheels;
                 }
-                
+
                 _storage.AllVehicles.Add(vehicle);
 
                 var profileVehicleData = profileDataConfig.vehiclesData.FirstOrDefault(x => x.id == vehicle.Id);
 
                 if(profileVehicleData == null)
                     continue;
-                
+
                 _storage.BoughtVehicles.Add(vehicle);
                 
                 if(vehicle.Id == profileDataConfig.currentVehicleId)
@@ -173,7 +173,7 @@ namespace Meta.Gateways
             return vehicle.BoughtWheels;
         }
 
-        public async UniTask<Wheels> GetCurrentWheels(Vehicle vehicle, CancellationToken cancellationToken)
+        public async UniTask<Wheels> GetSetWheels(Vehicle vehicle, CancellationToken cancellationToken)
         {
             await AwaitableDummy(_cancellationTokenSource.Token);
             if(vehicle == null)
@@ -181,20 +181,29 @@ namespace Meta.Gateways
             return vehicle.CurrentWheels;
         }
 
-        public async UniTask<bool> SetCurrentWheels(Vehicle vehicle, Wheels wheels, CancellationToken cancellationToken)
+        public async UniTask<bool> SetWheels(Vehicle vehicle, Wheels wheels, CancellationToken cancellationToken)
         {
             await AwaitableDummy(_cancellationTokenSource.Token);
             if (!vehicle.AllWheels.Contains(wheels))
                 return false;
 
             vehicle.CurrentWheels = wheels;
-            _profileDataConfig.vehiclesData.First(x => x.id == vehicle.Id).currentWheelsId = wheels.Id;
-            return true;
+            for (var index = 0; index < _profileDataConfig.vehiclesData.Length; index++)
+            {
+                var vehicleData = _profileDataConfig.vehiclesData[index];
+                if (vehicleData.id != vehicle.Id)
+                    continue;
+
+                vehicleData.currentWheelsId = wheels.Id;
+                return true;
+            }
+
+            throw new Exception($"vehicle not found: {vehicle.Id}");
         }
 
-        public async UniTask<bool> BuyWheels(Vehicle vehicle, Wheels wheel)
+        public async UniTask<bool> BuyWheels(Vehicle vehicle, Wheels wheel, CancellationToken cancellationToken)
         {
-            await AwaitableDummy(_cancellationTokenSource.Token);
+            await AwaitableDummy(cancellationToken);
             throw new System.NotImplementedException();
         }
         #endregion Wheels
