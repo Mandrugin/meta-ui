@@ -1,66 +1,49 @@
 using Meta.Presenters;
 using Meta.ViewConfigs;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 public class VehicleView : MonoBehaviour
 {
+    [SerializeField] private Button nextVehicleButton;
+    [SerializeField] private Button prevVehicleButton;
+    
     [Inject] private VehiclesViewConfig _vehiclesViewConfig;
     [Inject] private WheelsViewConfig _wheelsViewConfig;
     [Inject] private VehiclePresenter _vehiclePresenter;
     
-    [SerializeField] private Transform _wheelSlotFL;
-    [SerializeField] private Transform _wheelSlotFR;
-    [SerializeField] private Transform _wheelSlotRL;
-    [SerializeField] private Transform _wheelSlotRR;
+    private VehicleViewBody _vehicleViewBody;
 
     private void Awake()
     {
+        _vehiclePresenter.OnVehicleChanged += OnVehicleChanged;
         _vehiclePresenter.OnWheelsChanged += OnWheelsChanged;
+        
+        nextVehicleButton.onClick.AddListener(_vehiclePresenter.SetNexVehicle);
+        prevVehicleButton.onClick.AddListener(_vehiclePresenter.SetPrevVehicle);
     }
 
     private void OnDestroy()
     {
+        _vehiclePresenter.OnVehicleChanged -= OnVehicleChanged;
         _vehiclePresenter.OnWheelsChanged -= OnWheelsChanged;
+    }
+
+    private void OnVehicleChanged(VehicleDataView vehicleDataView)
+    {
+        var vehicleData = _vehiclesViewConfig.vehicles.Find(x => x.id == vehicleDataView.Id);
+        if(_vehicleViewBody)
+            Destroy(_vehicleViewBody.gameObject);
+        _vehicleViewBody = Instantiate(vehicleData.prefab, this.transform, false).GetComponent<VehicleViewBody>();
+        _vehicleViewBody.gameObject.transform.localPosition = vehicleData.defaultPosition;
     }
 
     private void OnWheelsChanged(WheelsDataView wheelsDataView)
     {
         var viewData = _wheelsViewConfig.wheels.Find(x => x.wheelsId == wheelsDataView.Id);
-        SetWheels(viewData.left, viewData.right);
+        _vehicleViewBody.SetWheels(viewData.left, viewData.right);
     }
-
-    private void SetWheels(GameObject leftWheels, GameObject rightWheels)
-    {
-        DeleteWheels();
-
-        var fl = Instantiate(leftWheels, _wheelSlotFL);
-        var fr = Instantiate(rightWheels, _wheelSlotFR);
-        var rl = Instantiate(leftWheels, _wheelSlotRL);
-        var rr = Instantiate(rightWheels, _wheelSlotRR);
-    }
-
-    private void DeleteWheels()
-    {
-        foreach (Transform t in _wheelSlotFL)
-            Delete(t.gameObject);
-        
-        foreach (Transform t in _wheelSlotFR)
-            Delete(t.gameObject);
-        
-        foreach (Transform t in _wheelSlotRL)
-            Delete(t.gameObject);
-        
-        foreach (Transform t in _wheelSlotRR)
-            Delete(t.gameObject);
-        
-        void Delete(GameObject g)
-        {
-#if UNITY_EDITOR
-            DestroyImmediate(g);
-#else
-            Destroy(g);
-#endif
-        }        
-    }
+    
+    
 }

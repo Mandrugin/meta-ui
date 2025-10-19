@@ -15,11 +15,16 @@ MonoBehaviour:
   vehicles:
   - id: Buggy
     prefab: {fileID: 1853152799124830, guid: 30e2a12994bca3247b48527d941a206e, type: 3}
+    defaultPosition: {x: 0, y: 1.57, z: 0}
   - id: HCoupe
     prefab: {fileID: 1112741392594452, guid: 62dbbe1e51518e24197eaa86681cfa6e, type: 3}
+    defaultPosition: {x: 0, y: 0, z: 0}
   - id: LCoupe
     prefab: {fileID: 1383268381566704, guid: 1b27ceeab7741204e9d4ea471ce21149, type: 3}
+    defaultPosition: {x: 0, y: 1.37, z: 0}
   - id: Minibus
     prefab: {fileID: 1596860802545018, guid: 1365774ed3e45da468448a89d275a477, type: 3}
+    defaultPosition: {x: 0, y: 0, z: 0}
   - id: Pickup
     prefab: {fileID: 1087319797623800, guid: 6b3a62b2a0d0c194c8ad4b6229b88908, type: 3}
+    defaultPosition: {x: 0, y: 0, z: 0}

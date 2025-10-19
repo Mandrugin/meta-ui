@@ -11,7 +11,6 @@ namespace Meta.UseCases
     {
         private readonly IHangarGateway _hangarGateway;
         private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
-        private readonly IVehicleUseCase _vehicleUseCase;
         public event Action OnShowPresenter = delegate { };
         public event Action OnHidePresenter = delegate { };
         public event Action<long> OnHardChanged = delegate { };

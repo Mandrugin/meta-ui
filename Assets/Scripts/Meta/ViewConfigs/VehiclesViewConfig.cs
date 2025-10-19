@@ -14,6 +14,7 @@ namespace Meta.ViewConfigs
         {
             public string id;
             public GameObject prefab;
+            public Vector3 defaultPosition;
         }
     }
 }

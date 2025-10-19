@@ -8,6 +8,7 @@ namespace Meta.UseCases
     {
         public event Action<VehicleData> OnCurrentVehicleChanged;
         public UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken);
-        
+
+        UniTask UpdateVehicleData(CancellationToken token);
     }
 }

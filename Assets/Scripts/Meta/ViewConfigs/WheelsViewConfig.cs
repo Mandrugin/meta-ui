@@ -15,6 +15,7 @@ namespace Meta.ViewConfigs
         {
             public string vehicleId;
             public string wheelsId;
+            public Vector3 position;
             public GameObject left;
             public GameObject right;
         }
