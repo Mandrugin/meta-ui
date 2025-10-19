@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Meta.Entities;
 using UnityEngine.Scripting;
 
 namespace Meta.UseCases
@@ -10,6 +12,9 @@ namespace Meta.UseCases
     {
         private readonly IHangarGateway _hangarGateway;
         private readonly UseCaseMediator _useCaseMediator;
+        
+        private Vehicle _currentVehicle;
+        private List<Vehicle> _allVehicles;
 
         public event Action OnShowPresenter = delegate { };
 
@@ -43,11 +48,49 @@ namespace Meta.UseCases
 
         public async UniTask UpdateVehicleData(CancellationToken token)
         {
-            var currentVehicle = await _hangarGateway.GetCurrentVehicle(token);
-            if (currentVehicle == null)
+            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(token);
+            if (_currentVehicle == null)
                 throw new Exception("Cannot update find current vehicle");
 
-            _useCaseMediator.ChangeCurrentVehicle(currentVehicle.ToVehicleData());
+            _useCaseMediator.ChangeCurrentVehicle(_currentVehicle.ToVehicleData());
+        }
+
+        public UniTask SetNextVehicle(CancellationToken token)
+        {
+            return SetNearVehicle(1, token);
+        }
+
+        public UniTask SetPrevVehicle(CancellationToken token)
+        {
+            return SetNearVehicle(-1, token);
+        }
+
+        private async UniTask SetNearVehicle(int near, CancellationToken token)
+        {
+            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(token);
+            _allVehicles ??= await _hangarGateway.GetAllVehicles(token);
+            if (_allVehicles.Count == 0)
+                throw new Exception("There are no vehicles");
+            
+            if(!_allVehicles.Contains(_currentVehicle))
+                throw new Exception($"There is no such vehicle {_currentVehicle.Id}");
+            
+            var index = _allVehicles.FindIndex(x => x == _currentVehicle);
+            if(index == -1)
+                throw new Exception($"There is such vehicle ({_currentVehicle.Id}), but something went wrong");
+
+            index += near;
+            if(index >= _allVehicles.Count)
+                index = 0;
+            else if(index < 0)
+                index = _allVehicles.Count - 1;
+            
+            var result = await _hangarGateway.SetCurrentVehicle(_allVehicles[index]);
+            if(!result)
+                throw new Exception($"Cannot update current vehicle {_currentVehicle}");
+            
+            _currentVehicle = _allVehicles[index];
+            _useCaseMediator.ChangeCurrentVehicle(_currentVehicle.ToVehicleData());
         }
     }
 }

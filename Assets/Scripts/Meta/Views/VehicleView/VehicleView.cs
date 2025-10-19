@@ -32,11 +32,11 @@ public class VehicleView : MonoBehaviour
 
     private void OnVehicleChanged(VehicleDataView vehicleDataView)
     {
-        var vehicleData = _vehiclesViewConfig.vehicles.Find(x => x.id == vehicleDataView.Id);
+        var vehicleViewConfig = _vehiclesViewConfig.vehicles.Find(x => x.id == vehicleDataView.Id);
         if(_vehicleViewBody)
             Destroy(_vehicleViewBody.gameObject);
-        _vehicleViewBody = Instantiate(vehicleData.prefab, this.transform, false).GetComponent<VehicleViewBody>();
-        _vehicleViewBody.gameObject.transform.localPosition = vehicleData.defaultPosition;
+        _vehicleViewBody = Instantiate(vehicleViewConfig.prefab, this.transform, false).GetComponent<VehicleViewBody>();
+        _vehicleViewBody.gameObject.transform.localPosition = vehicleViewConfig.defaultPosition;
     }
 
     private void OnWheelsChanged(WheelsDataView wheelsDataView)

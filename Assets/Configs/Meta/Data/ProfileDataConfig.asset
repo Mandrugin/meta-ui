@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: ProfileDataConfig
   m_EditorClassIdentifier: DataConfigs::Meta.DataConfigs.ProfileDataConfig
   hard: 100
-  soft: 100
-  currentVehicleId: Buggy
+  soft: 0
+  currentVehicleId: Pickup
   vehiclesData:
   - id: Buggy
     currentWheelsId: Buggy-3
   wheelsData:
   - id: Buggy-3
+  - id: Buggy-2
+  - id: Buggy-5
+  - id: Buggy-4

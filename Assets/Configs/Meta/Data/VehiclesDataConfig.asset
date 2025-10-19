@@ -16,12 +16,12 @@ MonoBehaviour:
   - id: Buggy
     displayName: Buggy
     price: 0
-  - id: HCoupe
-    displayName: HCoupe
-    price: 100
   - id: LCoupe
     displayName: LCoupe
     price: 200
+  - id: HCoupe
+    displayName: HCoupe
+    price: 100
   - id: Minibus
     displayName: Minibus
     price: 300

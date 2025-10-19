@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using Meta.UseCases;
 using UnityEngine.Scripting;
 
@@ -60,12 +61,12 @@ namespace Meta.Presenters
 
         public void SetNexVehicle()
         {
-            
+            _vehicleUseCase.SetNextVehicle(_cancellationTokenSource.Token).Forget();
         }
 
         public void SetPrevVehicle()
         {
-            
+            _vehicleUseCase.SetPrevVehicle(_cancellationTokenSource.Token).Forget();
         }
     }
 }

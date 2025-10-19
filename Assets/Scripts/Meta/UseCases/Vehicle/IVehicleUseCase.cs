@@ -8,5 +8,7 @@ namespace Meta.UseCases
         public UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken);
 
         UniTask UpdateVehicleData(CancellationToken token);
+        UniTask SetNextVehicle(CancellationToken token);
+        UniTask SetPrevVehicle(CancellationToken token);
     }
 }
