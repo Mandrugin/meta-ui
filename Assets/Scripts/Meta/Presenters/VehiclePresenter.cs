@@ -13,25 +13,26 @@ namespace Meta.Presenters
         public event Action<VehicleDataView> OnVehicleChanged = delegate { };
 
         private readonly IVehicleUseCase _vehicleUseCase;
-        private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
+        private readonly UseCaseMediator _useCaseMediator;
         
         private readonly CancellationTokenSource _cancellationTokenSource = new ();
         
-        public VehiclePresenter(IVehicleUseCase vehicleUseCase, IWheelsChangingUseCase wheelsChangingUseCase)
+        public VehiclePresenter(IVehicleUseCase vehicleUseCase, IWheelsChangingUseCase wheelsChangingUseCase, UseCaseMediator useCaseMediator)
         {
             _vehicleUseCase = vehicleUseCase;
-            _wheelsChangingUseCase = wheelsChangingUseCase;
-            _vehicleUseCase.OnCurrentVehicleChanged += ChangeCurrentVehicle;
-            _wheelsChangingUseCase.OnCurrentWheelsChanged += ChangeCurrentWheels;
-            _wheelsChangingUseCase.OnWheelsListChanged += OnWheelsListChanged;
+            _useCaseMediator = useCaseMediator;
+            
+            _useCaseMediator.OnCurrentVehicleChanged += ChangeCurrentVehicle;
+            _useCaseMediator.OnCurrentWheelsChanged += ChangeCurrentWheels;
+            _useCaseMediator.OnWheelsListChanged += OnWheelsListChanged;
             _vehicleUseCase.UpdateVehicleData(_cancellationTokenSource.Token);
         }
 
         public void Dispose()
         {
-            _vehicleUseCase.OnCurrentVehicleChanged -= ChangeCurrentVehicle;
-            _wheelsChangingUseCase.OnCurrentWheelsChanged -= ChangeCurrentWheels;
-            _wheelsChangingUseCase.OnWheelsListChanged -= OnWheelsListChanged;
+            _useCaseMediator.OnCurrentVehicleChanged -= ChangeCurrentVehicle;
+            _useCaseMediator.OnCurrentWheelsChanged -= ChangeCurrentWheels;
+            _useCaseMediator.OnWheelsListChanged -= OnWheelsListChanged;
             _cancellationTokenSource.Dispose();
         }
 

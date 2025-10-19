@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
@@ -11,8 +10,6 @@ namespace Meta.UseCases
         public event Action<WheelsData> OnWheelsBought;
         public event Action<bool> OnSetAvailable;
         public event Action<bool> OnBuyAvailable;
-        public event Action<List<WheelsData>, List<WheelsData>, WheelsData> OnWheelsListChanged;
-        public event Action<WheelsData> OnCurrentWheelsChanged;
         UniTask<bool> TryWheelsOut(WheelsData wheelsData, CancellationToken  cancellationToken);
         UniTask<bool> SetWheels(CancellationToken cancellationToken);
         UniTask<bool> BuyWheels(CancellationToken cancellationToken);

@@ -9,12 +9,14 @@ namespace Meta.UseCases
     public class VehicleUseCase : IVehicleUseCase, IDisposable
     {
         private readonly IHangarGateway _hangarGateway;
+        private readonly UseCaseMediator _useCaseMediator;
 
         public event Action OnShowPresenter = delegate { };
 
-        public VehicleUseCase(IHangarGateway hangarGateway)
+        public VehicleUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator)
         {
             _hangarGateway = hangarGateway;
+            _useCaseMediator = useCaseMediator;
         }
 
         public void Dispose()
@@ -34,8 +36,6 @@ namespace Meta.UseCases
             OnHidePresenter.Invoke();
         }
 
-        public event Action<VehicleData> OnCurrentVehicleChanged = delegate { };
-
         public async UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken)
         {
             return await UniTask.FromResult(new VehicleData());
@@ -47,7 +47,7 @@ namespace Meta.UseCases
             if (currentVehicle == null)
                 throw new Exception("Cannot update find current vehicle");
 
-            OnCurrentVehicleChanged.Invoke(currentVehicle.ToVehicleData());
+            _useCaseMediator.ChangeCurrentVehicle(currentVehicle.ToVehicleData());
         }
     }
 }
