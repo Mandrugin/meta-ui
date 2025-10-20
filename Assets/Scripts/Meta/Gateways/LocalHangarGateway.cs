@@ -95,6 +95,8 @@ namespace Meta.Gateways
 
                 vehicle.CurrentWheels = vehicle.AllWheels.FirstOrDefault(x =>  x.Id == profileVehicleData.currentWheelsId);
             }
+
+            _storage.CurrentVehicle ??= _storage.BoughtVehicles.First();
         }
         #endregion Construct Model
         

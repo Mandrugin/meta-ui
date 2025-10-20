@@ -17,6 +17,7 @@ namespace Meta.UseCases
         private List<Vehicle> _allVehicles;
 
         public event Action OnShowPresenter = delegate { };
+        public event Action OnHidePresenter = delegate { };
 
         public VehicleUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator)
         {
@@ -28,8 +29,6 @@ namespace Meta.UseCases
         {
             
         }
-
-        public event Action OnHidePresenter = delegate { };
 
         public void ShowPresenter()
         {
@@ -87,6 +86,11 @@ namespace Meta.UseCases
             
             _currentVehicle = _allVehicles[index];
             _useCaseMediator.ChangeCurrentVehicle(_currentVehicle.ToVehicleData());
+            var setWheels = await _hangarGateway.GetSetWheels(_currentVehicle, token);
+            if (setWheels != null)
+            {
+                _useCaseMediator.ChangeCurrentWheels(setWheels.ToWheelsData());
+            }
         }
     }
 }

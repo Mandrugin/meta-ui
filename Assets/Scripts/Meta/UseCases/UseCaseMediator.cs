@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Meta.UseCases
@@ -13,8 +14,12 @@ namespace Meta.UseCases
         public void HideWheelsChanging() => OnHideWheelsChanging.Invoke();
 
         public event Action<VehicleData> OnCurrentVehicleChanged = delegate { };
-        public void ChangeCurrentVehicle(VehicleData vehicleData) => OnCurrentVehicleChanged(vehicleData);
-        
+        public void ChangeCurrentVehicle(VehicleData vehicleData)
+        {
+            Debug.Log($"Change current vehicle {vehicleData.Id}");
+            OnCurrentVehicleChanged(vehicleData);
+        }
+
         public event Action<WheelsData> OnCurrentWheelsChanged = delegate { };
         public void ChangeCurrentWheels(WheelsData wheelsData) => OnCurrentWheelsChanged(wheelsData);
         

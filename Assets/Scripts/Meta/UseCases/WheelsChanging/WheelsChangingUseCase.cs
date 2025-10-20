@@ -56,11 +56,6 @@ namespace Meta.UseCases
         public void ShowPresenter() => OnShowPresenter.Invoke();
         public void HidePresenter() => OnHidePresenter.Invoke();
 
-        private void TryFinishUseCase()
-        {
-            HidePresenter();
-        }
-
         public async UniTask<bool> TryWheelsOut(WheelsData wheelsData, CancellationToken  cancellationToken)
         {
             _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
@@ -146,15 +141,12 @@ namespace Meta.UseCases
         {
             _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
             _setWheels = await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
-            return new WheelsData
-            {
-                Id = _setWheels.Id,
-                Price = _setWheels.Price
-            };
+            return _setWheels.ToWheelsData();
         }
 
         public async UniTask UpdateWheelsData(CancellationToken cancellationToken)
         {
+            Debug.Log("request wheels update");
             _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
             _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
             _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
