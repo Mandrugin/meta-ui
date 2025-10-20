@@ -11,7 +11,6 @@ namespace Meta.Presenters
     public class WheelsChangingPresenter: IDisposable
     {
         private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
-        private readonly UseCaseMediator _useCaseMediator;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
         public event Action OnShowPresenter = delegate { };
@@ -23,12 +22,11 @@ namespace Meta.Presenters
         public event Action<List<WheelsDataView>> OnWheelsListChanged = delegate { };
         public event Action<WheelsDataView> OnSetActiveWheels = delegate { };
         
-        public WheelsChangingPresenter(IWheelsChangingUseCase wheelsChangingUseCase, UseCaseMediator useCaseMediator)
+        public WheelsChangingPresenter(IWheelsChangingUseCase wheelsChangingUseCase)
         {
             _wheelsChangingUseCase = wheelsChangingUseCase;
-            _useCaseMediator = useCaseMediator;
             
-            _useCaseMediator.OnWheelsListChanged += OnOnWheelsListChanged;
+            _wheelsChangingUseCase.OnWheelsListChanged += OnOnWheelsListChanged;
             _wheelsChangingUseCase.OnShowPresenter += ShowPresenter;
             _wheelsChangingUseCase.OnHidePresenter += HidePresenter;
             _wheelsChangingUseCase.OnWheelsSet += OnWheelsSet;
@@ -41,7 +39,7 @@ namespace Meta.Presenters
 
         public void Dispose()
         {
-            _useCaseMediator.OnWheelsListChanged -= OnOnWheelsListChanged;
+            _wheelsChangingUseCase.OnWheelsListChanged -= OnOnWheelsListChanged;
             _wheelsChangingUseCase.OnShowPresenter -= ShowPresenter;
             _wheelsChangingUseCase.OnHidePresenter -= HidePresenter;
             _wheelsChangingUseCase.OnWheelsSet -= OnWheelsSet;

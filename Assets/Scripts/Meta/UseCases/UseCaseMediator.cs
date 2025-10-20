@@ -22,9 +22,5 @@ namespace Meta.UseCases
 
         public event Action<WheelsData> OnCurrentWheelsChanged = delegate { };
         public void ChangeCurrentWheels(WheelsData wheelsData) => OnCurrentWheelsChanged(wheelsData);
-        
-        public event Action<List<WheelsData>, List<WheelsData>, WheelsData> OnWheelsListChanged = delegate { };
-        public void ChangeWheelsList(List<WheelsData> allWheels, List<WheelsData> boughtWheels, WheelsData setWheels)
-            => OnWheelsListChanged(allWheels, boughtWheels, setWheels);
     }
 }

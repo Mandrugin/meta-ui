@@ -28,6 +28,7 @@ namespace Meta.UseCases
         public event Action<WheelsData> OnWheelsBought = delegate { };
         public event Action<bool> OnSetAvailable = delegate { };
         public event Action<bool> OnBuyAvailable = delegate { };
+        public event Action<List<WheelsData>, List<WheelsData>, WheelsData> OnWheelsListChanged = delegate { };
 
         public WheelsChangingUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator)
         {
@@ -97,7 +98,7 @@ namespace Meta.UseCases
             _setWheels = _currentWheels;
             _useCaseMediator.ChangeCurrentWheels(_currentWheels.ToWheelsData());
             OnWheelsSet.Invoke(_currentWheels.ToWheelsData());
-            _useCaseMediator.ChangeWheelsList(
+            OnWheelsListChanged(
                 _allCurrentWheels.Select(x => x.ToWheelsData()).ToList(),
                 _allBoughtWheels.Select(x => x.ToWheelsData()).ToList(),
                 _setWheels.ToWheelsData());
@@ -126,7 +127,7 @@ namespace Meta.UseCases
             
             _setWheels = _currentWheels;
             OnWheelsSet.Invoke(_currentWheels.ToWheelsData());
-            _useCaseMediator.ChangeWheelsList(
+            OnWheelsListChanged.Invoke(
                 _allCurrentWheels.Select(x => x.ToWheelsData()).ToList(),
                 _allBoughtWheels.Select(x => x.ToWheelsData()).ToList(),
                 _setWheels.ToWheelsData());
@@ -152,7 +153,7 @@ namespace Meta.UseCases
             _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
             _setWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
             
-            _useCaseMediator.ChangeWheelsList(
+            OnWheelsListChanged.Invoke(
                 _allCurrentWheels.Select(x => x.ToWheelsData()).ToList(),
                 _allBoughtWheels.Select(x => x.ToWheelsData()).ToList(),
                 _setWheels.ToWheelsData());
