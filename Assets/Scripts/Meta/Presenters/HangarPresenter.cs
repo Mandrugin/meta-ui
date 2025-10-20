@@ -15,9 +15,10 @@ namespace Meta.Presenters
         public event Action<long> OnHardChanged = delegate { };
         public event Action<long> OnSoftChanged = delegate { };
 
-        public HangarPresenter(IHangarUseCase hangarUseCase)
+        public HangarPresenter(IHangarUseCase hangarUseCase, UseCaseMediator useCaseMediator)
         {
             _hangarUseCase = hangarUseCase;
+            _useCaseMediator = useCaseMediator;
             _hangarUseCase.OnHardChanged += OnOnHardChanged;
             _hangarUseCase.OnSoftChanged += OnOnSoftChanged;
         }

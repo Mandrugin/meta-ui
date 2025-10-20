@@ -10,7 +10,7 @@ namespace Meta.DataConfigs
         public long hard;
         public long soft;
 
-        public string currentVehicleId;
+        public string setVehicleId;
         public List<VehicleData> vehiclesData;
         public List<WheelsData> wheelsData;
 

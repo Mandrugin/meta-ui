@@ -48,7 +48,7 @@ namespace Meta.UseCases
 
         public async UniTask UpdateVehicleData(CancellationToken token)
         {
-            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(token);
+            _currentVehicle ??= await _hangarGateway.GetSetVehicle(token);
             if (_currentVehicle == null)
                 throw new Exception("Cannot update find current vehicle");
 
@@ -67,7 +67,7 @@ namespace Meta.UseCases
 
         private async UniTask SetNearVehicle(int near, CancellationToken token)
         {
-            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(token);
+            _currentVehicle ??= await _hangarGateway.GetSetVehicle(token);
             _allVehicles ??= await _hangarGateway.GetAllVehicles(token);
             if (_allVehicles.Count == 0)
                 throw new Exception("There are no vehicles");
@@ -84,10 +84,6 @@ namespace Meta.UseCases
                 index = 0;
             else if(index < 0)
                 index = _allVehicles.Count - 1;
-            
-            var result = await _hangarGateway.SetCurrentVehicle(_allVehicles[index]);
-            if(!result)
-                throw new Exception($"Cannot update current vehicle {_currentVehicle}");
             
             _currentVehicle = _allVehicles[index];
             _useCaseMediator.ChangeCurrentVehicle(_currentVehicle.ToVehicleData());

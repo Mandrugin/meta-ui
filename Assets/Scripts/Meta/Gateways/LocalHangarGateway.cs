@@ -79,7 +79,7 @@ namespace Meta.Gateways
 
                 _storage.BoughtVehicles.Add(vehicle);
                 
-                if(vehicle.Id == _profileDataConfig.currentVehicleId)
+                if(vehicle.Id == _profileDataConfig.setVehicleId)
                     _storage.CurrentVehicle = vehicle;
 
                 foreach (var wheelsData in _profileDataConfig.wheelsData)
@@ -128,17 +128,17 @@ namespace Meta.Gateways
             return _storage.BoughtVehicles;
         }
 
-        public async UniTask<Vehicle> GetCurrentVehicle(CancellationToken cancellationToken)
+        public async UniTask<Vehicle> GetSetVehicle(CancellationToken cancellationToken)
         {
             await AwaitableDummy(cancellationToken);
             return _storage.CurrentVehicle;
         }
 
-        public async UniTask<bool> SetCurrentVehicle(Vehicle vehicle)
+        public async UniTask<bool> SetSetVehicle(Vehicle vehicle)
         {
             await AwaitableDummy(_cancellationTokenSource.Token);
             _storage.CurrentVehicle = vehicle;
-            _profileDataConfig.currentVehicleId = vehicle.Id;
+            _profileDataConfig.setVehicleId = vehicle.Id;
             return true;
         }
 

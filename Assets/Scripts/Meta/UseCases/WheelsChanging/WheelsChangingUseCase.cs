@@ -63,7 +63,7 @@ namespace Meta.UseCases
 
         public async UniTask<bool> TryWheelsOut(WheelsData wheelsData, CancellationToken  cancellationToken)
         {
-            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
+            _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
             _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
             _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
             _setWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
@@ -144,7 +144,7 @@ namespace Meta.UseCases
 
         public async UniTask<WheelsData> GetSetWheels(CancellationToken  cancellationToken)
         {
-            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
+            _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
             _setWheels = await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
             return new WheelsData
             {
@@ -155,7 +155,7 @@ namespace Meta.UseCases
 
         public async UniTask UpdateWheelsData(CancellationToken cancellationToken)
         {
-            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
+            _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
             _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
             _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
             _setWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
@@ -168,7 +168,7 @@ namespace Meta.UseCases
 
         public async UniTask<bool> IsSetAvailable(WheelsData wheelsData, CancellationToken cancellationToken)
         {
-            _currentVehicle ??= await _hangarGateway.GetCurrentVehicle(cancellationToken);
+            _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
             _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
             _setWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
             if (_setWheels.Id == wheelsData.Id)
@@ -183,7 +183,7 @@ namespace Meta.UseCases
 
         public async UniTask<bool> IsBuyAvailable(WheelsData wheelsData, CancellationToken cancellationToken)
         {
-            var vehicle = await _hangarGateway.GetCurrentVehicle(cancellationToken);
+            var vehicle = await _hangarGateway.GetSetVehicle(cancellationToken);
             var boughtWheels = await _hangarGateway.GetBoughtWheels(vehicle.Id, cancellationToken);
             if (boughtWheels.Any(x => x.Id == wheelsData.Id))
                 return false;

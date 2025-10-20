@@ -18,8 +18,8 @@ namespace Meta.UseCases
 #region Vehicles
         public UniTask<List<Vehicle>> GetAllVehicles(CancellationToken cancellationToken);
         public UniTask<List<Vehicle>> GetBoughtVehicles();
-        public UniTask<Vehicle> GetCurrentVehicle(CancellationToken cancellationToken);
-        public UniTask<bool> SetCurrentVehicle(Vehicle vehicle);
+        public UniTask<Vehicle> GetSetVehicle(CancellationToken cancellationToken);
+        public UniTask<bool> SetSetVehicle(Vehicle vehicle);
         public UniTask<bool> BuyVehicle(Vehicle vehicle);
 #endregion
 
