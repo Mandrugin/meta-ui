@@ -31,8 +31,6 @@ namespace Meta.Containers
             builder.Register<VehiclePresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<WheelsChangingPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             
-            builder.Register<UseCaseMediator>(Lifetime.Singleton).AsSelf();
-
             builder.RegisterInstance(vehiclesDataConfig).AsSelf();
             builder.RegisterInstance(wheelsDataConfig).AsSelf();
             

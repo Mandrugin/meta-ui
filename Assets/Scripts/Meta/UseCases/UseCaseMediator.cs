@@ -1,26 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
+using Meta.Entities;
 using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Meta.UseCases
 {
     [Preserve]
-    public class UseCaseMediator
+    internal class UseCaseMediator
     {
-        public event Action OnShowWheelsChanging = delegate { };
-        public event Action OnHideWheelsChanging = delegate { };
-        public void ShowWheelsChanging() => OnShowWheelsChanging.Invoke();
-        public void HideWheelsChanging() => OnHideWheelsChanging.Invoke();
-
-        public event Action<VehicleData> OnCurrentVehicleChanged = delegate { };
-        public void ChangeCurrentVehicle(VehicleData vehicleData)
+        public event Action<Vehicle> OnCurrentVehicleChanged = delegate { };
+        public void ChangeCurrentVehicle(Vehicle vehicle)
         {
-            Debug.Log($"Change current vehicle {vehicleData.Id}");
-            OnCurrentVehicleChanged(vehicleData);
+            Debug.Log($"Change current vehicle {vehicle.Id}");
+            OnCurrentVehicleChanged(vehicle);
         }
 
-        public event Action<WheelsData> OnCurrentWheelsChanged = delegate { };
-        public void ChangeCurrentWheels(WheelsData wheelsData) => OnCurrentWheelsChanged(wheelsData);
+        public event Action<Wheels> OnCurrentWheelsListChanged = delegate { };
+        public void ChangeCurrentWheels(Wheels setWheels)
+        {
+            OnCurrentWheelsListChanged(setWheels);
+        }
     }
 }

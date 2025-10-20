@@ -429,6 +429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 354130101}
   - component: {fileID: 354130100}
+  - component: {fileID: 354130102}
   m_Layer: 0
   m_Name: HangarScope
   m_TagString: Untagged
@@ -449,7 +450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
-    TypeName: 
+    TypeName: Meta.UseCases.UseCaseLifetimeScope
   autoRun: 1
   autoInjectGameObjects:
   - {fileID: 1287210907}
@@ -477,6 +478,22 @@ Transform:
   - {fileID: 877499653}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &354130102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354130099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5be4a1735342daa13d00c11eb3faee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UseCases::Meta.UseCases.UseCaseLifetimeScope
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
 --- !u!1 &376319207
 GameObject:
   m_ObjectHideFlags: 0

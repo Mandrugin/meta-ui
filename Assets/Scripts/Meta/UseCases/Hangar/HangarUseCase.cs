@@ -17,7 +17,7 @@ namespace Meta.UseCases
         
         private Vehicle _currentVehicle;
 
-        public HangarUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator)
+        public HangarUseCase(IHangarGateway hangarGateway)
         {
             _hangarGateway = hangarGateway;
             _hangarGateway.OnHardChanged += OnOnHardChanged;

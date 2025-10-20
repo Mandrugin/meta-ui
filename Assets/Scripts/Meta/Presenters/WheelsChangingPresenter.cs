@@ -27,6 +27,7 @@ namespace Meta.Presenters
             _wheelsChangingUseCase = wheelsChangingUseCase;
             
             _wheelsChangingUseCase.OnWheelsListChanged += OnOnWheelsListChanged;
+            _wheelsChangingUseCase.OnCurrentWheelsChanged += WheelsChangingUseCaseOnOnCurrentWheelsChanged;
             _wheelsChangingUseCase.OnShowPresenter += ShowPresenter;
             _wheelsChangingUseCase.OnHidePresenter += HidePresenter;
             _wheelsChangingUseCase.OnWheelsSet += OnWheelsSet;
@@ -47,6 +48,11 @@ namespace Meta.Presenters
             _wheelsChangingUseCase.OnSetAvailable -= OnOnSetAvailable;
             _wheelsChangingUseCase.OnBuyAvailable -= OnOnBuyAvailable;
             _cancellationTokenSource.Dispose();
+        }
+
+        private void WheelsChangingUseCaseOnOnCurrentWheelsChanged(WheelsData wheelsData)
+        {
+            OnSetActiveWheels(wheelsData.ToWheelsDataView());
         }
 
         private void OnWheelsSet(WheelsData wheelsData)

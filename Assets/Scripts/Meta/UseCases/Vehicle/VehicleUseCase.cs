@@ -18,17 +18,26 @@ namespace Meta.UseCases
 
         public event Action OnShowPresenter = delegate { };
         public event Action OnHidePresenter = delegate { };
+        public event Action<VehicleData> OnCurrentVehicleChanged = delegate { };
 
-        public VehicleUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator)
+        internal VehicleUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator)
         {
             _hangarGateway = hangarGateway;
             _useCaseMediator = useCaseMediator;
+            _useCaseMediator.OnCurrentVehicleChanged += UseCaseMediatorOnOnCurrentVehicleChanged;
         }
 
         public void Dispose()
         {
-            
+            _useCaseMediator.OnCurrentVehicleChanged -= UseCaseMediatorOnOnCurrentVehicleChanged;
         }
+
+        private void UseCaseMediatorOnOnCurrentVehicleChanged(Vehicle vehicle)
+        {
+            OnCurrentVehicleChanged.Invoke(vehicle.ToVehicleData());
+        }
+
+        public void ChangeCurrentVehicle(VehicleData vehicleData) => OnCurrentVehicleChanged(vehicleData);
 
         public void ShowPresenter()
         {
@@ -51,7 +60,7 @@ namespace Meta.UseCases
             if (_currentVehicle == null)
                 throw new Exception("Cannot update find current vehicle");
 
-            _useCaseMediator.ChangeCurrentVehicle(_currentVehicle.ToVehicleData());
+            _useCaseMediator.ChangeCurrentVehicle(_currentVehicle);
         }
 
         public UniTask SetNextVehicle(CancellationToken token)
@@ -85,11 +94,11 @@ namespace Meta.UseCases
                 index = _allVehicles.Count - 1;
             
             _currentVehicle = _allVehicles[index];
-            _useCaseMediator.ChangeCurrentVehicle(_currentVehicle.ToVehicleData());
+            _useCaseMediator.ChangeCurrentVehicle(_currentVehicle);
             var setWheels = await _hangarGateway.GetSetWheels(_currentVehicle, token);
             if (setWheels != null)
             {
-                _useCaseMediator.ChangeCurrentWheels(setWheels.ToWheelsData());
+                _useCaseMediator.ChangeCurrentWheels(setWheels);
             }
         }
     }
