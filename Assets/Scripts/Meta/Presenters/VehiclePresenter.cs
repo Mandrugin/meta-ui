@@ -18,7 +18,7 @@ namespace Meta.Presenters
         
         private readonly CancellationTokenSource _cancellationTokenSource = new ();
         
-        public VehiclePresenter(IVehicleUseCase vehicleUseCase, IWheelsChangingUseCase wheelsChangingUseCase, UseCaseMediator useCaseMediator)
+        public VehiclePresenter(IVehicleUseCase vehicleUseCase, UseCaseMediator useCaseMediator)
         {
             _vehicleUseCase = vehicleUseCase;
             _useCaseMediator = useCaseMediator;
