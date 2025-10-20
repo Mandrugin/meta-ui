@@ -17,7 +17,5 @@ namespace Meta.UseCases
         UniTask UpdateWheelsData(CancellationToken cancellationToken);
         public event Action<List<WheelsData>, List<WheelsData>, WheelsData> OnWheelsListChanged;
         public event Action<WheelsData> OnCurrentWheelsChanged;
-
-        public void ChangeCurrentWheels(WheelsData wheelsData);
     }
 }

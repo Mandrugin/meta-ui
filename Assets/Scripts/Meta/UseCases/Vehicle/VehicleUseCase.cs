@@ -37,7 +37,10 @@ namespace Meta.UseCases
             OnCurrentVehicleChanged.Invoke(vehicle.ToVehicleData());
         }
 
-        public void ChangeCurrentVehicle(VehicleData vehicleData) => OnCurrentVehicleChanged(vehicleData);
+        private void ChangeCurrentVehicle(Vehicle vehicle)
+        {
+            _useCaseMediator.ChangeCurrentVehicle(vehicle);
+        }
 
         public void ShowPresenter()
         {
@@ -60,7 +63,7 @@ namespace Meta.UseCases
             if (_currentVehicle == null)
                 throw new Exception("Cannot update find current vehicle");
 
-            _useCaseMediator.ChangeCurrentVehicle(_currentVehicle);
+            ChangeCurrentVehicle(_currentVehicle);
         }
 
         public UniTask SetNextVehicle(CancellationToken token)
@@ -94,7 +97,7 @@ namespace Meta.UseCases
                 index = _allVehicles.Count - 1;
             
             _currentVehicle = _allVehicles[index];
-            _useCaseMediator.ChangeCurrentVehicle(_currentVehicle);
+            ChangeCurrentVehicle(_currentVehicle);
             var setWheels = await _hangarGateway.GetSetWheels(_currentVehicle, token);
             if (setWheels != null)
             {

@@ -15,10 +15,10 @@ namespace Meta.UseCases
             OnCurrentVehicleChanged(vehicle);
         }
 
-        public event Action<Wheels> OnCurrentWheelsListChanged = delegate { };
+        public event Action<Wheels> OnCurrentWheelsChanged = delegate { };
         public void ChangeCurrentWheels(Wheels setWheels)
         {
-            OnCurrentWheelsListChanged(setWheels);
+            OnCurrentWheelsChanged(setWheels);
         }
     }
 }

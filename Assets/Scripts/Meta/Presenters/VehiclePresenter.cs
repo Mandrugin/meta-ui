@@ -25,7 +25,7 @@ namespace Meta.Presenters
 
             _vehicleUseCase.OnCurrentVehicleChanged += ChangeCurrentVehicle;
             _wheelsChangingUseCase.OnWheelsListChanged += OnWheelsListChanged;
-            _wheelsChangingUseCase.OnWheelsListChanged += OnWheelsListChanged;
+            _wheelsChangingUseCase.OnCurrentWheelsChanged += OnOnCurrentWheelsChanged;
             _vehicleUseCase.UpdateVehicleData(_cancellationTokenSource.Token);
         }
 
@@ -33,8 +33,14 @@ namespace Meta.Presenters
         {
             _vehicleUseCase.OnCurrentVehicleChanged -= ChangeCurrentVehicle;
             _wheelsChangingUseCase.OnWheelsListChanged -= OnWheelsListChanged;
-            _wheelsChangingUseCase.OnWheelsListChanged -= OnWheelsListChanged;
+            _wheelsChangingUseCase.OnCurrentWheelsChanged += OnOnCurrentWheelsChanged;
+            _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
+        }
+
+        private void OnOnCurrentWheelsChanged(WheelsData wheelsData)
+        {
+            OnWheelsChanged.Invoke(wheelsData.ToWheelsDataView());
         }
 
         private void ChangeCurrentVehicle(VehicleData vehicleData)
@@ -42,14 +48,9 @@ namespace Meta.Presenters
             OnVehicleChanged.Invoke(vehicleData.ToVehicleDataView());
         }
 
-        private void ChangeCurrentWheels(WheelsData wheelsData)
-        {
-            OnWheelsChanged(wheelsData.ToWheelsDataView());
-        }
-
         private void OnWheelsListChanged(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
         {
-            ChangeCurrentWheels(setWheelsData);
+            OnWheelsChanged.Invoke(setWheelsData.ToWheelsDataView());
         }
 
         public void SetNexVehicle()
