@@ -10,7 +10,6 @@ namespace Meta.UseCases
     public class HangarUseCase : IHangarUseCase, IDisposable
     {
         private readonly IHangarGateway _hangarGateway;
-        private readonly UseCaseMediator _useCaseMediator;
         public event Action OnShowPresenter = delegate { };
         public event Action OnHidePresenter = delegate { };
         public event Action<long> OnHardChanged = delegate { };
@@ -21,13 +20,14 @@ namespace Meta.UseCases
         public HangarUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator)
         {
             _hangarGateway = hangarGateway;
-            _useCaseMediator = useCaseMediator;
             _hangarGateway.OnHardChanged += OnOnHardChanged;
             _hangarGateway.OnSoftChanged += OnOnSoftChanged;
         }
 
         public void Dispose()
         {
+            _hangarGateway.OnHardChanged -= OnOnHardChanged;
+            _hangarGateway.OnSoftChanged -= OnOnSoftChanged;
         }
 
         private void OnOnSoftChanged(long soft)
@@ -59,10 +59,5 @@ namespace Meta.UseCases
         {
             return await _hangarGateway.GetSoftBalance(cancellationToken);
         }
-
-        public void StartWheelsChanging() => _useCaseMediator.ShowWheelsChanging();
-        public void FinishWheelsChanging() => _useCaseMediator.HideWheelsChanging();
-
-
     }
 }

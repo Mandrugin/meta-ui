@@ -5,8 +5,7 @@ namespace Meta.UseCases
 {
     public interface IVehicleUseCase : IUseCase
     {
-        public UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken);
-
+        UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken);
         UniTask UpdateVehicleData(CancellationToken token);
         UniTask SetNextVehicle(CancellationToken token);
         UniTask SetPrevVehicle(CancellationToken token);

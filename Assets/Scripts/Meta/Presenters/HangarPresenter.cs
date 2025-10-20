@@ -10,6 +10,7 @@ namespace Meta.Presenters
     public class HangarPresenter : IDisposable
     {
         private readonly IHangarUseCase _hangarUseCase;
+        private readonly UseCaseMediator _useCaseMediator;
 
         public event Action<long> OnHardChanged = delegate { };
         public event Action<long> OnSoftChanged = delegate { };
@@ -27,8 +28,8 @@ namespace Meta.Presenters
             _hangarUseCase.OnSoftChanged -= OnOnSoftChanged;
         }
 
-        public void StartWheelsChanging() => _hangarUseCase.StartWheelsChanging();
-        public void FinishWheelsChanging() => _hangarUseCase.FinishWheelsChanging();
+        public void StartWheelsChanging() => _useCaseMediator.ShowWheelsChanging();
+        public void FinishWheelsChanging() => _useCaseMediator.HideWheelsChanging();
         private void OnOnHardChanged(long hard) => OnHardChanged.Invoke(hard);
         private void OnOnSoftChanged(long soft) => OnSoftChanged.Invoke(soft);
 

@@ -3,7 +3,6 @@ using Meta.Presenters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 public class WheelsChangingViewElement : MonoBehaviour, IPointerClickHandler
 {

@@ -89,17 +89,5 @@ namespace Meta.UseCases
             _logger.Log($"HangarUseCase OnSoftChanged {soft}");
             OnSoftChanged?.Invoke(soft);
         }
-        
-        public void StartWheelsChanging()
-        {
-            _logger.Log("HangarUseCase StartWheelsChanging");
-            _hangarUseCase.StartWheelsChanging();
-        }
-
-        public void FinishWheelsChanging()
-        {
-            _logger.Log("HangarUseCase FinishWheelsChanging");
-            _hangarUseCase.FinishWheelsChanging();
-        }
     }
 }
