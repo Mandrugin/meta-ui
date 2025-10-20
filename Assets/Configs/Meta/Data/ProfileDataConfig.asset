@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: DataConfigs::Meta.DataConfigs.ProfileDataConfig
   hard: 100
   soft: 0
-  currentVehicleId: Pickup
+  currentVehicleId: Buggy
   vehiclesData:
   - id: Buggy
-    currentWheelsId: Buggy-3
+    currentWheelsId: Buggy-5
   wheelsData:
   - id: Buggy-3
   - id: Buggy-2

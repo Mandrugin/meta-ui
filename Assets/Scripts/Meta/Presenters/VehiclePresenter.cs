@@ -39,19 +39,12 @@ namespace Meta.Presenters
 
         private void ChangeCurrentVehicle(VehicleData vehicleData)
         {
-            OnVehicleChanged.Invoke(new VehicleDataView
-            {
-                Id = vehicleData.Id
-            });
+            OnVehicleChanged.Invoke(vehicleData.ToVehicleDataView());
         }
 
         private void ChangeCurrentWheels(WheelsData wheelsData)
         {
-            OnWheelsChanged(new WheelsDataView
-            {
-                Id = wheelsData.Id,
-                Price = wheelsData.Price
-            });
+            OnWheelsChanged(wheelsData.ToWheelsDataView());
         }
 
         private void OnWheelsListChanged(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)

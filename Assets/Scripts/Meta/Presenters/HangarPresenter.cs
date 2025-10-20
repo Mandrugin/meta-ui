@@ -21,6 +21,12 @@ namespace Meta.Presenters
             _hangarUseCase.OnSoftChanged += OnOnSoftChanged;
         }
 
+        public void Dispose()
+        {
+            _hangarUseCase.OnHardChanged -= OnOnHardChanged;
+            _hangarUseCase.OnSoftChanged -= OnOnSoftChanged;
+        }
+
         public void StartWheelsChanging() => _hangarUseCase.StartWheelsChanging();
         public void FinishWheelsChanging() => _hangarUseCase.FinishWheelsChanging();
         private void OnOnHardChanged(long hard) => OnHardChanged.Invoke(hard);
@@ -34,12 +40,6 @@ namespace Meta.Presenters
         public async UniTask<long> GetSoftBalance(CancellationToken cancellationToken)
         {
             return await _hangarUseCase.GetSoftBalance(cancellationToken);
-        }
-
-        public void Dispose()
-        {
-            _hangarUseCase.OnHardChanged -= OnOnHardChanged;
-            _hangarUseCase.OnSoftChanged -= OnOnSoftChanged;
         }
     }
 }

@@ -119,12 +119,7 @@ namespace Meta.Presenters
 
             foreach (var wheelsData in allWheelsData)
             {
-                var wheelsDataView = new WheelsDataView
-                {
-                    Id = wheelsData.Id,
-                    Price = wheelsData.Price,
-                    Status = ""
-                };
+                var wheelsDataView = wheelsData.ToWheelsDataView();
 
                 if (boughtWheelsData.Contains(wheelsData))
                     wheelsDataView.Status = "Bought";

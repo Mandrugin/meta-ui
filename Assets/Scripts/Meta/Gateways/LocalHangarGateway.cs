@@ -21,6 +21,7 @@ namespace Meta.Gateways
         private readonly Storage _storage;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
+        #region Construct Model
         public LocalHangarGateway(
             ProfileDataConfig profileDataConfigDataConfig,
             VehiclesDataConfig vehiclesDataConfig,
@@ -95,9 +96,9 @@ namespace Meta.Gateways
                 vehicle.CurrentWheels = vehicle.AllWheels.FirstOrDefault(x =>  x.Id == profileVehicleData.currentWheelsId);
             }
         }
+        #endregion Construct Model
         
         #region Money
-
         public event Action<long> OnSoftChanged = delegate { };
         public event Action<long> OnHardChanged = delegate { };
 
@@ -112,7 +113,7 @@ namespace Meta.Gateways
             await AwaitableDummy(cancellationToken);
             return _storage.Wallet.Soft = _profileDataConfig.soft;
         }
-        #endregion
+        #endregion Money
 
         #region Vehicles
         public async UniTask<List<Vehicle>> GetAllVehicles(CancellationToken cancellationToken)
@@ -244,7 +245,7 @@ namespace Meta.Gateways
             _cancellationTokenSource?.Dispose();
         }
 
-        private UniTask AwaitableDummy(CancellationToken cancellationToken)
+        private static UniTask AwaitableDummy(CancellationToken cancellationToken)
         {
             return UniTask.WaitForSeconds(.1f, false, PlayerLoopTiming.Update,  cancellationToken);
         }
