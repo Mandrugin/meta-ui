@@ -47,6 +47,8 @@ namespace Meta.Presenters
             _wheelsChangingUseCase.OnWheelsBought -= OnWheelsBought;
             _wheelsChangingUseCase.OnSetAvailable -= OnOnSetAvailable;
             _wheelsChangingUseCase.OnBuyAvailable -= OnOnBuyAvailable;
+            
+            _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
         }
 

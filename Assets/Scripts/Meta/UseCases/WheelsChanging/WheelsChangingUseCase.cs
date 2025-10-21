@@ -60,8 +60,19 @@ namespace Meta.UseCases
 
         private void OnVehicleChange(Vehicle vehicle)
         {
+            OnVehicleChangeAsync(vehicle, _cancellationTokenSource.Token).Forget();
+        }
+        
+        private async UniTask OnVehicleChangeAsync(Vehicle vehicle, CancellationToken cancellationToken)
+        {
             _currentVehicle = vehicle;
-            UpdateWheelsData(_cancellationTokenSource.Token).Forget();
+            
+            _allCurrentWheels = await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
+            _allBoughtWheels = await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
+            _setWheels = await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
+            _currentWheels = _setWheels;
+            
+            await UpdateWheelsData(cancellationToken);
         }
 
         public void ShowPresenter() => OnShowPresenter.Invoke();
@@ -151,7 +162,7 @@ namespace Meta.UseCases
         public async UniTask<WheelsData> GetSetWheels(CancellationToken  cancellationToken)
         {
             _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
-            _setWheels = await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
+            _setWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellationToken);
             return _setWheels.ToWheelsData();
         }
 

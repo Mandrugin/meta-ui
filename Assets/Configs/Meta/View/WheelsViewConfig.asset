@@ -46,28 +46,28 @@ MonoBehaviour:
   - vehicleId: LCoupe
     wheelsId: LCoupe-1
     position: {x: 0, y: 0, z: 0}
-    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
-    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+    left: {fileID: 1584323937723070, guid: 76c0c4640d7bf3147af47b01a33f8bf9, type: 3}
+    right: {fileID: 1584323937723070, guid: b98e95fe86be3ce42a801b3dbeedf041, type: 3}
   - vehicleId: LCoupe
     wheelsId: LCoupe-2
     position: {x: 0, y: 0, z: 0}
-    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
-    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+    left: {fileID: 1733668525715190, guid: 53afa339e9e405d4889f63847e66d5f2, type: 3}
+    right: {fileID: 1733668525715190, guid: 4cbd4a1f30af5e44fa5797fdcc9c258b, type: 3}
   - vehicleId: LCoupe
     wheelsId: LCoupe-3
     position: {x: 0, y: 0, z: 0}
-    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
-    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+    left: {fileID: 1314352149836298, guid: e56e36c2603d3714dbd9d43e0b12fe73, type: 3}
+    right: {fileID: 1314352149836298, guid: d5f9dd7520327b640add2343d5a562f0, type: 3}
   - vehicleId: LCoupe
     wheelsId: LCoupe-4
     position: {x: 0, y: 0, z: 0}
-    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
-    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+    left: {fileID: 1398442083510700, guid: 344745e052cdba34ab28ef5c65a30668, type: 3}
+    right: {fileID: 1398442083510700, guid: 33df655b4b564d843ab6ace8a4791ccf, type: 3}
   - vehicleId: LCoupe
     wheelsId: LCoupe-5
     position: {x: 0, y: 0, z: 0}
-    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
-    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+    left: {fileID: 1286055249344334, guid: 6ea9d372ab13db641b0536a2bdbf8d21, type: 3}
+    right: {fileID: 1286055249344334, guid: 845bbdf992f96464a9d5ac1114b22866, type: 3}
   - vehicleId: LCoupe
     wheelsId: LCoupe-6
     position: {x: 0, y: 0, z: 0}

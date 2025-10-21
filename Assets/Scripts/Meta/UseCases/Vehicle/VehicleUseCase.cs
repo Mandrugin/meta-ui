@@ -24,15 +24,15 @@ namespace Meta.UseCases
         {
             _hangarGateway = hangarGateway;
             _useCaseMediator = useCaseMediator;
-            _useCaseMediator.OnCurrentVehicleChanged += UseCaseMediatorOnOnCurrentVehicleChanged;
+            _useCaseMediator.OnCurrentVehicleChanged += OnOnCurrentVehicleChanged;
         }
 
         public void Dispose()
         {
-            _useCaseMediator.OnCurrentVehicleChanged -= UseCaseMediatorOnOnCurrentVehicleChanged;
+            _useCaseMediator.OnCurrentVehicleChanged -= OnOnCurrentVehicleChanged;
         }
 
-        private void UseCaseMediatorOnOnCurrentVehicleChanged(Vehicle vehicle)
+        private void OnOnCurrentVehicleChanged(Vehicle vehicle)
         {
             OnCurrentVehicleChanged.Invoke(vehicle.ToVehicleData());
         }
