@@ -4,6 +4,9 @@
 @startuml
 [Entities]<--[Gateways]
 [Entities]<--[UseCases]
+[Factories]-|>[UseCases]
+[Factories]-->[Presenters]
+[Factories]-->[Views]
 [UseCases]<|-[Gateways]
 [Gateways]->[DataConfigs]
 [UseCases]<--[Presenters]
