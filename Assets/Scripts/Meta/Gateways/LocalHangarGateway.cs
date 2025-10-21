@@ -84,6 +84,9 @@ namespace Meta.Gateways
 
                 foreach (var wheelsData in _profileDataConfig.wheelsData)
                 {
+                    var firstOrDefault = _wheelsDataConfig.wheels.FirstOrDefault(x => wheelsData.id == x.id);
+                    if (firstOrDefault == null || firstOrDefault.vehicleId != vehicle.Id)
+                        continue;
                     var wheels = vehicle.AllWheels.Find(x =>  x.Id == wheelsData.id);
                     if (wheels == null)
                     {

@@ -43,3 +43,33 @@ MonoBehaviour:
     position: {x: 0, y: 0, z: 0}
     left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
     right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+  - vehicleId: LCoupe
+    wheelsId: LCoupe-1
+    position: {x: 0, y: 0, z: 0}
+    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
+    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+  - vehicleId: LCoupe
+    wheelsId: LCoupe-2
+    position: {x: 0, y: 0, z: 0}
+    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
+    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+  - vehicleId: LCoupe
+    wheelsId: LCoupe-3
+    position: {x: 0, y: 0, z: 0}
+    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
+    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+  - vehicleId: LCoupe
+    wheelsId: LCoupe-4
+    position: {x: 0, y: 0, z: 0}
+    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
+    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+  - vehicleId: LCoupe
+    wheelsId: LCoupe-5
+    position: {x: 0, y: 0, z: 0}
+    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
+    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}
+  - vehicleId: LCoupe
+    wheelsId: LCoupe-6
+    position: {x: 0, y: 0, z: 0}
+    left: {fileID: 1788088329857464, guid: b7d429c4141f5e94e94866fdf89fb167, type: 3}
+    right: {fileID: 1788088329857464, guid: 43ad3b8bf9ac21643b6e34989d5c4c3e, type: 3}

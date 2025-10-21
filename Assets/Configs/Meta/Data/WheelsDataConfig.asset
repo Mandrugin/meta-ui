@@ -37,3 +37,27 @@ MonoBehaviour:
     vehicleId: Buggy
     displayName: 6
     price: 130
+  - id: LCoupe-1
+    vehicleId: LCoupe
+    displayName: 6
+    price: 130
+  - id: LCoupe-2
+    vehicleId: LCoupe
+    displayName: 6
+    price: 130
+  - id: LCoupe-3
+    vehicleId: LCoupe
+    displayName: 6
+    price: 130
+  - id: LCoupe-4
+    vehicleId: LCoupe
+    displayName: 6
+    price: 130
+  - id: LCoupe-5
+    vehicleId: LCoupe
+    displayName: 6
+    price: 130
+  - id: LCoupe-6
+    vehicleId: LCoupe
+    displayName: 6
+    price: 130
