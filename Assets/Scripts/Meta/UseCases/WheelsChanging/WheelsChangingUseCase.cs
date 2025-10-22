@@ -168,7 +168,6 @@ namespace Meta.UseCases
 
         public async UniTask UpdateWheelsData(CancellationToken cancellationToken)
         {
-            Debug.Log("request wheels update");
             _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
             _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);
             _allBoughtWheels ??= await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);

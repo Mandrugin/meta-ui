@@ -1,6 +1,5 @@
 ﻿using System;
 using Meta.Entities;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Meta.UseCases
@@ -11,7 +10,6 @@ namespace Meta.UseCases
         public event Action<Vehicle> OnCurrentVehicleChanged = delegate { };
         public void ChangeCurrentVehicle(Vehicle vehicle)
         {
-            Debug.Log($"Change current vehicle {vehicle.Id}");
             OnCurrentVehicleChanged(vehicle);
         }
 
