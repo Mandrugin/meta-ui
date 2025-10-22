@@ -18,6 +18,7 @@ namespace Meta.UseCases
         private IVehicleNavigationPresenter _vehicleNavigationPresenter;
         
         private Vehicle _currentVehicle;
+        private Wheels _currentWheels;
         private List<Vehicle> _allVehicles;
         
         private readonly CancellationTokenSource _cancellationTokenSource = new();
@@ -42,18 +43,31 @@ namespace Meta.UseCases
 
             _vehicleNavigationPresenter.OnNextVehicle += SetNextVehicle;
             _vehicleNavigationPresenter.OnPrevVehicle += SetPrevVehicle;
+            _useCaseMediator.OnCurrentWheelsChanged += OnOnCurrentWheelsChanged;
             
             _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellation);
             if (_currentVehicle == null)
                 throw new Exception("Cannot update find current vehicle");
 
             ChangeCurrentVehicle(_currentVehicle);
+            
+            _currentWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellation);
+            if (_currentWheels == null)
+                throw new Exception("Cannot update find current vehicle");
+            
+            OnOnCurrentWheelsChanged(_currentWheels);
         }
 
         public void Dispose()
         {
             _vehicleNavigationPresenter.OnNextVehicle -= SetNextVehicle;
             _vehicleNavigationPresenter.OnPrevVehicle -= SetPrevVehicle;
+        }
+
+        private void OnOnCurrentWheelsChanged(Wheels wheels)
+        {
+            _currentWheels = wheels;
+            _vehiclePresenter.ChangeWheels(wheels.ToWheelsData());
         }
 
         private void ChangeCurrentVehicle(Vehicle vehicle)
