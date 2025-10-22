@@ -62,6 +62,7 @@ namespace Meta.UseCases
         {
             _vehicleNavigationPresenter.OnNextVehicle -= SetNextVehicle;
             _vehicleNavigationPresenter.OnPrevVehicle -= SetPrevVehicle;
+            _useCaseMediator.OnCurrentWheelsChanged -= OnOnCurrentWheelsChanged;
         }
 
         private void OnOnCurrentWheelsChanged(Wheels wheels)
