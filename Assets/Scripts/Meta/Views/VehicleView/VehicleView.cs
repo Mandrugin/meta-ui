@@ -1,42 +1,27 @@
 using Meta.Presenters;
 using Meta.ViewConfigs;
 using UnityEngine;
-using VContainer;
 
-public class VehicleView : MonoBehaviour
+public class VehicleView : MonoBehaviour, IVehicleView
 {
-    [Inject] private VehiclesViewConfig _vehiclesViewConfig;
-    [Inject] private WheelsViewConfig _wheelsViewConfig;
-    [Inject] private VehiclePresenter _vehiclePresenter;
+    [SerializeField] private VehiclesViewConfig vehiclesViewConfig;
+    [SerializeField] private WheelsViewConfig wheelsViewConfig;
     
+    private VehiclePresenter _vehiclePresenter;
     private VehicleViewBody _vehicleViewBody;
 
-    private void Awake()
+    public void ChangeWheels(WheelsDataView wheelsDataView)
     {
-        _vehiclePresenter.OnVehicleChanged += OnVehicleChanged;
-        _vehiclePresenter.OnWheelsChanged += OnWheelsChanged;
+        var viewData = wheelsViewConfig.wheels.Find(x => x.wheelsId == wheelsDataView.Id);
+        _vehicleViewBody.SetWheels(viewData.left, viewData.right);
     }
 
-    private void OnDestroy()
+    public void ChangeVehicle(VehicleDataView vehicleDataView)
     {
-        _vehiclePresenter.OnVehicleChanged -= OnVehicleChanged;
-        _vehiclePresenter.OnWheelsChanged -= OnWheelsChanged;
-    }
-
-    private void OnVehicleChanged(VehicleDataView vehicleDataView)
-    {
-        var vehicleViewConfig = _vehiclesViewConfig.vehicles.Find(x => x.id == vehicleDataView.Id);
+        var vehicleViewConfig = vehiclesViewConfig.vehicles.Find(x => x.id == vehicleDataView.Id);
         if(_vehicleViewBody)
             Destroy(_vehicleViewBody.gameObject);
         _vehicleViewBody = Instantiate(vehicleViewConfig.prefab, this.transform, false).GetComponent<VehicleViewBody>();
         _vehicleViewBody.gameObject.transform.localPosition = vehicleViewConfig.defaultPosition;
     }
-
-    private void OnWheelsChanged(WheelsDataView wheelsDataView)
-    {
-        var viewData = _wheelsViewConfig.wheels.Find(x => x.wheelsId == wheelsDataView.Id);
-        _vehicleViewBody.SetWheels(viewData.left, viewData.right);
-    }
-    
-    
 }

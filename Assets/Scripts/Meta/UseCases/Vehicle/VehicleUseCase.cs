@@ -3,43 +3,63 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Entities;
-using UnityEngine.Scripting;
+using VContainer.Unity;
 
 namespace Meta.UseCases
 {
-    [Preserve]
-    public class VehicleUseCase : IVehicleUseCase, IDisposable
+    [UnityEngine.Scripting.Preserve]
+    public class VehicleUseCase : IDisposable, IAsyncStartable
     {
         private readonly IHangarGateway _hangarGateway;
         private readonly UseCaseMediator _useCaseMediator;
+        private readonly IVehicleFactory _vehicleFactory;
+        
+        private IVehiclePresenter _vehiclePresenter;
+        private IVehicleNavigationPresenter _vehicleNavigationPresenter;
         
         private Vehicle _currentVehicle;
         private List<Vehicle> _allVehicles;
+        
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
+
+        private UniTask _vehicleNextTask = UniTask.CompletedTask;
+        private UniTask _vehiclePrevTask = UniTask.CompletedTask;
 
         public event Action OnShowPresenter = delegate { };
         public event Action OnHidePresenter = delegate { };
-        public event Action<VehicleData> OnCurrentVehicleChanged = delegate { };
 
-        internal VehicleUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator)
+        internal VehicleUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator, IVehicleFactory vehicleFactory)
         {
             _hangarGateway = hangarGateway;
             _useCaseMediator = useCaseMediator;
-            _useCaseMediator.OnCurrentVehicleChanged += OnOnCurrentVehicleChanged;
+            _vehicleFactory = vehicleFactory;
+        }
+
+        public async UniTask StartAsync(CancellationToken cancellation = new())
+        {
+            _vehiclePresenter = await _vehicleFactory.GetVehiclePresenter(cancellation);
+            _vehicleNavigationPresenter = await _vehicleFactory.GetVehicleNavigationPresenter(cancellation);
+
+            _vehicleNavigationPresenter.OnNextVehicle += SetNextVehicle;
+            _vehicleNavigationPresenter.OnPrevVehicle += SetPrevVehicle;
+            
+            _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellation);
+            if (_currentVehicle == null)
+                throw new Exception("Cannot update find current vehicle");
+
+            ChangeCurrentVehicle(_currentVehicle);
         }
 
         public void Dispose()
         {
-            _useCaseMediator.OnCurrentVehicleChanged -= OnOnCurrentVehicleChanged;
-        }
-
-        private void OnOnCurrentVehicleChanged(Vehicle vehicle)
-        {
-            OnCurrentVehicleChanged.Invoke(vehicle.ToVehicleData());
+            _vehicleNavigationPresenter.OnNextVehicle -= SetNextVehicle;
+            _vehicleNavigationPresenter.OnPrevVehicle -= SetPrevVehicle;
         }
 
         private void ChangeCurrentVehicle(Vehicle vehicle)
         {
             _useCaseMediator.ChangeCurrentVehicle(vehicle);
+            _vehiclePresenter.ChangeVehicle(vehicle.ToVehicleData());
         }
 
         public void ShowPresenter()
@@ -57,23 +77,20 @@ namespace Meta.UseCases
             return await UniTask.FromResult(new VehicleData());
         }
 
-        public async UniTask UpdateVehicleData(CancellationToken token)
+        private void SetNextVehicle()
         {
-            _currentVehicle ??= await _hangarGateway.GetSetVehicle(token);
-            if (_currentVehicle == null)
-                throw new Exception("Cannot update find current vehicle");
-
-            ChangeCurrentVehicle(_currentVehicle);
+            if (_vehicleNextTask.Status == UniTaskStatus.Pending)
+                return;
+            
+            _vehicleNextTask = SetNearVehicle(1, _cancellationTokenSource.Token);
         }
 
-        public UniTask SetNextVehicle(CancellationToken token)
+        private void SetPrevVehicle()
         {
-            return SetNearVehicle(1, token);
-        }
-
-        public UniTask SetPrevVehicle(CancellationToken token)
-        {
-            return SetNearVehicle(-1, token);
+            if (_vehiclePrevTask.Status == UniTaskStatus.Pending)
+                return;
+            
+            _vehiclePrevTask = SetNearVehicle(-1, _cancellationTokenSource.Token);
         }
 
         private async UniTask SetNearVehicle(int near, CancellationToken token)

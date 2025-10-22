@@ -9,6 +9,7 @@
 [Factories]-->[Views]
 [UseCases]<|-[Gateways]
 [Gateways]->[DataConfigs]
+[Gateways]-->[ProfileDataConfig]
 [UseCases]<--[Presenters]
 [Presenters]<--[Views]
 [Views]->[ViewConfigs]

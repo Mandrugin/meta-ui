@@ -1,4 +1,5 @@
 using Meta.DataConfigs;
+using Meta.Factories;
 using Meta.Gateways;
 using Meta.Presenters;
 using Meta.UseCases;
@@ -19,16 +20,20 @@ namespace Meta.Containers
         [SerializeField] private VehiclesViewConfig vehiclesViewConfig;
         [SerializeField] private WheelsViewConfig wheelsViewConfig;
         
+        [SerializeField] private VehicleFactory vehicleFactory;
+        
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<LocalHangarGateway>(Lifetime.Singleton).AsImplementedInterfaces();
 
             builder.Register<HangarUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<VehicleUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
+            
+            builder.Register<VehicleUseCase>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponent(vehicleFactory).AsImplementedInterfaces();
+            
             builder.Register<WheelsChangingUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
             
             builder.Register<HangarPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.Register<VehiclePresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<WheelsChangingPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             
             builder.RegisterInstance(vehiclesDataConfig).AsSelf();
