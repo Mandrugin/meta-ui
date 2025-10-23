@@ -10,8 +10,8 @@
 [UseCases]<|-[Gateways]
 [Gateways]->[DataConfigs]
 [Gateways]-->[ProfileDataConfig]
-[UseCases]<--[Presenters]
-[Presenters]<--[Views]
+[UseCases]<|--[Presenters]
+[Presenters]<|--[Views]
 [Views]->[ViewConfigs]
 @enduml
 ```

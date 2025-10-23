@@ -280,7 +280,6 @@ MonoBehaviour:
     TypeName: Meta.UseCases.UseCaseLifetimeScope
   autoRun: 1
   autoInjectGameObjects:
-  - {fileID: 0}
   - {fileID: 1121166817}
   vehiclesDataConfig: {fileID: 11400000, guid: 509c4dfcf84ddd74798aad2087a583b5, type: 2}
   wheelsDataConfig: {fileID: 11400000, guid: 7e993514baf25e44a872cd8008bbce13, type: 2}
