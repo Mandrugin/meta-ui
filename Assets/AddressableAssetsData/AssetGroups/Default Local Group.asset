@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: dd35626be1ecaa94aa294c9abfd82706
   m_SerializeEntries:
+  - m_GUID: 14977c9a264da984e8048c2ae7f41d36
+    m_Address: Assets/Prefabs/Meta/Views/WheelsChangingView/WheelsChangingView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ed83dc622ab588549bb53b29d4994c8b
     m_Address: Assets/Prefabs/Meta/Views/VehicleView/VehicleView.prefab
     m_ReadOnly: 0

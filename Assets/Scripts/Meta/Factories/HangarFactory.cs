@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Presenters;
@@ -9,7 +8,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Meta.Factories
 {
-    public class HangarFactory : MonoBehaviour, IHangarFactory, IDisposable
+    public class HangarFactory : MonoBehaviour, IHangarFactory
     {
         [SerializeField] private AssetReferenceGameObject hangarViewRef;
         [SerializeField] private Transform canvas;

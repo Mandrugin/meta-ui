@@ -1,12 +1,10 @@
+using System;
 using System.Collections.Generic;
-using System.Threading;
-using Cysharp.Threading.Tasks;
 using Meta.Presenters;
 using UnityEngine;
 using UnityEngine.UI;
-using VContainer;
 
-public class WheelsChangingView : MonoBehaviour
+public class WheelsChangingView : MonoBehaviour, IWheelsChangingView
 {
     [SerializeField] private WheelsChangingViewElement elementPrefab;
     [SerializeField] private Button setButton;
@@ -14,45 +12,37 @@ public class WheelsChangingView : MonoBehaviour
     
     private readonly List<WheelsChangingViewElement> _elements =  new();
 
-    private WheelsChangingPresenter _wheelsChangingPresenter;
+    public event Action<WheelsDataView> OnWheelsTriedOut = delegate { };
+    public event Action OnSetWheels = delegate { };
+    public event Action OnBuyWheels = delegate { };
 
-    [Inject]
-    private void Construct(WheelsChangingPresenter wheelsChangingPresenter)
+
+    private void Awake()
     {
         elementPrefab.gameObject.SetActive(false);
-        _wheelsChangingPresenter = wheelsChangingPresenter;
-        _wheelsChangingPresenter.OnShowPresenter += Show;
-        _wheelsChangingPresenter.OnHidePresenter += Hide;
-        _wheelsChangingPresenter.OnSetAvailable += OnOnSetAvailable;
-        _wheelsChangingPresenter.OnBuyAvailable += OnOnBuyAvailable;
-        _wheelsChangingPresenter.OnWheelsListChanged += ChangeWheelsList;
-        _wheelsChangingPresenter.OnSetActiveWheels += SetActiveWheels;
-
-        setButton.onClick.AddListener(() => _wheelsChangingPresenter.SetWheels().Forget());
-        buyButton.onClick.AddListener(() => _wheelsChangingPresenter.BuyWheels().Forget());
+        setButton.onClick.AddListener(OnSetWheelsInvocator);
+        buyButton.onClick.AddListener(OnBuyWheelsInvocator);
     }
 
-    private void OnDestroy()
+    private void OnSetWheelsInvocator() => OnSetWheels.Invoke();
+    private void OnBuyWheelsInvocator() => OnBuyWheels.Invoke();
+
+    public void TryWheelsOut(WheelsDataView wheelsDataView)
     {
-        _wheelsChangingPresenter.OnShowPresenter -= Show;
-        _wheelsChangingPresenter.OnHidePresenter -= Hide;
-        _wheelsChangingPresenter.OnSetAvailable -= OnOnSetAvailable;
-        _wheelsChangingPresenter.OnBuyAvailable -= OnOnBuyAvailable;
-        _wheelsChangingPresenter.OnWheelsListChanged -= ChangeWheelsList;
-        _wheelsChangingPresenter.OnSetActiveWheels -= SetActiveWheels;
+        SetCurrentWheels(wheelsDataView);
+        OnWheelsTriedOut.Invoke(wheelsDataView);
     }
 
-    private void OnOnSetAvailable(bool isAvailable)
+    public void SetCurrentWheels(WheelsDataView wheelsDataView)
     {
-        setButton.gameObject.SetActive(isAvailable);
+        foreach (var element in _elements)
+        {
+            var isActive = element.GetWheelsDataView().Id == wheelsDataView.Id;
+            element.SetActive(isActive);
+        }        
     }
 
-    private void OnOnBuyAvailable(bool isAvailable)
-    {
-        buyButton.gameObject.SetActive(isAvailable);
-    }
-
-    private void ChangeWheelsList(List<WheelsDataView> wheelsDataViews)
+    public void ChangeWheelsList(List<WheelsDataView> wheelsDataViews)
     {
         // TODO: instead of destroying an old list of GOs and creating a new one we can reuse old GOs
         foreach (var element in _elements)
@@ -71,33 +61,13 @@ public class WheelsChangingView : MonoBehaviour
         }
     }
 
-    public void SetActiveWheels(WheelsDataView wheelsDataView)
+    public void SetSetAvailable(bool isAvailable)
     {
-        foreach (var element in _elements)
-        {
-            var isActive = element.GetWheelsDataView().Id == wheelsDataView.Id;
-            element.SetActive(isActive);
-        }
+        setButton.gameObject.SetActive(isAvailable);
     }
 
-    private void Show()
+    public void SetBuyAvailable(bool isAvailable)
     {
-        gameObject.SetActive(true);
-        ShowWheels();
-    }
-
-    private void Hide()
-    {
-        gameObject.SetActive(false);
-    }
-
-    private void ShowWheels()
-    {
-        _wheelsChangingPresenter.UpdateWheelsData(destroyCancellationToken).Forget();
-    }
-
-    public async UniTask<bool> TryWheels(WheelsDataView wheelsDataView, CancellationToken cancellationToken)
-    {
-        return await _wheelsChangingPresenter.TryOutWheels(wheelsDataView, cancellationToken);
+        buyButton.gameObject.SetActive(isAvailable);
     }
 }

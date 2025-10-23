@@ -9,7 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Meta.Factories
 {
-    public class VehicleFactory : MonoBehaviour, IVehicleFactory, IDisposable
+    public class VehicleFactory : MonoBehaviour, IVehicleFactory
     {
         [SerializeField] private AssetReferenceGameObject vehicleViewRef;
         [SerializeField] private AssetReferenceGameObject vehicleViewNavigationRef;

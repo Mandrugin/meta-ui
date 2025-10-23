@@ -8,115 +8,59 @@ using UnityEngine.Scripting;
 namespace Meta.Presenters
 {
     [Preserve]
-    public class WheelsChangingPresenter: IDisposable
+    public class WheelsChangingPresenter : IDisposable, IWheelsChangingPresenter
     {
-        private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
-        private readonly CancellationTokenSource _cancellationTokenSource;
+        private readonly IWheelsChangingView _wheelsChangingView;
 
-        public event Action OnShowPresenter = delegate { };
-        public event Action OnHidePresenter = delegate { };
-        
-        public event Action<bool> OnSetAvailable = delegate { };
-        public event Action<bool> OnBuyAvailable = delegate { };
-        
-        public event Action<List<WheelsDataView>> OnWheelsListChanged = delegate { };
-        public event Action<WheelsDataView> OnSetActiveWheels = delegate { };
-        
-        public WheelsChangingPresenter(IWheelsChangingUseCase wheelsChangingUseCase)
+        public event Action OnSetWheels = delegate { };
+        public event Action OnBuyWheels = delegate { };
+        public event Action<WheelsData> OnWheelsTriedOut = delegate { };
+
+        public WheelsChangingPresenter(IWheelsChangingView wheelsChangingView)
         {
-            _wheelsChangingUseCase = wheelsChangingUseCase;
-            
-            _wheelsChangingUseCase.OnWheelsListChanged += OnOnWheelsListChanged;
-            _wheelsChangingUseCase.OnCurrentWheelsChanged += OnOnCurrentWheelsChanged;
-            _wheelsChangingUseCase.OnShowPresenter += ShowPresenter;
-            _wheelsChangingUseCase.OnHidePresenter += HidePresenter;
-            _wheelsChangingUseCase.OnWheelsSet += OnWheelsSet;
-            _wheelsChangingUseCase.OnWheelsBought += OnWheelsBought;
-            _wheelsChangingUseCase.OnSetAvailable += OnOnSetAvailable;
-            _wheelsChangingUseCase.OnBuyAvailable += OnOnBuyAvailable;
-            
-            _cancellationTokenSource = new CancellationTokenSource();
+            _wheelsChangingView = wheelsChangingView;
+            _wheelsChangingView.OnSetWheels += OnSetWheelsInvocator;
+            _wheelsChangingView.OnBuyWheels += OnBuyWheelsInvocator;
+            _wheelsChangingView.OnWheelsTriedOut += OnWheelsTriedOutInvocator;
         }
 
         public void Dispose()
         {
-            _wheelsChangingUseCase.OnWheelsListChanged -= OnOnWheelsListChanged;
-            _wheelsChangingUseCase.OnShowPresenter -= ShowPresenter;
-            _wheelsChangingUseCase.OnHidePresenter -= HidePresenter;
-            _wheelsChangingUseCase.OnWheelsSet -= OnWheelsSet;
-            _wheelsChangingUseCase.OnWheelsBought -= OnWheelsBought;
-            _wheelsChangingUseCase.OnSetAvailable -= OnOnSetAvailable;
-            _wheelsChangingUseCase.OnBuyAvailable -= OnOnBuyAvailable;
-            
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
+            _wheelsChangingView.OnSetWheels -= OnSetWheelsInvocator;
+            _wheelsChangingView.OnBuyWheels -= OnBuyWheelsInvocator;
+            _wheelsChangingView.OnWheelsTriedOut -= OnWheelsTriedOutInvocator;
         }
 
-        private void OnOnCurrentWheelsChanged(WheelsData wheelsData)
+        private void OnSetWheelsInvocator() => OnSetWheels.Invoke();
+
+        private void OnBuyWheelsInvocator() => OnBuyWheels.Invoke();
+
+        private void OnWheelsTriedOutInvocator(WheelsDataView wheelsDataView) =>
+            OnWheelsTriedOut.Invoke(wheelsDataView.ToWheelsData());
+
+        public void SetSetAvailable(bool isAvailable)
         {
-            OnSetActiveWheels.Invoke(wheelsData.ToWheelsDataView());
+            _wheelsChangingView.SetSetAvailable(isAvailable);
         }
 
-        private void OnWheelsSet(WheelsData wheelsData)
+        public void SetBuyAvailable(bool isAvailable)
         {
-            OnSetAvailable.Invoke(false);
+            _wheelsChangingView.SetBuyAvailable(isAvailable);
         }
 
-        private void OnWheelsBought(WheelsData wheelsData)
-        {
-            OnBuyAvailable.Invoke(false);
-        }
-
-        private void OnOnSetAvailable(bool isAvailable)
-        {
-            OnSetAvailable.Invoke(isAvailable);
-        }
-
-        private void OnOnBuyAvailable(bool isAvailable)
-        {
-            OnBuyAvailable.Invoke(isAvailable);
-        }
-
-        private void OnOnWheelsListChanged(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
+        public void ChangeWheelsList(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)
         {
             var wheelsDataViews = ConvertToWheelsDataViews(allWheelsData, boughtWheelsData, setWheelsData);
-            OnWheelsListChanged.Invoke(wheelsDataViews);
+            _wheelsChangingView.ChangeWheelsList(wheelsDataViews);
 
             foreach (var wheelsDataView in wheelsDataViews)
             {
                 if (wheelsDataView.Id != setWheelsData.Id)
                     continue;
 
-                OnSetActiveWheels.Invoke(wheelsDataView);
+                _wheelsChangingView.SetCurrentWheels(wheelsDataView);
                 return;
             }
-        }
-
-        public async UniTask<bool> SetWheels()
-        {
-            return await _wheelsChangingUseCase.SetWheels(_cancellationTokenSource.Token);
-        }
-
-        public async UniTask<bool> BuyWheels()
-        {
-            return await _wheelsChangingUseCase.BuyWheels(_cancellationTokenSource.Token);
-        }
-
-        private void ShowPresenter() => OnShowPresenter.Invoke();
-        private void HidePresenter() => OnHidePresenter.Invoke();
-
-        public async UniTask<bool> TryOutWheels(WheelsDataView wheelsDataView, CancellationToken cancellationToken)
-        {
-            var wheelsData = new WheelsData { Id = wheelsDataView.Id, Price = wheelsDataView.Price };
-            var result = await _wheelsChangingUseCase.TryWheelsOut(wheelsData, cancellationToken);
-            if (!result)
-                return false;
-            return true;
-        }
-
-        public async UniTask UpdateWheelsData(CancellationToken cancellationToken)
-        {
-            await _wheelsChangingUseCase.UpdateWheelsData(cancellationToken);
         }
 
         private static List<WheelsDataView> ConvertToWheelsDataViews(List<WheelsData> allWheelsData, List<WheelsData> boughtWheelsData, WheelsData setWheelsData)

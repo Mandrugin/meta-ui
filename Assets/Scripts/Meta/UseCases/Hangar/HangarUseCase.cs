@@ -11,17 +11,15 @@ namespace Meta.UseCases
     public class HangarUseCase : IDisposable, IAsyncStartable
     {
         private readonly IHangarGateway _hangarGateway;
-        private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
         private readonly IHangarFactory _hangarFactory;
         
         private IHangarPresenter _hangarPresenter;
         private Vehicle _currentVehicle;
 
-        public HangarUseCase(IHangarGateway hangarGateway, IHangarFactory hangarFactory, IWheelsChangingUseCase wheelsChangingUseCase)
+        public HangarUseCase(IHangarGateway hangarGateway, IHangarFactory hangarFactory)
         {
             _hangarGateway = hangarGateway;
             _hangarFactory = hangarFactory;
-            _wheelsChangingUseCase = wheelsChangingUseCase;
         }
 
         public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
@@ -31,8 +29,8 @@ namespace Meta.UseCases
             _hangarPresenter.ChangeHard(await _hangarGateway.GetHardBalance(cancellation));
             _hangarPresenter.ChangeSoft(await _hangarGateway.GetSoftBalance(cancellation));
 
-            _hangarPresenter.OnShowWheelsChanging += _wheelsChangingUseCase.ShowPresenter;
-            _hangarPresenter.OnHideWheelsChanging += _wheelsChangingUseCase.HidePresenter;
+            // _hangarPresenter.OnShowWheelsChanging += _wheelsChangingUseCase.ShowPresenter;
+            // _hangarPresenter.OnHideWheelsChanging += _wheelsChangingUseCase.HidePresenter;
             
             _hangarGateway.OnHardChanged += ChangeHard;
             _hangarGateway.OnSoftChanged += ChangeSoft;            
@@ -40,8 +38,8 @@ namespace Meta.UseCases
 
         public void Dispose()
         {
-            _hangarPresenter.OnShowWheelsChanging -= _wheelsChangingUseCase.ShowPresenter;
-            _hangarPresenter.OnHideWheelsChanging -= _wheelsChangingUseCase.HidePresenter;
+            // _hangarPresenter.OnShowWheelsChanging -= _wheelsChangingUseCase.ShowPresenter;
+            // _hangarPresenter.OnHideWheelsChanging -= _wheelsChangingUseCase.HidePresenter;
             
             _hangarGateway.OnHardChanged -= ChangeHard;
             _hangarGateway.OnSoftChanged -= ChangeSoft;
