@@ -3,61 +3,51 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Entities;
 using UnityEngine.Scripting;
+using VContainer.Unity;
 
 namespace Meta.UseCases
 {
     [Preserve]
-    public class HangarUseCase : IHangarUseCase, IDisposable
+    public class HangarUseCase : IDisposable, IAsyncStartable
     {
         private readonly IHangarGateway _hangarGateway;
-        public event Action OnShowPresenter = delegate { };
-        public event Action OnHidePresenter = delegate { };
-        public event Action<long> OnHardChanged = delegate { };
-        public event Action<long> OnSoftChanged = delegate { };
+        private readonly IWheelsChangingUseCase _wheelsChangingUseCase;
+        private readonly IHangarFactory _hangarFactory;
         
+        private IHangarPresenter _hangarPresenter;
         private Vehicle _currentVehicle;
 
-        public HangarUseCase(IHangarGateway hangarGateway)
+        public HangarUseCase(IHangarGateway hangarGateway, IHangarFactory hangarFactory, IWheelsChangingUseCase wheelsChangingUseCase)
         {
             _hangarGateway = hangarGateway;
-            _hangarGateway.OnHardChanged += OnOnHardChanged;
-            _hangarGateway.OnSoftChanged += OnOnSoftChanged;
+            _hangarFactory = hangarFactory;
+            _wheelsChangingUseCase = wheelsChangingUseCase;
+        }
+
+        public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
+        {
+            _hangarPresenter = await _hangarFactory.GetHangarPresenter(cancellation);
+            
+            _hangarPresenter.ChangeHard(await _hangarGateway.GetHardBalance(cancellation));
+            _hangarPresenter.ChangeSoft(await _hangarGateway.GetSoftBalance(cancellation));
+
+            _hangarPresenter.OnShowWheelsChanging += _wheelsChangingUseCase.ShowPresenter;
+            _hangarPresenter.OnHideWheelsChanging += _wheelsChangingUseCase.HidePresenter;
+            
+            _hangarGateway.OnHardChanged += ChangeHard;
+            _hangarGateway.OnSoftChanged += ChangeSoft;            
         }
 
         public void Dispose()
         {
-            _hangarGateway.OnHardChanged -= OnOnHardChanged;
-            _hangarGateway.OnSoftChanged -= OnOnSoftChanged;
+            _hangarPresenter.OnShowWheelsChanging -= _wheelsChangingUseCase.ShowPresenter;
+            _hangarPresenter.OnHideWheelsChanging -= _wheelsChangingUseCase.HidePresenter;
+            
+            _hangarGateway.OnHardChanged -= ChangeHard;
+            _hangarGateway.OnSoftChanged -= ChangeSoft;
         }
 
-        private void OnOnSoftChanged(long soft)
-        {
-            OnSoftChanged.Invoke(soft);
-        }
-
-        private void OnOnHardChanged(long hard)
-        {
-            OnHardChanged.Invoke(hard);
-        }
-
-        public void ShowPresenter()
-        {
-            OnShowPresenter.Invoke();
-        }
-
-        public void HidePresenter()
-        {
-            OnHidePresenter.Invoke();
-        }
-
-        public async UniTask<long> GetHardBalance(CancellationToken cancellationToken)
-        {
-            return await _hangarGateway.GetHardBalance(cancellationToken);
-        }
-
-        public async UniTask<long> GetSoftBalance(CancellationToken cancellationToken)
-        {
-            return await _hangarGateway.GetSoftBalance(cancellationToken);
-        }
+        private void ChangeHard(long hard) => _hangarPresenter.ChangeHard(hard);
+        private void ChangeSoft(long soft) => _hangarPresenter.ChangeSoft(soft);
     }
 }

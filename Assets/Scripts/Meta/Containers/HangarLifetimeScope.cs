@@ -21,21 +21,23 @@ namespace Meta.Containers
         [SerializeField] private WheelsViewConfig wheelsViewConfig;
         
         [SerializeField] private VehicleFactory vehicleFactory;
+        [SerializeField] private HangarFactory hangarFactory;
         
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<LocalHangarGateway>(Lifetime.Singleton).AsImplementedInterfaces();
 
-            builder.Register<HangarUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<HangarUseCase>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             
             builder.Register<VehicleUseCase>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponent(vehicleFactory).AsImplementedInterfaces();
             
             builder.Register<WheelsChangingUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
-            
-            builder.Register<HangarPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<WheelsChangingPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            
+
+            builder.Register<HangarPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponent(hangarFactory).AsImplementedInterfaces().AsSelf();
+
             builder.RegisterInstance(vehiclesDataConfig).AsSelf();
             builder.RegisterInstance(wheelsDataConfig).AsSelf();
             

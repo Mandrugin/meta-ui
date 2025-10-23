@@ -13,7 +13,7 @@ namespace Meta.Factories
     {
         [SerializeField] private AssetReferenceGameObject vehicleViewRef;
         [SerializeField] private AssetReferenceGameObject vehicleViewNavigationRef;
-        [SerializeField] private GameObject canvas;
+        [SerializeField] private Transform canvas;
 
         private AsyncOperationHandle<GameObject> vehicleViewHandle;
         private AsyncOperationHandle<GameObject>  vehicleNavigationHandle;
@@ -49,7 +49,7 @@ namespace Meta.Factories
             {
                 vehicleNavigationHandle = vehicleViewNavigationRef.LoadAssetAsync();
                 var prefab = await vehicleNavigationHandle;
-                vehicleNavigationView = Instantiate(prefab, canvas.transform).GetComponent<VehicleNavigationView>();
+                vehicleNavigationView = Instantiate(prefab, canvas).GetComponent<VehicleNavigationView>();
             }
             
             _vehicleNavigationPresenter ??= new VehicleNavigationPresenter(vehicleNavigationView);

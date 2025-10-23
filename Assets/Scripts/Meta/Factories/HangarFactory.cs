@@ -1,19 +1,56 @@
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using Meta.Presenters;
+using Meta.UseCases;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Meta.Factories
 {
-    public class HangarFactory : MonoBehaviour
+    public class HangarFactory : MonoBehaviour, IHangarFactory, IDisposable
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
+        [SerializeField] private AssetReferenceGameObject hangarViewRef;
+        [SerializeField] private Transform canvas;
         
+        private AsyncOperationHandle<GameObject> hangarViewHandle;
+        private HangarPresenter _hangarPresenter;
+        private HangarView _hangarView;
+
+        public async UniTask<IHangarPresenter> GetHangarPresenter(CancellationToken cancellationToken)
+        {
+            if (!_hangarView)
+            {
+                hangarViewHandle = hangarViewRef.LoadAssetAsync();
+                var prefab = await hangarViewHandle;
+                _hangarView = Instantiate(prefab, canvas).GetComponent<HangarView>();
+            }
+            
+            _hangarPresenter ??= new HangarPresenter(_hangarView);
+            
+            return _hangarPresenter;
         }
 
-        // Update is called once per frame
-        void Update()
+        public void DestroyHangarPresenter()
         {
-        
+            if(_hangarPresenter != null)
+            {
+                _hangarPresenter.Dispose();
+                _hangarPresenter = null;
+            }
+            
+            if (_hangarView)
+            {
+                Destroy(_hangarView.gameObject);
+                _hangarView = null;
+                hangarViewHandle.Release();
+            }
+        }
+
+        public void Dispose()
+        {
+            DestroyHangarPresenter();
         }
     }
 }
