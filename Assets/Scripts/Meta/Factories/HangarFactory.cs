@@ -14,7 +14,7 @@ namespace Meta.Factories
         [SerializeField] private AssetReferenceGameObject hangarViewRef;
         [SerializeField] private Transform canvas;
         
-        private AsyncOperationHandle<GameObject> hangarViewHandle;
+        private AsyncOperationHandle<GameObject> _hangarViewHandle;
         private HangarPresenter _hangarPresenter;
         private HangarView _hangarView;
 
@@ -22,8 +22,8 @@ namespace Meta.Factories
         {
             if (!_hangarView)
             {
-                hangarViewHandle = hangarViewRef.LoadAssetAsync();
-                var prefab = await hangarViewHandle;
+                _hangarViewHandle = hangarViewRef.LoadAssetAsync();
+                var prefab = await _hangarViewHandle;
                 _hangarView = Instantiate(prefab, canvas).GetComponent<HangarView>();
             }
             
@@ -44,7 +44,7 @@ namespace Meta.Factories
             {
                 Destroy(_hangarView.gameObject);
                 _hangarView = null;
-                hangarViewHandle.Release();
+                _hangarViewHandle.Release();
             }
         }
 
