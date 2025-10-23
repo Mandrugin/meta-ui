@@ -222,8 +222,8 @@ namespace Meta.UseCases
 
         private async UniTask<bool> IsBuyAvailable(WheelsData wheelsData, CancellationToken cancellationToken)
         {
-            var vehicle = await _hangarGateway.GetSetVehicle(cancellationToken);
-            var boughtWheels = await _hangarGateway.GetBoughtWheels(vehicle.Id, cancellationToken);
+            _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
+            var boughtWheels = await _hangarGateway.GetBoughtWheels(_currentVehicle.Id, cancellationToken);
             if (boughtWheels.Any(x => x.Id == wheelsData.Id))
                 return false;
 

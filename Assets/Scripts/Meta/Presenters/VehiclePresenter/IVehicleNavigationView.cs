@@ -6,5 +6,6 @@ namespace Meta.Presenters
     {
         event Action OnNextVehicle;
         event Action OnPrevVehicle;
+        public void SetVehicleName(VehicleDataView vehicleDataView);
     }
 }

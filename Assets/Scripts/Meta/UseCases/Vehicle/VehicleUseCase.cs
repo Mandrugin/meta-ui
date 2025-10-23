@@ -26,9 +26,6 @@ namespace Meta.UseCases
         private UniTask _vehicleNextTask = UniTask.CompletedTask;
         private UniTask _vehiclePrevTask = UniTask.CompletedTask;
 
-        public event Action OnShowPresenter = delegate { };
-        public event Action OnHidePresenter = delegate { };
-
         internal VehicleUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator, IVehicleFactory vehicleFactory)
         {
             _hangarGateway = hangarGateway;
@@ -44,6 +41,7 @@ namespace Meta.UseCases
             _vehicleNavigationPresenter.OnNextVehicle += SetNextVehicle;
             _vehicleNavigationPresenter.OnPrevVehicle += SetPrevVehicle;
             _useCaseMediator.OnCurrentWheelsChanged += OnOnCurrentWheelsChanged;
+            _useCaseMediator.OnCurrentVehicleChanged += ChangeVehicleName;
             
             _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellation);
             if (_currentVehicle == null)
@@ -63,6 +61,12 @@ namespace Meta.UseCases
             _vehicleNavigationPresenter.OnNextVehicle -= SetNextVehicle;
             _vehicleNavigationPresenter.OnPrevVehicle -= SetPrevVehicle;
             _useCaseMediator.OnCurrentWheelsChanged -= OnOnCurrentWheelsChanged;
+            _useCaseMediator.OnCurrentVehicleChanged -= ChangeVehicleName;
+        }
+
+        private void ChangeVehicleName(Vehicle vehicle)
+        {
+            _vehicleNavigationPresenter.SetVehicleName(vehicle.ToVehicleData());
         }
 
         private void OnOnCurrentWheelsChanged(Wheels wheels)
@@ -75,21 +79,6 @@ namespace Meta.UseCases
         {
             _useCaseMediator.ChangeCurrentVehicle(vehicle);
             _vehiclePresenter.ChangeVehicle(vehicle.ToVehicleData());
-        }
-
-        public void ShowPresenter()
-        {
-            OnShowPresenter.Invoke();
-        }
-
-        public void HidePresenter()
-        {
-            OnHidePresenter.Invoke();
-        }
-
-        public async UniTask<VehicleData> GetCurrentVehicle(CancellationToken cancellationToken)
-        {
-            return await UniTask.FromResult(new VehicleData());
         }
 
         private void SetNextVehicle()

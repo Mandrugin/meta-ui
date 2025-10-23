@@ -25,5 +25,8 @@ namespace Meta.Presenters
         
         private void InvokeOnNextVehicle() => OnNextVehicle();
         private void InvokeOnPrevVehicle() => OnPrevVehicle();
+
+        public void SetVehicleName(VehicleData vehicleData) =>
+            _vehicleNavigation.SetVehicleName(vehicleData.ToVehicleDataView());
     }
 }

@@ -19,12 +19,3 @@ MonoBehaviour:
   - id: LCoupe
     displayName: LCoupe
     price: 200
-  - id: HCoupe
-    displayName: HCoupe
-    price: 100
-  - id: Minibus
-    displayName: Minibus
-    price: 300
-  - id: Pickup
-    displayName: Pickup
-    price: 400

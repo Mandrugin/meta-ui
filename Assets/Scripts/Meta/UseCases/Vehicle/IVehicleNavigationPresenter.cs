@@ -6,5 +6,6 @@ namespace Meta.UseCases
     {
         public event Action OnNextVehicle;
         public event Action OnPrevVehicle;
+        public void SetVehicleName(VehicleData vehicleData);
     }
 }
