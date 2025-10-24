@@ -6,7 +6,8 @@ namespace Meta.Presenters
     {
         public string Id;
         public long Price;
-        public string Status;
+        public bool IsSet;
+        public bool IsBought;
     }
 
     public static class WheelsDataViewExtensions
@@ -17,7 +18,6 @@ namespace Meta.Presenters
             {
                 Id = wheelsData.Id,
                 Price = wheelsData.Price,
-                Status = ""
             };
         }
 

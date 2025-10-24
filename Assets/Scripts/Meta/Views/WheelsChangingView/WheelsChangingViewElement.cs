@@ -2,13 +2,17 @@ using Meta.Presenters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class WheelsChangingViewElement : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private TextMeshProUGUI titleText;
-    [SerializeField] private TextMeshProUGUI statusText;
+    [SerializeField] private GameObject priceIcon;
     [SerializeField] private TextMeshProUGUI priceText;
-    [SerializeField] private GameObject activeFlag;
+    [SerializeField] private Image imageBg;
+    [SerializeField] private Sprite commonBg;
+    [SerializeField] private Sprite currentBg;
+    [SerializeField] private Sprite setBg;
 
     private WheelsDataView _wheelsDataView;
     private WheelsChangingView _wheelsChangingView;
@@ -17,8 +21,20 @@ public class WheelsChangingViewElement : MonoBehaviour, IPointerClickHandler
     {
         _wheelsDataView = wheelsDataView;
         titleText.text = _wheelsDataView.Id;
-        statusText.text = _wheelsDataView.Status;
-        priceText.text = _wheelsDataView.Price.ToString();
+        
+        if(wheelsDataView.IsBought == false)
+        {
+            priceIcon.SetActive(true);
+            priceText.gameObject.SetActive(true);
+            priceText.text = _wheelsDataView.Price.ToString();
+        }
+        else
+        {
+            priceIcon.SetActive(false);
+            priceText.gameObject.SetActive(false);
+        }
+        
+        imageBg.sprite = _wheelsDataView.IsSet ? setBg : commonBg;
 
         _wheelsChangingView = wheelsChangingView;
     }
@@ -30,7 +46,8 @@ public class WheelsChangingViewElement : MonoBehaviour, IPointerClickHandler
 
     public void SetActive(bool active)
     {
-        activeFlag.SetActive(active);
+        var bg = _wheelsDataView.IsSet ? setBg : commonBg;
+        imageBg.sprite = active ? currentBg : bg;
     }
 
     public void OnPointerClick(PointerEventData eventData)

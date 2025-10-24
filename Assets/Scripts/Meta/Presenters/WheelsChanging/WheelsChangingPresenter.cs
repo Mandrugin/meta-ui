@@ -71,11 +71,9 @@ namespace Meta.Presenters
             {
                 var wheelsDataView = wheelsData.ToWheelsDataView();
 
-                if (boughtWheelsData.Contains(wheelsData))
-                    wheelsDataView.Status = "Bought";
+                wheelsDataView.IsBought = boughtWheelsData.Contains(wheelsData);
 
-                if (wheelsData.Equals(setWheelsData))
-                    wheelsDataView.Status = "Current";
+                wheelsDataView.IsSet = wheelsData.Equals(setWheelsData);
                 
                 wheelsDataViews.Add(wheelsDataView);
             }
