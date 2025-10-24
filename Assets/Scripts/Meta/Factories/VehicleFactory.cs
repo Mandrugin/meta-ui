@@ -12,22 +12,11 @@ namespace Meta.Factories
     public class VehicleFactory : MonoBehaviour, IVehicleFactory
     {
         [SerializeField] private AssetReferenceGameObject vehicleViewRef;
-        [SerializeField] private AssetReferenceGameObject vehicleViewNavigationRef;
-        [SerializeField] private Transform canvas;
 
         private AsyncOperationHandle<GameObject> vehicleViewHandle;
-        private AsyncOperationHandle<GameObject>  vehicleNavigationHandle;
 
         private VehiclePresenter _vehiclePresenter;
-        private VehicleNavigationPresenter _vehicleNavigationPresenter;
         private VehicleView _vehicleView;
-        private VehicleNavigationView vehicleNavigationView;
-
-        public void Dispose()
-        {
-            DestroyVehiclePresenter();
-            DestroyVehicleNavigationPresenter();
-        }
 
         public async UniTask<IVehiclePresenter> GetVehiclePresenter(CancellationToken cancellationToken)
         {
@@ -41,20 +30,6 @@ namespace Meta.Factories
             _vehiclePresenter ??= new VehiclePresenter(_vehicleView);
             
             return _vehiclePresenter;
-        }
-
-        public async UniTask<IVehicleNavigationPresenter> GetVehicleNavigationPresenter(CancellationToken cancellationToken)
-        {
-            if (!vehicleNavigationView)
-            {
-                vehicleNavigationHandle = vehicleViewNavigationRef.LoadAssetAsync();
-                var prefab = await vehicleNavigationHandle;
-                vehicleNavigationView = Instantiate(prefab, canvas).GetComponent<VehicleNavigationView>();
-            }
-            
-            _vehicleNavigationPresenter ??= new VehicleNavigationPresenter(vehicleNavigationView);
-            
-            return _vehicleNavigationPresenter;
         }
 
         public void DestroyVehiclePresenter()
@@ -73,20 +48,9 @@ namespace Meta.Factories
             }
         }
 
-        public void DestroyVehicleNavigationPresenter()
+        public void Dispose()
         {
-            if(_vehicleNavigationPresenter != null)
-            {
-                _vehicleNavigationPresenter.Dispose();
-                _vehicleNavigationPresenter = null;
-            }
-            
-            if (vehicleNavigationView)
-            {
-                Destroy(vehicleNavigationView.gameObject);
-                vehicleNavigationView = null;
-                vehicleNavigationHandle.Release();
-            }            
+            DestroyVehiclePresenter();
         }
     }
 }

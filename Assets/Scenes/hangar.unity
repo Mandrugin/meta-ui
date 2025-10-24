@@ -285,8 +285,9 @@ MonoBehaviour:
   profileDataConfig: {fileID: 11400000, guid: db6e2a94bc1fab44eb4efe9b6b8cda1f, type: 2}
   vehiclesViewConfig: {fileID: 11400000, guid: 30cf2483262b7ad48823918084e5a8c1, type: 2}
   wheelsViewConfig: {fileID: 11400000, guid: 54c9e21a2348cfc42a6b66f54789005c, type: 2}
-  vehicleFactory: {fileID: 2113233410}
   hangarFactory: {fileID: 2113233412}
+  vehicleNavigationFactory: {fileID: 2113233414}
+  vehicleFactory: {fileID: 2113233410}
   wheelsChangingFactory: {fileID: 2113233413}
 --- !u!4 &354130101
 Transform:
@@ -1465,8 +1466,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2113233411}
-  - component: {fileID: 2113233410}
   - component: {fileID: 2113233412}
+  - component: {fileID: 2113233414}
+  - component: {fileID: 2113233410}
   - component: {fileID: 2113233413}
   m_Layer: 0
   m_Name: Factories
@@ -1493,13 +1495,6 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  vehicleViewNavigationRef:
-    m_AssetGUID: f9adb0415c59bfe4dab751acdaf4268b
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
-  canvas: {fileID: 1756670106}
 --- !u!4 &2113233411
 Transform:
   m_ObjectHideFlags: 0
@@ -1548,6 +1543,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Factories::Meta.Factories.WheelsChangingFactory
   wheelsChangingViewRef:
     m_AssetGUID: 14977c9a264da984e8048c2ae7f41d36
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  canvas: {fileID: 1756670106}
+--- !u!114 &2113233414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113233409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89cbb1ccdd4e40a19a16db40d52b6eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Factories::Meta.Factories.VehicleNavigationFactory
+  vehicleViewNavigationRef:
+    m_AssetGUID: f9adb0415c59bfe4dab751acdaf4268b
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

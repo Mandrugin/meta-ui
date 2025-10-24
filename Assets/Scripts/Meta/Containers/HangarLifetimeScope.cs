@@ -18,9 +18,10 @@ namespace Meta.Containers
 
         [SerializeField] private VehiclesViewConfig vehiclesViewConfig;
         [SerializeField] private WheelsViewConfig wheelsViewConfig;
-        
-        [SerializeField] private VehicleFactory vehicleFactory;
+
         [SerializeField] private HangarFactory hangarFactory;
+        [SerializeField] private VehicleNavigationFactory vehicleNavigationFactory;
+        [SerializeField] private VehicleFactory vehicleFactory;
         [SerializeField] private WheelsChangingFactory wheelsChangingFactory;
         
         protected override void Configure(IContainerBuilder builder)
@@ -32,6 +33,9 @@ namespace Meta.Containers
 
             builder.Register<VehicleUseCase>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponent(vehicleFactory).AsImplementedInterfaces();
+            
+            builder.Register<VehicleNavigationUseCase>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponent(vehicleNavigationFactory).AsImplementedInterfaces();
 
             builder.Register<WheelsChangingUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponent(wheelsChangingFactory).AsImplementedInterfaces();
