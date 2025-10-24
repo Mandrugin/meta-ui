@@ -71,6 +71,7 @@ namespace Meta.UseCases
 
         private void HidePresenter()
         {
+            ResetWheels().Forget();
             if (_showWheelsChangingTask.Status == UniTaskStatus.Pending)
                 return;
 
@@ -83,6 +84,13 @@ namespace Meta.UseCases
             _useCaseMediator.OnCurrentVehicleChanged -= OnVehicleChange;
             _wheelsChangingFactory.DestroyWheelsChangingPresenter();
             _wheelsChangingPresenter = null;
+        }
+
+        private UniTask<bool> ResetWheels()
+        {
+            _currentWheels = _setWheels;
+            _useCaseMediator.ChangeCurrentWheels(_currentWheels);
+            return UniTask.FromResult(true);
         }
 
         public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
