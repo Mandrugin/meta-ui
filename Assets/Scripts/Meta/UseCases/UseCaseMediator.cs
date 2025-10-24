@@ -18,5 +18,17 @@ namespace Meta.UseCases
         {
             OnCurrentWheelsChanged(setWheels);
         }
+        
+        public event Action OnShowWheelsChanging = delegate { };
+        public void ShowWheelsChanging()
+        {
+            OnShowWheelsChanging();
+        }
+
+        public event Action OnHideWheelsChanging = delegate { };
+        public void HideWheelsChanging()
+        {
+            OnHideWheelsChanging();
+        }
     }
 }

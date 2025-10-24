@@ -11,14 +11,17 @@ namespace Meta.UseCases
     public class HangarUseCase : IDisposable, IAsyncStartable
     {
         private readonly IHangarGateway _hangarGateway;
+        private readonly UseCaseMediator _useCaseMediator;
         private readonly IHangarFactory _hangarFactory;
         
         private IHangarPresenter _hangarPresenter;
         private Vehicle _currentVehicle;
 
-        public HangarUseCase(IHangarGateway hangarGateway, IHangarFactory hangarFactory)
+        internal HangarUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator,
+            IHangarFactory hangarFactory)
         {
             _hangarGateway = hangarGateway;
+            _useCaseMediator = useCaseMediator;
             _hangarFactory = hangarFactory;
         }
 
@@ -29,8 +32,8 @@ namespace Meta.UseCases
             _hangarPresenter.ChangeHard(await _hangarGateway.GetHardBalance(cancellation));
             _hangarPresenter.ChangeSoft(await _hangarGateway.GetSoftBalance(cancellation));
 
-            // _hangarPresenter.OnShowWheelsChanging += _wheelsChangingUseCase.ShowPresenter;
-            // _hangarPresenter.OnHideWheelsChanging += _wheelsChangingUseCase.HidePresenter;
+            _hangarPresenter.OnShowWheelsChanging += ShowWheelsChanging;
+            _hangarPresenter.OnHideWheelsChanging += HideWheelsChanging;
             
             _hangarGateway.OnHardChanged += ChangeHard;
             _hangarGateway.OnSoftChanged += ChangeSoft;            
@@ -38,12 +41,15 @@ namespace Meta.UseCases
 
         public void Dispose()
         {
-            // _hangarPresenter.OnShowWheelsChanging -= _wheelsChangingUseCase.ShowPresenter;
-            // _hangarPresenter.OnHideWheelsChanging -= _wheelsChangingUseCase.HidePresenter;
+            _hangarPresenter.OnShowWheelsChanging -= ShowWheelsChanging;
+            _hangarPresenter.OnHideWheelsChanging -= HideWheelsChanging;
             
             _hangarGateway.OnHardChanged -= ChangeHard;
             _hangarGateway.OnSoftChanged -= ChangeSoft;
         }
+
+        private void ShowWheelsChanging() => _useCaseMediator.ShowWheelsChanging();
+        private void HideWheelsChanging() => _useCaseMediator.HideWheelsChanging();
 
         private void ChangeHard(long hard) => _hangarPresenter.ChangeHard(hard);
         private void ChangeSoft(long soft) => _hangarPresenter.ChangeSoft(soft);

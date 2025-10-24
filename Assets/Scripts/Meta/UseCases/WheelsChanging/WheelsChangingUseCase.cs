@@ -30,37 +30,68 @@ namespace Meta.UseCases
         private UniTask<bool> _setWheelsTask = UniTask.FromResult(true);
         private UniTask<bool> _buyWheelsTask = UniTask.FromResult(true);
         private UniTask _changeVehicleTask = UniTask.CompletedTask;
+        private UniTask _showWheelsChangingTask = UniTask.CompletedTask;
 
         internal WheelsChangingUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator, IWheelsChangingFactory wheelsChangingFactory)
         {
             _hangarGateway = hangarGateway;
             _useCaseMediator = useCaseMediator;
             _wheelsChangingFactory = wheelsChangingFactory;
-        }
-
-        public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
-        {
-            _wheelsChangingPresenter = await _wheelsChangingFactory.GetWheelsChangingPresenter(cancellation);
-
-            _wheelsChangingPresenter.OnSetWheels += SetWheels;
-            _wheelsChangingPresenter.OnBuyWheels += BuyWheels;
-            _wheelsChangingPresenter.OnWheelsTriedOut += TryWheelsOut;
-            _useCaseMediator.OnCurrentVehicleChanged += OnVehicleChange;
-
-            await UpdateWheelsData(cancellation);
+            
+            _useCaseMediator.OnShowWheelsChanging += ShowPresenter;
+            _useCaseMediator.OnHideWheelsChanging += HidePresenter;
         }
 
         public void Dispose()
         {
-            _wheelsChangingPresenter.OnSetWheels += SetWheels;
-            _wheelsChangingPresenter.OnBuyWheels += BuyWheels;
-            _wheelsChangingPresenter.OnWheelsTriedOut += TryWheelsOut;
-            _useCaseMediator.OnCurrentVehicleChanged -= OnVehicleChange;
+            _useCaseMediator.OnShowWheelsChanging -= ShowPresenter;
+            _useCaseMediator.OnHideWheelsChanging -= HidePresenter;
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
+            _wheelsChangingFactory.DestroyWheelsChangingPresenter();
         }
-        
-        public async UniTask UpdateWheelsData(CancellationToken cancellationToken)
+
+        private void ShowPresenter()
+        {
+            if (_showWheelsChangingTask.Status == UniTaskStatus.Pending)
+                return;
+
+            _showWheelsChangingTask = ShowPresenterAsync(_cancellationTokenSource.Token);
+        }
+
+        private async UniTask ShowPresenterAsync(CancellationToken cancellationToken)
+        {
+            _wheelsChangingPresenter = await _wheelsChangingFactory.GetWheelsChangingPresenter(cancellationToken);
+            _wheelsChangingPresenter.OnSetWheels += SetWheels;
+            _wheelsChangingPresenter.OnBuyWheels += BuyWheels;
+            _wheelsChangingPresenter.OnWheelsTriedOut += TryWheelsOut;            
+            _useCaseMediator.OnCurrentVehicleChanged += OnVehicleChange;
+            await UpdateWheelsData(cancellationToken);
+        }
+
+        private void HidePresenter()
+        {
+            if (_showWheelsChangingTask.Status == UniTaskStatus.Pending)
+                return;
+
+            if (_wheelsChangingPresenter == null)
+                return;
+            
+            _wheelsChangingPresenter.OnSetWheels -= SetWheels;
+            _wheelsChangingPresenter.OnBuyWheels -= BuyWheels;
+            _wheelsChangingPresenter.OnWheelsTriedOut -= TryWheelsOut;
+            _useCaseMediator.OnCurrentVehicleChanged -= OnVehicleChange;
+            _wheelsChangingFactory.DestroyWheelsChangingPresenter();
+            _wheelsChangingPresenter = null;
+        }
+
+        public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
+        {
+            // bring the use case to life
+            await UniTask.WaitForSeconds(0, cancellationToken: cancellation);
+        }
+
+        private async UniTask UpdateWheelsData(CancellationToken cancellationToken)
         {
             _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellationToken);
             _allCurrentWheels ??= await _hangarGateway.GetAllWheels(_currentVehicle.Id, cancellationToken);

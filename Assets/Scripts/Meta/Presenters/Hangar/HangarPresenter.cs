@@ -28,8 +28,6 @@ namespace Meta.Presenters
         private void InvokeOnShowWheelsChanging() => OnShowWheelsChanging.Invoke();
         private void InvokeOnHideWheelsChanging() => OnHideWheelsChanging.Invoke();
 
-        public void StartWheelsChanging() => OnShowWheelsChanging.Invoke();
-        public void FinishWheelsChanging() => OnHideWheelsChanging.Invoke();
         public void ChangeHard(long hard) => _hangarView.ChangeHard(hard);
         public void ChangeSoft(long soft) => _hangarView.ChangeSoft(soft);
     }

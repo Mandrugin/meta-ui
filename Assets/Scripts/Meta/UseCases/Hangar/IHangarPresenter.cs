@@ -6,8 +6,6 @@ namespace Meta.UseCases
     {
         event Action OnShowWheelsChanging;
         event Action OnHideWheelsChanging;
-        void StartWheelsChanging();
-        void FinishWheelsChanging();
         void ChangeHard(long hard);
         void ChangeSoft(long soft);
     }
