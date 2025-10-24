@@ -24,8 +24,8 @@ namespace Meta.UseCases
 #endregion
 
 #region Wheels
-        public UniTask<List<Wheels>> GetAllWheels(string vehicleId, CancellationToken cancellationToken);
-        public UniTask<List<Wheels>> GetBoughtWheels(string vehicleId, CancellationToken cancellationToken);
+        public UniTask<List<Wheels>> GetAllWheels(Vehicle vehicle, CancellationToken cancellationToken);
+        public UniTask<List<Wheels>> GetBoughtWheels(Vehicle vehicle, CancellationToken cancellationToken);
         public UniTask<Wheels> GetSetWheels(Vehicle vehicle, CancellationToken cancellationToken);
         public UniTask<bool> SetWheels(Vehicle vehicle, Wheels wheels, CancellationToken cancellationToken);
         public UniTask<bool> BuyWheels(Vehicle vehicle, Wheels wheel, CancellationToken cancellationToken);

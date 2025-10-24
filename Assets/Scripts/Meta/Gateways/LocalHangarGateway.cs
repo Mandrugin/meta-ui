@@ -43,7 +43,7 @@ namespace Meta.Gateways
                 BoughtVehicles = new List<Vehicle>()
             };
 
-            foreach (var vehicleData in vehiclesDataConfig.vehicles)
+            foreach (var vehicleData in _vehiclesDataConfig.vehicles)
             {
                 var vehicle = new Vehicle
                 {
@@ -162,21 +162,15 @@ namespace Meta.Gateways
         #endregion Vehicles
 
         #region Wheels
-        public async UniTask<List<Wheels>> GetAllWheels(string vehicleId, CancellationToken cancellationToken)
+        public async UniTask<List<Wheels>> GetAllWheels(Vehicle vehicle, CancellationToken cancellationToken)
         {
             await AwaitableDummy(_cancellationTokenSource.Token);
-            var vehicle = _storage.AllVehicles.First(x => x.Id == vehicleId);
-            if(vehicle == null)
-                throw new Exception($"vehicle not found: {vehicleId}");
             return vehicle.AllWheels;
         }
 
-        public async UniTask<List<Wheels>> GetBoughtWheels(string vehicleId, CancellationToken cancellationToken)
+        public async UniTask<List<Wheels>> GetBoughtWheels(Vehicle vehicle, CancellationToken cancellationToken)
         {
             await AwaitableDummy(_cancellationTokenSource.Token);
-            var vehicle = _storage.AllVehicles.First(x => x.Id == vehicleId);
-            if(vehicle == null)
-                throw new Exception($"vehicle not found: {vehicleId}");
             return vehicle.BoughtWheels;
         }
 
