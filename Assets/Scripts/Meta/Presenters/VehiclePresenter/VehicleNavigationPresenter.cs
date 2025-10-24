@@ -28,5 +28,8 @@ namespace Meta.Presenters
 
         public void SetVehicleName(VehicleData vehicleData) =>
             _vehicleNavigation.SetVehicleName(vehicleData.ToVehicleDataView());
+        
+        public void SetLoadingIndicator(bool isLoading) =>
+            _vehicleNavigation.SetLoadingIndicator(isLoading);
     }
 }

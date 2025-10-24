@@ -11,6 +11,7 @@ public class VehicleNavigationView : MonoBehaviour, IVehicleNavigationView
     [SerializeField] private Button nextVehicleButton;
     [SerializeField] private Button prevVehicleButton;
     [SerializeField] private TextMeshProUGUI vehicleNameText;
+    [SerializeField] private GameObject loadingIndicator;
     [SerializeField] private VehiclesViewConfig vehiclesViewConfig;
 
     public event Action OnNextVehicle = delegate { };
@@ -18,6 +19,12 @@ public class VehicleNavigationView : MonoBehaviour, IVehicleNavigationView
 
     public void SetVehicleName(VehicleDataView vehicleDataView)
         => vehicleNameText.text = vehiclesViewConfig.vehicles.First(x => x.id == vehicleDataView.Id).id;
+
+    public void SetLoadingIndicator(bool isLoading)
+    {
+        vehicleNameText.gameObject.SetActive(!isLoading);
+        loadingIndicator.SetActive(isLoading);
+    }
 
     public void Awake()
     {

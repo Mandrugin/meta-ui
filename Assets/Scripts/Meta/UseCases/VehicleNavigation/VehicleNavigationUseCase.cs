@@ -35,6 +35,7 @@ namespace Meta.UseCases
         public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
         {
             _vehicleNavigationPresenter = await _vehicleFactory.GetVehicleNavigationPresenter(cancellation);
+            _vehicleNavigationPresenter.SetLoadingIndicator(true);
             
             _vehicleNavigationPresenter.OnNextVehicle += SetNextVehicle;
             _vehicleNavigationPresenter.OnPrevVehicle += SetPrevVehicle;
@@ -53,6 +54,7 @@ namespace Meta.UseCases
         private void ChangeVehicleName(Vehicle vehicle)
         {
             _vehicleNavigationPresenter.SetVehicleName(vehicle.ToVehicleData());
+            _vehicleNavigationPresenter.SetLoadingIndicator(false);
         }
         
         private void ChangeCurrentVehicle(Vehicle vehicle)
@@ -68,6 +70,7 @@ namespace Meta.UseCases
         
         private void SetNextVehicle()
         {
+            _vehicleNavigationPresenter.SetLoadingIndicator(true);
             if (_vehicleNextTask.Status == UniTaskStatus.Pending)
                 return;
             
@@ -76,6 +79,7 @@ namespace Meta.UseCases
 
         private void SetPrevVehicle()
         {
+            _vehicleNavigationPresenter.SetLoadingIndicator(true);
             if (_vehiclePrevTask.Status == UniTaskStatus.Pending)
                 return;
             
