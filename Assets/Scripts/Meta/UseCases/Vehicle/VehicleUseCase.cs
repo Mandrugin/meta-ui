@@ -64,13 +64,18 @@ namespace Meta.UseCases
             
             _currentVehicle = vehicle;
             _currentWheels = vehicle.CurrentWheels;
-            
+
+            ChangeCurrentVehicleAsync(_currentVehicle).Forget();
+        }
+
+        private async UniTask ChangeCurrentVehicleAsync(Vehicle vehicle)
+        {
             _overlayLoadingPresenter.ShowOverlayLoading();
             _vehiclePresenter.HideVehicle();
-            _vehiclePresenter.ChangeVehicle(vehicle.ToVehicleData());
-            _vehiclePresenter.ChangeWheels(vehicle.CurrentWheels.ToWheelsData());
+            await _vehiclePresenter.ChangeVehicle(vehicle.ToVehicleData());
+            await _vehiclePresenter.ChangeWheels(vehicle.CurrentWheels.ToWheelsData());
             _vehiclePresenter.ShowVehicle();
-            _overlayLoadingPresenter.HideOverlayLoading();
+            _overlayLoadingPresenter.HideOverlayLoading();            
         }
 
         private void ChangeCurrentWheels(Wheels wheels)

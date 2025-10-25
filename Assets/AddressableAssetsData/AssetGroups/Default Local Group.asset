@@ -15,13 +15,98 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: dd35626be1ecaa94aa294c9abfd82706
   m_SerializeEntries:
+  - m_GUID: 1365774ed3e45da468448a89d275a477
+    m_Address: Assets/Prefabs/Meta/Views/VehiclesViewBodies/Minibus_v1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14977c9a264da984e8048c2ae7f41d36
     m_Address: Assets/Prefabs/Meta/Views/WheelsChangingView/WheelsChangingView.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b27ceeab7741204e9d4ea471ce21149
+    m_Address: Assets/Prefabs/Meta/Views/VehiclesViewBodies/LCoupe_v1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 30e2a12994bca3247b48527d941a206e
+    m_Address: Assets/Prefabs/Meta/Views/VehiclesViewBodies/Buggy_v1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33df655b4b564d843ab6ace8a4791ccf
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v4_R.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 344745e052cdba34ab28ef5c65a30668
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v4_L.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3f5f3e1225ff7cf48a31d64d64ab8096
     m_Address: Assets/Prefabs/Meta/Views/OverlayLoadingView/OverlayLoadingView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43ad3b8bf9ac21643b6e34989d5c4c3e
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v6_R.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4cbd4a1f30af5e44fa5797fdcc9c258b
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v2_R.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 53afa339e9e405d4889f63847e66d5f2
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v2_L.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 62dbbe1e51518e24197eaa86681cfa6e
+    m_Address: Assets/Prefabs/Meta/Views/VehiclesViewBodies/HCoupe_v1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6b3a62b2a0d0c194c8ad4b6229b88908
+    m_Address: Assets/Prefabs/Meta/Views/VehiclesViewBodies/Pickup_v1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6ea9d372ab13db641b0536a2bdbf8d21
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v5_L.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76c0c4640d7bf3147af47b01a33f8bf9
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v1_L.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 845bbdf992f96464a9d5ac1114b22866
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v5_R.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7d429c4141f5e94e94866fdf89fb167
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v6_L.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b98e95fe86be3ce42a801b3dbeedf041
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v1_R.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5f9dd7520327b640add2343d5a562f0
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v3_R.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e56e36c2603d3714dbd9d43e0b12fe73
+    m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v3_L.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

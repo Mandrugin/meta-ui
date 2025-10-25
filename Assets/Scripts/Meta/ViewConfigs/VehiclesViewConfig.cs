@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Meta.ViewConfigs
 {
@@ -13,7 +14,7 @@ namespace Meta.ViewConfigs
         public class Data
         {
             public string id;
-            public GameObject prefab;
+            public AssetReferenceGameObject assetReference;
             public Vector3 defaultPosition;
         }
     }

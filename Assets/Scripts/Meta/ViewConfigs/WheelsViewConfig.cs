@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Serialization;
 
 namespace Meta.ViewConfigs
@@ -16,8 +17,8 @@ namespace Meta.ViewConfigs
             public string vehicleId;
             public string wheelsId;
             public Vector3 position;
-            public GameObject left;
-            public GameObject right;
+            public AssetReferenceGameObject left;
+            public AssetReferenceGameObject right;
         }
     }
 }

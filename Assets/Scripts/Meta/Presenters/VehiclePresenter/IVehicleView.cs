@@ -1,9 +1,11 @@
+using Cysharp.Threading.Tasks;
+
 namespace Meta.Presenters
 {
     public interface IVehicleView
     {
-        void ChangeVehicle(VehicleDataView vehicleDataView);
-        void ChangeWheels(WheelsDataView wheelsDataView);
+        UniTask ChangeVehicle(VehicleDataView vehicleDataView);
+        UniTask ChangeWheels(WheelsDataView wheelsDataView);
         void SetCommonPosition();
         void SetWheelsChangingPosition();
         void ShowVehicle();

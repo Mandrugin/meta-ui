@@ -1,9 +1,11 @@
+using Cysharp.Threading.Tasks;
+
 namespace Meta.UseCases
 {
     public interface IVehiclePresenter
     {
-        public void ChangeWheels(WheelsData wheelsData);
-        public void ChangeVehicle(VehicleData vehicleData);
+        public UniTask ChangeVehicle(VehicleData vehicleData);
+        public UniTask ChangeWheels(WheelsData wheelsData);
         public void SetCommonPosition();
         public void SetWheelsChangingPosition();
         public void ShowVehicle();
