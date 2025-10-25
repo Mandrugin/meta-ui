@@ -26,7 +26,7 @@ namespace Meta.Factories
                 vehicleViewHandle = vehicleViewRef.LoadAssetAsync();
                 var prefab = await vehicleViewHandle;
                 _vehicleView = Instantiate(prefab).GetComponent<VehicleView>();
-                cinemachineCamera.Target.TrackingTarget = _vehicleView.transform;
+                cinemachineCamera.Target.TrackingTarget = _vehicleView.cameraTarget;
             }
             
             _vehiclePresenter ??= new VehiclePresenter(_vehicleView);

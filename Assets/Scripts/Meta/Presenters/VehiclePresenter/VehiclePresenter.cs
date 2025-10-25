@@ -19,5 +19,8 @@ namespace Meta.Presenters
 
         public void ChangeVehicle(VehicleData vehicleData) => _vehicleView.ChangeVehicle(vehicleData.ToVehicleDataView());
         public void ChangeWheels(WheelsData wheelsData) => _vehicleView.ChangeWheels(wheelsData.ToWheelsDataView());
+
+        public void SetCommonPosition() => _vehicleView.SetCommonPosition();
+        public void SetWheelsChangingPosition() => _vehicleView.SetWheelsChangingPosition();
     }
 }

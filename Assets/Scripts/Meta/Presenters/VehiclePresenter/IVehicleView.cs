@@ -4,5 +4,7 @@ namespace Meta.Presenters
     {
         void ChangeVehicle(VehicleDataView vehicleDataView);
         void ChangeWheels(WheelsDataView wheelsDataView);
+        void SetCommonPosition();
+        void SetWheelsChangingPosition();
     }
 }

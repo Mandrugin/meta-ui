@@ -32,6 +32,8 @@ namespace Meta.UseCases
             _vehiclePresenter = await _vehicleFactory.GetVehiclePresenter(cancellation);
             _useCaseMediator.OnCurrentVehicleChanged += ChangeCurrentVehicle;
             _useCaseMediator.OnCurrentWheelsChanged += ChangeCurrentWheels;
+            _useCaseMediator.OnShowWheelsChanging += OnShowWheelsChanging;
+            _useCaseMediator.OnHideWheelsChanging += OnHideWheelsChanging;
 
             _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellation);
             if (_currentVehicle == null)
@@ -49,6 +51,8 @@ namespace Meta.UseCases
         {
             _useCaseMediator.OnCurrentWheelsChanged -= ChangeCurrentWheels;
             _useCaseMediator.OnCurrentVehicleChanged -= ChangeCurrentVehicle;
+            _useCaseMediator.OnShowWheelsChanging -= OnShowWheelsChanging;
+            _useCaseMediator.OnHideWheelsChanging -= OnHideWheelsChanging;
         }
 
         private void ChangeCurrentVehicle(Vehicle vehicle)
@@ -63,6 +67,7 @@ namespace Meta.UseCases
             _vehiclePresenter.ChangeWheels(wheels.ToWheelsData());
         }
 
-
+        private void OnShowWheelsChanging() => _vehiclePresenter.SetWheelsChangingPosition();
+        private void OnHideWheelsChanging() => _vehiclePresenter.SetCommonPosition();
     }
 }

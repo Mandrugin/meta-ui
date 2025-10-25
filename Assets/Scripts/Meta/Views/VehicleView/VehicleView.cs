@@ -6,6 +6,9 @@ public class VehicleView : MonoBehaviour, IVehicleView
 {
     [SerializeField] private VehiclesViewConfig vehiclesViewConfig;
     [SerializeField] private WheelsViewConfig wheelsViewConfig;
+    [SerializeField] Vector3 commonPosition;
+    [SerializeField] Vector3 wheelsChangingPosition;
+    public Transform cameraTarget;
     
     private VehiclePresenter _vehiclePresenter;
     private VehicleViewBody _vehicleViewBody;
@@ -24,4 +27,7 @@ public class VehicleView : MonoBehaviour, IVehicleView
         _vehicleViewBody = Instantiate(vehicleViewConfig.prefab, this.transform, false).GetComponent<VehicleViewBody>();
         _vehicleViewBody.gameObject.transform.localPosition = vehicleViewConfig.defaultPosition;
     }
+
+    public void SetCommonPosition() => cameraTarget.localPosition = commonPosition;
+    public void SetWheelsChangingPosition() => cameraTarget.localPosition = wheelsChangingPosition;
 }
