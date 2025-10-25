@@ -108,11 +108,6 @@ namespace Meta.UseCases
             
             _currentVehicle = _allVehicles[index];
             ChangeCurrentVehicle(_currentVehicle);
-            var setWheels = await _hangarGateway.GetSetWheels(_currentVehicle, token);
-            if (setWheels != null)
-            {
-                _useCaseMediator.ChangeCurrentWheels(setWheels);
-            }
         }
     }
 }

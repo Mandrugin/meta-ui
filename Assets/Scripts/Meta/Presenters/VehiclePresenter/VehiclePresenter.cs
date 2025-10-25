@@ -22,5 +22,8 @@ namespace Meta.Presenters
 
         public void SetCommonPosition() => _vehicleView.SetCommonPosition();
         public void SetWheelsChangingPosition() => _vehicleView.SetWheelsChangingPosition();
+        
+        public void ShowVehicle() => _vehicleView.ShowVehicle();
+        public void HideVehicle() => _vehicleView.HideVehicle();
     }
 }

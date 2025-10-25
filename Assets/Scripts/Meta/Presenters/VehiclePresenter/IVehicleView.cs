@@ -6,5 +6,7 @@ namespace Meta.Presenters
         void ChangeWheels(WheelsDataView wheelsDataView);
         void SetCommonPosition();
         void SetWheelsChangingPosition();
+        void ShowVehicle();
+        void HideVehicle();
     }
 }

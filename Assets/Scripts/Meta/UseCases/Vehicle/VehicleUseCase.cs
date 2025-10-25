@@ -13,56 +13,71 @@ namespace Meta.UseCases
         private readonly IHangarGateway _hangarGateway;
         private readonly UseCaseMediator _useCaseMediator;
         private readonly IVehicleFactory _vehicleFactory;
+        private readonly IOverlayLoadingFactory _overlayLoadingFactory;
         
         private IVehiclePresenter _vehiclePresenter;
+        private IOverlayLoadingPresenter _overlayLoadingPresenter;
         
         private Vehicle _currentVehicle;
         private Wheels _currentWheels;
         private List<Vehicle> _allVehicles;
 
-        internal VehicleUseCase(IHangarGateway hangarGateway, UseCaseMediator useCaseMediator, IVehicleFactory vehicleFactory)
+        internal VehicleUseCase(IHangarGateway hangarGateway,
+            UseCaseMediator useCaseMediator,
+            IVehicleFactory vehicleFactory,
+            IOverlayLoadingFactory overlayLoadingFactory)
         {
             _hangarGateway = hangarGateway;
             _useCaseMediator = useCaseMediator;
             _vehicleFactory = vehicleFactory;
+            _overlayLoadingFactory = overlayLoadingFactory;
         }
 
         public async UniTask StartAsync(CancellationToken cancellation = new())
         {
+            _overlayLoadingPresenter = await _overlayLoadingFactory.GetOverlayLoadingPresenter(cancellation);
             _vehiclePresenter = await _vehicleFactory.GetVehiclePresenter(cancellation);
             _useCaseMediator.OnCurrentVehicleChanged += ChangeCurrentVehicle;
             _useCaseMediator.OnCurrentWheelsChanged += ChangeCurrentWheels;
             _useCaseMediator.OnShowWheelsChanging += OnShowWheelsChanging;
             _useCaseMediator.OnHideWheelsChanging += OnHideWheelsChanging;
 
-            _currentVehicle ??= await _hangarGateway.GetSetVehicle(cancellation);
-            if (_currentVehicle == null)
+            var vehicle = await _hangarGateway.GetSetVehicle(cancellation);
+            if (vehicle == null)
                 throw new Exception("Cannot update find current vehicle");
 
-            _currentWheels ??= await _hangarGateway.GetSetWheels(_currentVehicle, cancellation);
-            if (_currentWheels == null)
-                throw new Exception("Cannot update find current vehicle");
-
-            ChangeCurrentVehicle(_currentVehicle);
-            ChangeCurrentWheels(_currentWheels);
+            ChangeCurrentVehicle(vehicle);
         }
 
         public void Dispose()
         {
-            _useCaseMediator.OnCurrentWheelsChanged -= ChangeCurrentWheels;
             _useCaseMediator.OnCurrentVehicleChanged -= ChangeCurrentVehicle;
+            _useCaseMediator.OnCurrentWheelsChanged -= ChangeCurrentWheels;
             _useCaseMediator.OnShowWheelsChanging -= OnShowWheelsChanging;
             _useCaseMediator.OnHideWheelsChanging -= OnHideWheelsChanging;
         }
 
         private void ChangeCurrentVehicle(Vehicle vehicle)
         {
+            if (_currentVehicle == vehicle)
+                return;
+            
             _currentVehicle = vehicle;
+            _currentWheels = vehicle.CurrentWheels;
+            
+            _overlayLoadingPresenter.ShowOverlayLoading();
+            _vehiclePresenter.HideVehicle();
             _vehiclePresenter.ChangeVehicle(vehicle.ToVehicleData());
+            _vehiclePresenter.ChangeWheels(vehicle.CurrentWheels.ToWheelsData());
+            _vehiclePresenter.ShowVehicle();
+            _overlayLoadingPresenter.HideOverlayLoading();
         }
 
         private void ChangeCurrentWheels(Wheels wheels)
         {
+            if (_currentWheels == wheels)
+                return;
+
             _currentWheels = wheels;
             _vehiclePresenter.ChangeWheels(wheels.ToWheelsData());
         }

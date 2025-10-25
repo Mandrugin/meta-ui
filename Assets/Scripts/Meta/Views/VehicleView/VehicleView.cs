@@ -26,8 +26,12 @@ public class VehicleView : MonoBehaviour, IVehicleView
             Destroy(_vehicleViewBody.gameObject);
         _vehicleViewBody = Instantiate(vehicleViewConfig.prefab, this.transform, false).GetComponent<VehicleViewBody>();
         _vehicleViewBody.gameObject.transform.localPosition = vehicleViewConfig.defaultPosition;
+        _vehicleViewBody.gameObject.SetActive(false);
     }
 
     public void SetCommonPosition() => cameraTarget.localPosition = commonPosition;
     public void SetWheelsChangingPosition() => cameraTarget.localPosition = wheelsChangingPosition;
+
+    public void ShowVehicle() => _vehicleViewBody?.gameObject.SetActive(true);
+    public void HideVehicle() => _vehicleViewBody?.gameObject.SetActive(false);
 }

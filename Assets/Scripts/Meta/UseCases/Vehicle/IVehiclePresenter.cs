@@ -6,5 +6,7 @@ namespace Meta.UseCases
         public void ChangeVehicle(VehicleData vehicleData);
         public void SetCommonPosition();
         public void SetWheelsChangingPosition();
+        public void ShowVehicle();
+        public void HideVehicle();
     }
 }

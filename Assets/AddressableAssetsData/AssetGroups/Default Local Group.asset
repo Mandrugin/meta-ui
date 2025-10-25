@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f5f3e1225ff7cf48a31d64d64ab8096
+    m_Address: Assets/Prefabs/Meta/Views/OverlayLoadingView/OverlayLoadingView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ed83dc622ab588549bb53b29d4994c8b
     m_Address: Assets/Prefabs/Meta/Views/VehicleView/VehicleView.prefab
     m_ReadOnly: 0

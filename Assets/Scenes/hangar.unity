@@ -289,6 +289,7 @@ MonoBehaviour:
   vehicleNavigationFactory: {fileID: 2113233414}
   vehicleFactory: {fileID: 2113233410}
   wheelsChangingFactory: {fileID: 2113233413}
+  overlayLoadingFactory: {fileID: 2113233415}
 --- !u!4 &354130101
 Transform:
   m_ObjectHideFlags: 0
@@ -301,8 +302,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1756670106}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &354130102
@@ -1478,7 +1478,8 @@ RectTransform:
   - {fileID: 2056594514}
   - {fileID: 1671494735}
   - {fileID: 801470252}
-  m_Father: {fileID: 354130101}
+  - {fileID: 2042225683}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1770,6 +1771,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866269551}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2042225682
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2042225683}
+  m_Layer: 5
+  m_Name: OverlayLayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2042225683
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042225682}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1756670106}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2056594513
 GameObject:
   m_ObjectHideFlags: 0
@@ -1907,6 +1943,7 @@ GameObject:
   - component: {fileID: 2113233414}
   - component: {fileID: 2113233410}
   - component: {fileID: 2113233413}
+  - component: {fileID: 2113233415}
   m_Layer: 0
   m_Name: Factories
   m_TagString: Untagged
@@ -2005,6 +2042,25 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   canvas: {fileID: 801470252}
+--- !u!114 &2113233415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113233409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef78ae1c6ba5ce34b9abf293921c1e04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Factories::Meta.Factories.OverlayLoadingFactory
+  overlayLoadingViewRef:
+    m_AssetGUID: 3f5f3e1225ff7cf48a31d64d64ab8096
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  parent: {fileID: 2042225683}
 --- !u!1 &2116198337
 GameObject:
   m_ObjectHideFlags: 0
@@ -3161,9 +3217,10 @@ SceneRoots:
   m_Roots:
   - {fileID: 961739753}
   - {fileID: 770375675}
+  - {fileID: 1124788819}
   - {fileID: 1160234427}
   - {fileID: 604712594}
   - {fileID: 505702790}
+  - {fileID: 1756670106}
   - {fileID: 354130101}
-  - {fileID: 1124788819}
   - {fileID: 2113233411}
