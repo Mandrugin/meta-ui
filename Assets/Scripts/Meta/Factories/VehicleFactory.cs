@@ -1,8 +1,8 @@
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Presenters;
 using Meta.UseCases;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -12,6 +12,7 @@ namespace Meta.Factories
     public class VehicleFactory : MonoBehaviour, IVehicleFactory
     {
         [SerializeField] private AssetReferenceGameObject vehicleViewRef;
+        [SerializeField] private CinemachineCamera cinemachineCamera;
 
         private AsyncOperationHandle<GameObject> vehicleViewHandle;
 
@@ -25,6 +26,7 @@ namespace Meta.Factories
                 vehicleViewHandle = vehicleViewRef.LoadAssetAsync();
                 var prefab = await vehicleViewHandle;
                 _vehicleView = Instantiate(prefab).GetComponent<VehicleView>();
+                cinemachineCamera.Target.TrackingTarget = _vehicleView.transform;
             }
             
             _vehiclePresenter ??= new VehiclePresenter(_vehicleView);
