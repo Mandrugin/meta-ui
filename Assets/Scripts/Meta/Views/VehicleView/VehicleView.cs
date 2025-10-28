@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Meta.Presenters;
 using Meta.ViewConfigs;
@@ -69,4 +70,16 @@ public class VehicleView : MonoBehaviour, IVehicleView
 
     public void ShowVehicle() => _vehicleViewBody?.gameObject.SetActive(true);
     public void HideVehicle() => _vehicleViewBody?.gameObject.SetActive(false);
+
+    public void OnDestroy()
+    {
+        if(_leftWheelHandle.IsValid())
+            _leftWheelHandle.Release();
+        
+        if(_rightWheelHandle.IsValid())
+            _rightWheelHandle.Release();
+        
+        if(_vehicleViewBodyHandle.IsValid())
+            _vehicleViewBodyHandle.Release();
+    }
 }
