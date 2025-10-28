@@ -23,7 +23,6 @@ namespace Meta.Containers
         [SerializeField] private VehicleNavigationFactory vehicleNavigationFactory;
         [SerializeField] private VehicleFactory vehicleFactory;
         [SerializeField] private WheelsChangingFactory wheelsChangingFactory;
-        [SerializeField] private OverlayLoadingFactory overlayLoadingFactory;
         
         protected override void Configure(IContainerBuilder builder)
         {
@@ -38,7 +37,6 @@ namespace Meta.Containers
             builder.RegisterComponent(vehicleNavigationFactory).AsImplementedInterfaces();
             builder.RegisterComponent(vehicleFactory).AsImplementedInterfaces();
             builder.RegisterComponent(wheelsChangingFactory).AsImplementedInterfaces();
-            builder.RegisterComponent(overlayLoadingFactory).AsImplementedInterfaces();
 
             builder.RegisterInstance(vehiclesDataConfig).AsSelf();
             builder.RegisterInstance(wheelsDataConfig).AsSelf();

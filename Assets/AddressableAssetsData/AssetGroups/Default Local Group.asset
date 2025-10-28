@@ -100,6 +100,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d02429eff30f0d64abb5f445a40bdfc5
+    m_Address: Assets/Prefabs/Meta/Views/Authenticator/AuthenticatorView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d5f9dd7520327b640add2343d5a562f0
     m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v3_R.prefab
     m_ReadOnly: 0
