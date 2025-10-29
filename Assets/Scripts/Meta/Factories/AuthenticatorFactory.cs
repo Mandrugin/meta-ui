@@ -28,7 +28,8 @@ namespace Meta.Factories
 
         public void DestroyAuthenticatorPresenter(IAuthenticatorPresenter authenticatorPresenter)
         {
-            authenticatorPresenter.Dispose();
+            if(authenticatorPresenter != null)
+                authenticatorPresenter.Dispose();
         }
 
         public void Dispose()

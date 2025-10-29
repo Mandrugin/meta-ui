@@ -15,7 +15,7 @@ namespace Meta.UseCases
         private readonly IHangarGateway _hangarGateway;
         private readonly UseCaseMediator _useCaseMediator;
         private readonly IWheelsChangingFactory _wheelsChangingFactory;
-        private readonly CancellationTokenSource _cancellationTokenSource = new();
+        private readonly CancellationTokenSource _cancellationTokenSource;
 
         private IWheelsChangingPresenter _wheelsChangingPresenter;
 
@@ -36,6 +36,8 @@ namespace Meta.UseCases
             
             _useCaseMediator.OnShowWheelsChanging += ShowPresenter;
             _useCaseMediator.OnHideWheelsChanging += HidePresenter;
+
+            _cancellationTokenSource = new();
         }
 
         public void Dispose()

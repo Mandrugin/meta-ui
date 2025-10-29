@@ -100,4 +100,5 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects: []
   hangarScope: {fileID: 5829530883903712738, guid: 43c8b2276b3593144b217172fe6cc7b8, type: 3}
+  specialOffersScope: {fileID: 2179643584310949410, guid: ddd009ebdbc3f04408110b93aa74b6fd, type: 3}
   authenticatorFactory: {fileID: 3084512424986325949}

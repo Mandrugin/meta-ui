@@ -10,13 +10,16 @@ namespace Meta.Containers
     public class AuthLifetimeScope : LifetimeScope
     {
         [SerializeField] private GameObject hangarScope;
+        [SerializeField] private GameObject specialOffersScope;
 
         [SerializeField] private AuthenticatorFactory authenticatorFactory;
 
         protected override void Configure(IContainerBuilder builder)
         {
             builder.RegisterComponent(authenticatorFactory).AsImplementedInterfaces().AsSelf();
-            builder.Register<AuthenticatorUseCase>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(hangarScope);
+            builder.RegisterInstance(hangarScope).AsSelf().Keyed(ScopeKeys.HangarScope);
+            builder.RegisterInstance(specialOffersScope).AsSelf().Keyed(ScopeKeys.SpecialOffersScope);
+            builder.Register<AuthenticatorUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<TestAuthenticationService>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
