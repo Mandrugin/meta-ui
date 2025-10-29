@@ -13,6 +13,7 @@ namespace Meta.Presenters
 
         public void Dispose()
         {
+            _placeHolderView.Dispose();
         }
     }
 }
