@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 
 public abstract class BoilerPlateGenerator
 {
@@ -11,6 +12,8 @@ public abstract class BoilerPlateGenerator
     {
         CreateView();
         CreatePresenter();
+        CreateUseCase();
+        Debug.Log("Generation is finished");
     }
 
     private static void CreateView()
@@ -33,6 +36,25 @@ public abstract class BoilerPlateGenerator
         var presenterText = File.ReadAllText("Assets/Scripts/Editor/Presenters/PlaceHolderPresenter.cs");
         presenterText = ReplacePlaceHolder(presenterText);
         File.WriteAllText("Assets/Scripts/Meta/Presenters/" + presenterFileName, presenterText);
+    }
+
+    private static void CreateUseCase()
+    {
+        var useCaseFileName = entityName + "UseCase.cs";
+        var iPresenterFileName = "I" + entityName + "Presenter.cs";
+        var iFactoryFileName = "I" + entityName + "Factory.cs";
+        
+        var useCaseText = File.ReadAllText("Assets/Scripts/Editor/UseCases/PlaceHolderUseCase.cs");
+        useCaseText = ReplacePlaceHolder(useCaseText);
+        File.WriteAllText("Assets/Scripts/Meta/UseCases/" + useCaseFileName, useCaseText);
+        
+        var iPresenterText = File.ReadAllText("Assets/Scripts/Editor/UseCases/IPlaceHolderPresenter.cs");
+        iPresenterText = ReplacePlaceHolder(iPresenterText);
+        File.WriteAllText("Assets/Scripts/Meta/UseCases/" + iPresenterFileName, iPresenterText);
+        
+        var iFactoryText = File.ReadAllText("Assets/Scripts/Editor/UseCases/IPlaceHolderFactory.cs");
+        iFactoryText = ReplacePlaceHolder(iFactoryText);
+        File.WriteAllText("Assets/Scripts/Meta/UseCases/" + iFactoryFileName, iFactoryText);
     }
 
     private static string ReplacePlaceHolder(string toReplace)
