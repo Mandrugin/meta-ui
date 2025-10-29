@@ -23,7 +23,7 @@ namespace Meta.UseCases
 
         public void Dispose()
         {
-            
+            _placeHolderFactory.DestroyPlaceHolderPresenter(_placeHolderPresenter);
         }
     }
 }
