@@ -13,6 +13,8 @@ public abstract class BoilerPlateGenerator
         CreateView();
         CreatePresenter();
         CreateUseCase();
+        CreateFactory();
+        
         Debug.Log("Generation is finished");
     }
 
@@ -61,6 +63,17 @@ public abstract class BoilerPlateGenerator
         var iFactoryText = File.ReadAllText("Assets/Scripts/Editor/UseCases/IPlaceHolderFactory.cs");
         iFactoryText = ReplacePlaceHolder(iFactoryText);
         File.WriteAllText("Assets/Scripts/Meta/UseCases/" + entityName + "/" + iFactoryFileName, iFactoryText);
+    }
+
+    private static void CreateFactory()
+    {
+        Directory.CreateDirectory("Assets/Scripts/Meta/Factories/" + entityName);
+        
+        var factoryFileName = entityName + "Factory.cs";
+        
+        var factoryText = File.ReadAllText("Assets/Scripts/Editor/Factories/PlaceHolderFactory.cs");
+        factoryText = ReplacePlaceHolder(factoryText);
+        File.WriteAllText("Assets/Scripts/Meta/Factories/" + entityName + "/" + factoryFileName, factoryText);
     }
 
     private static string ReplacePlaceHolder(string toReplace)
