@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace Meta.UseCases.Authenticator
+namespace Meta.UseCases
 {
     public interface IPlaceHolderFactory : IDisposable
     {
