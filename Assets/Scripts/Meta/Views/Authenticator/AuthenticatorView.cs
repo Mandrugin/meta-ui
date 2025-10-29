@@ -44,5 +44,10 @@ namespace Meta.Views
             inProgressIcon.gameObject.SetActive(false);
             authButton.gameObject.SetActive(!isSuccess);
         }
+
+        public void Dispose()
+        {
+            Destroy(gameObject);
+        }
     }
 }

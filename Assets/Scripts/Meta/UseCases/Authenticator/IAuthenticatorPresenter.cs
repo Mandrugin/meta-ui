@@ -2,7 +2,7 @@ using System;
 
 namespace Meta.UseCases
 {
-    public interface IAuthenticatorPresenter
+    public interface IAuthenticatorPresenter : IDisposable
     {
         event Action OnAuthenticate;
         void ShowReadyState();

@@ -1,9 +1,8 @@
 using System;
-using Cysharp.Threading.Tasks;
 
 namespace Meta.Presenters
 {
-    public interface IAuthenticatorView
+    public interface IAuthenticatorView: IDisposable
     {
         event Action OnAuthenticate;
         void ShowReadyState();

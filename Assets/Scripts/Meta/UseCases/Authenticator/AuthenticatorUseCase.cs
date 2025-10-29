@@ -35,7 +35,6 @@ namespace Meta.UseCases
             _authenticatorPresenter.OnAuthenticate += Authenticate;
         }
 
-
         public void Dispose()
         {
             
@@ -57,7 +56,7 @@ namespace Meta.UseCases
 
             if (authResponse)
             {
-                _authenticatorFactory.DestroyAuthenticatorPresenter();
+                _authenticatorFactory.DestroyAuthenticatorPresenter(_authenticatorPresenter);
                 SceneManager.LoadSceneAsync(_nextSceneName, LoadSceneMode.Additive);
             }
         }

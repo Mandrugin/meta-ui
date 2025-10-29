@@ -3,7 +3,7 @@ using Meta.UseCases;
 
 namespace Meta.Presenters
 {
-    public class AuthenticatorPresenter: IAuthenticatorPresenter, IDisposable
+    public class AuthenticatorPresenter: IAuthenticatorPresenter
     {
         public event Action OnAuthenticate = delegate { };
 
@@ -18,6 +18,7 @@ namespace Meta.Presenters
         public void Dispose()
         {
             _authenticatorView.OnAuthenticate -= InvokeOnAuthenticate;
+            _authenticatorView.Dispose();
         }
 
         private void InvokeOnAuthenticate() => OnAuthenticate.Invoke();

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class BoilerPlateGenerator
 {
-    private static string entityName = "Test";
-    private static string entityNameLowerCase = "test";
+    private static string entityName = "Authenticator";
+    private static string entityNameLowerCase = "authenticator";
     
     [MenuItem("Tools/BoilerPlateGenerator")]
     private static void Generate()

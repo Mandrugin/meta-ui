@@ -11,46 +11,28 @@ namespace Meta.Factories
 {
     public class AuthenticatorFactory: MonoBehaviour, IAuthenticatorFactory
     {
-        [SerializeField] private AssetReferenceGameObject authenticatorView;
-        [SerializeField] private Transform canvas;
+        [SerializeField] private AssetReferenceGameObject authenticatorAssetRef;
+        [SerializeField] private Transform parent;
         
         private AsyncOperationHandle<GameObject> _authenticatorViewHandle;
-        private AuthenticatorPresenter _authenticatorPresenter;
-        private AuthenticatorView _authenticatorView;
 
         public async UniTask<IAuthenticatorPresenter> GetAuthenticatorPresenter(CancellationToken cancellationToken)
         {
-            if (!_authenticatorView)
-            {
-                _authenticatorViewHandle = authenticatorView.LoadAssetAsync();
-                var prefab = await _authenticatorViewHandle;
-                _authenticatorView = Instantiate(prefab, canvas).GetComponent<AuthenticatorView>();
-            }
+            _authenticatorViewHandle = authenticatorAssetRef.LoadAssetAsync();
+            var prefab = await _authenticatorViewHandle;
+            var authenticatorView = Instantiate(prefab, parent).GetComponent<AuthenticatorView>();
             
-            _authenticatorPresenter ??= new AuthenticatorPresenter(_authenticatorView);
-            
-            return _authenticatorPresenter;
+            return new AuthenticatorPresenter(authenticatorView);
         }
 
-        public void DestroyAuthenticatorPresenter()
+        public void DestroyAuthenticatorPresenter(IAuthenticatorPresenter authenticatorPresenter)
         {
-            if(_authenticatorPresenter != null)
-            {
-                _authenticatorPresenter.Dispose();
-                _authenticatorPresenter = null;
-            }
-            
-            if (_authenticatorView)
-            {
-                Destroy(_authenticatorView.gameObject);
-                _authenticatorView = null;
-                _authenticatorViewHandle.Release();
-            }
+            authenticatorPresenter.Dispose();
         }
 
         public void Dispose()
         {
-            DestroyAuthenticatorPresenter();
+            _authenticatorViewHandle.Release();
         }
     }
 }
