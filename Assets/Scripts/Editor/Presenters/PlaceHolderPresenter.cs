@@ -4,11 +4,11 @@ namespace Meta.Presenters
 {
     public class PlaceHolderPresenter: IPlaceHolderPresenter
     {
-        private readonly IPlaceHolderView placeHolderView;
+        private readonly IPlaceHolderView _placeHolderView;
 
         public PlaceHolderPresenter(IPlaceHolderView placeHolderView)
         {
-            this.placeHolderView = placeHolderView;
+            _placeHolderView = placeHolderView;
         }
 
         public void Dispose()

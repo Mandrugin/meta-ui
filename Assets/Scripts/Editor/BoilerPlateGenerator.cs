@@ -67,13 +67,11 @@ public abstract class BoilerPlateGenerator
 
     private static void CreateFactory()
     {
-        Directory.CreateDirectory("Assets/Scripts/Meta/Factories/" + entityName);
-        
         var factoryFileName = entityName + "Factory.cs";
         
         var factoryText = File.ReadAllText("Assets/Scripts/Editor/Factories/PlaceHolderFactory.cs");
         factoryText = ReplacePlaceHolder(factoryText);
-        File.WriteAllText("Assets/Scripts/Meta/Factories/" + entityName + "/" + factoryFileName, factoryText);
+        File.WriteAllText("Assets/Scripts/Meta/Factories/" + factoryFileName, factoryText);
     }
 
     private static string ReplacePlaceHolder(string toReplace)
