@@ -2,7 +2,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Presenters;
 using Meta.UseCases;
-using Meta.UseCases.Authenticator;
 using Meta.Views;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

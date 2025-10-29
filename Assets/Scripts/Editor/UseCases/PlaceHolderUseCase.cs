@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Meta.UseCases.Authenticator;
 using VContainer.Unity;
 
 namespace Meta.UseCases
