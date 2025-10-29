@@ -6,13 +6,14 @@ using Meta.Views;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using VContainer;
 
 namespace Meta.Factories
 {
     public class PlaceHolderFactory: MonoBehaviour, IPlaceHolderFactory
     {
         [SerializeField] private AssetReferenceGameObject placeHolderAssetRef;
-        [SerializeField] private Transform parent;
+        [Inject] SceneContext sceneContext;
         
         private AsyncOperationHandle<GameObject> _placeHolderViewHandle;
 
@@ -21,7 +22,7 @@ namespace Meta.Factories
             if (!_placeHolderViewHandle.IsDone)
                 _placeHolderViewHandle = placeHolderAssetRef.LoadAssetAsync();
             var prefab = await _placeHolderViewHandle;
-            var placeHolderView = Instantiate(prefab, parent).GetComponent<PlaceHolderView>();
+            var placeHolderView = Instantiate(prefab, sceneContext.middleLayer).GetComponent<PlaceHolderView>();
             
             return new PlaceHolderPresenter(placeHolderView);
         }
