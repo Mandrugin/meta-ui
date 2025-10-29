@@ -2,8 +2,9 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Services;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 using VContainer.Unity;
+using Object = UnityEngine.Object;
 
 namespace Meta.UseCases
 {
@@ -11,8 +12,9 @@ namespace Meta.UseCases
     {
         private readonly IAuthenticatorFactory  _authenticatorFactory;
         private readonly IAuthenticationService _authenticationService;
-        private readonly string _nextSceneName;
+        private readonly GameObject _hangarScopePrefab;
         
+        private GameObject _hangarScope;
         private IAuthenticatorPresenter _authenticatorPresenter;
         
         private UniTask _authenticationTask = UniTask.CompletedTask;
@@ -20,11 +22,11 @@ namespace Meta.UseCases
         public AuthenticatorUseCase(
             IAuthenticatorFactory authenticatorFactory,
             IAuthenticationService authenticationService,
-            string nextSceneName)
+            GameObject hangarScopePrefab)
         {
             _authenticatorFactory = authenticatorFactory;
             _authenticationService = authenticationService;
-            _nextSceneName = nextSceneName;
+            _hangarScopePrefab = hangarScopePrefab;
         }
 
         public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
@@ -58,7 +60,7 @@ namespace Meta.UseCases
             {
                 await UniTask.WaitForSeconds(1);
                 _authenticatorFactory.DestroyAuthenticatorPresenter(_authenticatorPresenter);
-                SceneManager.LoadSceneAsync(_nextSceneName, LoadSceneMode.Additive);
+                _hangarScope = Object.Instantiate(_hangarScopePrefab);
             }
         }
     }

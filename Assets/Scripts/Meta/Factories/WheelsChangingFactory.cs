@@ -5,13 +5,14 @@ using Meta.UseCases;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using VContainer;
 
 namespace Meta.Factories
 {
     public class WheelsChangingFactory : MonoBehaviour, IWheelsChangingFactory
     {
         [SerializeField] private AssetReferenceGameObject wheelsChangingViewRef;
-        [SerializeField] private Transform canvas;
+        [Inject] private SceneContext sceneContext;
         
         private AsyncOperationHandle<GameObject> _wheelsChangingViewHandle;
         private WheelsChangingPresenter _wheelsChangingPresenter;
@@ -23,7 +24,7 @@ namespace Meta.Factories
             {
                 _wheelsChangingViewHandle = wheelsChangingViewRef.LoadAssetAsync();
                 var prefab = await _wheelsChangingViewHandle;
-                _wheelsChangingView = Instantiate(prefab, canvas).GetComponent<WheelsChangingView>();
+                _wheelsChangingView = Instantiate(prefab, sceneContext.frontLayer).GetComponent<WheelsChangingView>();
             }
             
             _wheelsChangingPresenter ??= new WheelsChangingPresenter(_wheelsChangingView);

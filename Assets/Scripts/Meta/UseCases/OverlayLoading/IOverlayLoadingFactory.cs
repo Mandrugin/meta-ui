@@ -1,9 +1,10 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 namespace Meta.UseCases
 {
-    public interface IOverlayLoadingFactory
+    public interface IOverlayLoadingFactory: IDisposable
     {
         UniTask<IOverlayLoadingPresenter> GetOverlayLoadingPresenter(CancellationToken cancellationToken);
         void DestroyOverlayLoadingPresenter();

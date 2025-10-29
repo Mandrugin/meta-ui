@@ -5,13 +5,14 @@ using Meta.UseCases;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using VContainer;
 
 namespace Meta.Factories
 {
     public class HangarFactory : MonoBehaviour, IHangarFactory
     {
         [SerializeField] private AssetReferenceGameObject hangarViewRef;
-        [SerializeField] private Transform canvas;
+        [Inject] private SceneContext sceneContext;
         
         private AsyncOperationHandle<GameObject> _hangarViewHandle;
         private HangarPresenter _hangarPresenter;
@@ -23,7 +24,7 @@ namespace Meta.Factories
             {
                 _hangarViewHandle = hangarViewRef.LoadAssetAsync();
                 var prefab = await _hangarViewHandle;
-                _hangarView = Instantiate(prefab, canvas).GetComponent<HangarView>();
+                _hangarView = Instantiate(prefab, sceneContext.backLayer).GetComponent<HangarView>();
             }
             
             _hangarPresenter ??= new HangarPresenter(_hangarView);

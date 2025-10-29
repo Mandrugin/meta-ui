@@ -5,13 +5,14 @@ using Meta.UseCases;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using VContainer;
 
 namespace Meta.Factories
 {
     public class VehicleNavigationFactory: MonoBehaviour, IVehicleNavigationFactory
     {
         [SerializeField] private AssetReferenceGameObject vehicleViewNavigationRef;
-        [SerializeField] private Transform canvas;
+        [Inject] private SceneContext sceneContext;
         
         private AsyncOperationHandle<GameObject>  vehicleNavigationHandle;
 
@@ -24,7 +25,7 @@ namespace Meta.Factories
             {
                 vehicleNavigationHandle = vehicleViewNavigationRef.LoadAssetAsync();
                 var prefab = await vehicleNavigationHandle;
-                vehicleNavigationView = Instantiate(prefab, canvas).GetComponent<VehicleNavigationView>();
+                vehicleNavigationView = Instantiate(prefab, sceneContext.frontLayer).GetComponent<VehicleNavigationView>();
             }
             
             _vehicleNavigationPresenter ??= new VehicleNavigationPresenter(vehicleNavigationView);

@@ -6,13 +6,14 @@ using Meta.UseCases;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using VContainer;
 
 namespace Meta.Factories
 {
-    public class OverlayLoadingFactory : MonoBehaviour, IDisposable, IOverlayLoadingFactory
+    public class OverlayLoadingFactory : MonoBehaviour, IOverlayLoadingFactory
     {
         [SerializeField] private AssetReferenceGameObject overlayLoadingViewRef;
-        [SerializeField] private Transform parent;
+        [Inject] SceneContext sceneContext;
 
         private AsyncOperationHandle<GameObject> overlayLoadingViewHandle;
 
@@ -26,7 +27,7 @@ namespace Meta.Factories
             {
                 overlayLoadingViewHandle = overlayLoadingViewRef.LoadAssetAsync();
                 var prefab = await overlayLoadingViewHandle;
-                _overlayLoadingView = Instantiate(prefab, parent).GetComponent<OverlayLoadingView>();
+                _overlayLoadingView = Instantiate(prefab, sceneContext.overlayLayer).GetComponent<OverlayLoadingView>();
             }
             
             _overlayLoadingPresenter ??= new OverlayLoadingPresenter(_overlayLoadingView);

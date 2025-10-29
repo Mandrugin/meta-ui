@@ -6,13 +6,14 @@ using Meta.Views;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using VContainer;
 
 namespace Meta.Factories
 {
     public class AuthenticatorFactory: MonoBehaviour, IAuthenticatorFactory
     {
         [SerializeField] private AssetReferenceGameObject authenticatorAssetRef;
-        [SerializeField] private Transform parent;
+        [Inject] private SceneContext sceneContext;
         
         private AsyncOperationHandle<GameObject> _authenticatorViewHandle;
 
@@ -20,7 +21,7 @@ namespace Meta.Factories
         {
             _authenticatorViewHandle = authenticatorAssetRef.LoadAssetAsync();
             var prefab = await _authenticatorViewHandle;
-            var authenticatorView = Instantiate(prefab, parent).GetComponent<AuthenticatorView>();
+            var authenticatorView = Instantiate(prefab, sceneContext.middleLayer).GetComponent<AuthenticatorView>();
             
             return new AuthenticatorPresenter(authenticatorView);
         }
