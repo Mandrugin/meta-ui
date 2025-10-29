@@ -56,6 +56,7 @@ namespace Meta.UseCases
 
             if (authResponse)
             {
+                await UniTask.WaitForSeconds(1);
                 _authenticatorFactory.DestroyAuthenticatorPresenter(_authenticatorPresenter);
                 SceneManager.LoadSceneAsync(_nextSceneName, LoadSceneMode.Additive);
             }
