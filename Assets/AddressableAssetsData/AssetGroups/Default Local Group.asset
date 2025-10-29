@@ -25,8 +25,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b1e4ae6c5531604184bba3a45923555
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersIcons/Offer3.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1b27ceeab7741204e9d4ea471ce21149
     m_Address: Assets/Prefabs/Meta/Views/VehiclesViewBodies/LCoupe_v1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b27f49612d8c0c4193fbb21df20bd03
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersIcons/Offer1.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -42,6 +52,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 344745e052cdba34ab28ef5c65a30668
     m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v4_L.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 34b1445ed08676c4b957bb64c5a38c35
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersIcons/Offer2.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -87,6 +102,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 845bbdf992f96464a9d5ac1114b22866
     m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v5_R.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8fc53d89a1be0a141be1cc0c78456331
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9ea376a1a0a13e448625be594315d36
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersIcons/Offer4.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

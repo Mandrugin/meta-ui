@@ -19,8 +19,7 @@ namespace Meta.Factories
 
         public async UniTask<ISpecialOffersPresenter> GetSpecialOffersPresenter(CancellationToken cancellationToken)
         {
-            if (!_specialOffersViewHandle.IsDone)
-                _specialOffersViewHandle = specialOffersAssetRef.LoadAssetAsync();
+            _specialOffersViewHandle = specialOffersAssetRef.LoadAssetAsync();
             var prefab = await _specialOffersViewHandle;
             var specialOffersView = Instantiate(prefab, sceneContext.middleLayer).GetComponent<SpecialOffersView>();
             

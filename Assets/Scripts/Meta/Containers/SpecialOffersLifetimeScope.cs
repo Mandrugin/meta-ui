@@ -1,13 +1,23 @@
 using Meta.Factories;
+using Meta.Services;
+using Meta.UseCases;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class SpecialOffersLifetimeScope : LifetimeScope
+namespace Meta.Containers
 {
-    [SerializeField] private SpecialOffersFactory  specialOffersFactory;
-    
-    protected override void Configure(IContainerBuilder builder)
+    public class SpecialOffersLifetimeScope : LifetimeScope
     {
+        [SerializeField] private SpecialOffersFactory  specialOffersFactory;
+        [SerializeField] private SpecialOffersDataConfig specialOffersDataConfig;
+    
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.RegisterComponent(specialOffersFactory).AsImplementedInterfaces();
+            builder.RegisterComponent(specialOffersDataConfig).AsSelf();
+            builder.Register<TestSpecialOffersService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<SpecialOffersUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
+        }
     }
 }

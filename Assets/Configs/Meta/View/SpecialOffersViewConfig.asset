@@ -12,4 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74994b13ec04feea3135b2855fd5e60, type: 3}
   m_Name: SpecialOffersViewConfig
   m_EditorClassIdentifier: ViewConfigs::Meta.ViewConfigs.SpecialOffersViewConfig
-  specialOffers: []
+  specialOffers:
+  - id: offer1
+    prefab:
+      m_AssetGUID: 2b27f49612d8c0c4193fbb21df20bd03
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+  - id: offer2
+    prefab:
+      m_AssetGUID: 34b1445ed08676c4b957bb64c5a38c35
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+  - id: offer3
+    prefab:
+      m_AssetGUID: 1b1e4ae6c5531604184bba3a45923555
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+  - id: offer4
+    prefab:
+      m_AssetGUID: a9ea376a1a0a13e448625be594315d36
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0

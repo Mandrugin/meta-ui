@@ -21,7 +21,10 @@ namespace Meta.UseCases
         public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
         {
             _specialOffersPresenter = await _specialOffersFactory.GetSpecialOffersPresenter(cancellation);
+
+            var availableSpecialOffers = await _specialOffersService.GetAvailableSpecialOffers();
             
+            _specialOffersPresenter.AddSpecialOffers(availableSpecialOffers);
         }
 
         public void Dispose()
