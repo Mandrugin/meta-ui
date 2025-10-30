@@ -1,19 +1,28 @@
+using System;
 using Meta.UseCases;
 
 namespace Meta.Presenters
 {
     public class SpecialOfferPresenter: ISpecialOfferPresenter
     {
-        private readonly ISpecialOfferView _SpecialOfferView;
+        public event Action<string> OnGetSpecialOffer = delegate { };
+        public event Action DismissSpecialOffer = delegate { };
+        
+        private readonly ISpecialOfferView _specialOfferView;
 
-        public SpecialOfferPresenter(ISpecialOfferView SpecialOfferView)
+        public SpecialOfferPresenter(ISpecialOfferView specialOfferView)
         {
-            _SpecialOfferView = SpecialOfferView;
+            _specialOfferView = specialOfferView;
         }
 
         public void Dispose()
         {
-            _SpecialOfferView.Dispose();
+            _specialOfferView.Dispose();
+        }
+
+        public void Init(string specialOfferId)
+        {
+            // ...
         }
     }
 }
