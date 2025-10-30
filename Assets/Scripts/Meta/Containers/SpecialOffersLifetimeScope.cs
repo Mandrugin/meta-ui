@@ -12,6 +12,7 @@ namespace Meta.Containers
     {
         [SerializeField] private SpecialOffersFactory  specialOffersFactory;
         [SerializeField] private SpecialOfferFactory specialOfferFactory;
+        [SerializeField] private SpecialOffersCongratsFactory specialOffersCongratsFactory;
         [SerializeField] private SpecialOffersDataConfig specialOffersDataConfig;
         [SerializeField] private ProfileDataConfig profileDataConfig;
     
@@ -19,6 +20,7 @@ namespace Meta.Containers
         {
             builder.RegisterComponent(specialOffersFactory).AsImplementedInterfaces();
             builder.RegisterComponent(specialOfferFactory).AsImplementedInterfaces();
+            builder.RegisterComponent(specialOffersCongratsFactory).AsImplementedInterfaces();
             builder.RegisterComponent(specialOffersDataConfig).AsSelf();
             builder.RegisterComponent(profileDataConfig).AsSelf();
             builder.Register<TestSpecialOffersService>(Lifetime.Singleton).AsImplementedInterfaces();

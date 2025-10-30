@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3138999547213427968}
   - component: {fileID: 4210051472589491423}
   - component: {fileID: 7836830994177560701}
+  - component: {fileID: 8539866661400737840}
   m_Layer: 0
   m_Name: SpecialOffersScope
   m_TagString: Untagged
@@ -52,6 +53,7 @@ MonoBehaviour:
   autoInjectGameObjects: []
   specialOffersFactory: {fileID: 4210051472589491423}
   specialOfferFactory: {fileID: 7836830994177560701}
+  specialOffersCongratsFactory: {fileID: 8539866661400737840}
   specialOffersDataConfig: {fileID: 11400000, guid: 85b174e3cec38af4e81f236fd4045e45, type: 2}
   profileDataConfig: {fileID: 11400000, guid: db6e2a94bc1fab44eb4efe9b6b8cda1f, type: 2}
 --- !u!114 &4210051472589491423
@@ -84,4 +86,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9808db147a8562647ba9b14772b38794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Factories::Meta.Factories.SpecialOfferFactory
+  specialOffersPopUpsConfig: {fileID: 11400000, guid: 3888a590041d714458c2169c82d321d9, type: 2}
+--- !u!114 &8539866661400737840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2179643584310949410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f718cf4c373d0f48a9e51cb137e5e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Factories::Meta.Factories.SpecialOffersCongratsFactory
   specialOffersPopUpsConfig: {fileID: 11400000, guid: 3888a590041d714458c2169c82d321d9, type: 2}

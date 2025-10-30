@@ -10,6 +10,7 @@ namespace Meta.UseCases
     {
         private readonly ISpecialOffersFactory  _specialOffersFactory;
         private readonly ISpecialOfferFactory _specialOfferFactory;
+        private readonly ISpecialOffersCongratsFactory _specialOfferCongratsFactory;
         private readonly ISpecialOffersService _specialOffersService;
         private readonly IOverlayLoadingFactory _overlayLoadingFactory;
         
@@ -20,11 +21,13 @@ namespace Meta.UseCases
         public SpecialOffersUseCase(
             ISpecialOffersFactory specialOffersFactory,
             ISpecialOffersService specialOffersService,
+            ISpecialOffersCongratsFactory specialOfferCongratsFactory,
             ISpecialOfferFactory specialOfferFactory,
             IOverlayLoadingFactory overlayLoadingFactory)
         {
             _specialOffersFactory = specialOffersFactory;
             _specialOffersService = specialOffersService;
+            _specialOfferCongratsFactory = specialOfferCongratsFactory;
             _specialOfferFactory = specialOfferFactory;
             _overlayLoadingFactory = overlayLoadingFactory;
         }
@@ -78,7 +81,10 @@ namespace Meta.UseCases
                         Id = specialOfferId,
                     });
 
+                    var congrats = await _specialOfferCongratsFactory.GetInfoPopupPresenter(specialOfferId, _cancellationTokenSource.Token);
                     _overlayLoadingFactory.DestroyOverlayLoadingPresenter(overlay);
+                    await congrats.GetClick();
+                    _specialOfferCongratsFactory.DestroyInfoPopupPresenter(congrats);
                     return true;
                 }
             }

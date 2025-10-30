@@ -110,8 +110,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a434b1d5b95adc459e169d601b93d0b
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersCongrats/SpecialOfferCongrats2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 845bbdf992f96464a9d5ac1114b22866
     m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v5_R.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8ddefff201586be4198639615953bc8c
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersCongrats/SpecialOfferCongrats3.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -120,8 +130,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a21c2863d9c9e7d47b37e546a7d0bbca
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersCongrats/SpecialOfferCongrats4.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a9ea376a1a0a13e448625be594315d36
     m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersIcons/Offer4.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab7e396931c4cfb4ebe30798530c87ca
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersCongrats/SpecialOfferCongrats1.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
