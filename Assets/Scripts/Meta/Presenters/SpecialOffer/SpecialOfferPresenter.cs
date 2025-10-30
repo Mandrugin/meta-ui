@@ -22,7 +22,7 @@ namespace Meta.Presenters
 
         public void Init(string specialOfferId)
         {
-            // ...
+            _specialOfferView.Init(specialOfferId);
         }
     }
 }
