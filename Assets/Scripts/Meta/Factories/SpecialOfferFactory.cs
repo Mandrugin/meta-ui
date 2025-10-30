@@ -12,29 +12,29 @@ namespace Meta.Factories
 {
     public class SpecialOfferFactory: MonoBehaviour, ISpecialOfferFactory
     {
-        [SerializeField] private AssetReferenceGameObject SpecialOfferAssetRef;
+        [SerializeField] private AssetReferenceGameObject specialOfferAssetRef;
         [Inject] SceneContext sceneContext;
         
-        private AsyncOperationHandle<GameObject> _SpecialOfferViewHandle;
+        private AsyncOperationHandle<GameObject> _specialOfferViewHandle;
 
         public async UniTask<ISpecialOfferPresenter> GetSpecialOfferPresenter(CancellationToken cancellationToken)
         {
-            if (!_SpecialOfferViewHandle.IsDone)
-                _SpecialOfferViewHandle = SpecialOfferAssetRef.LoadAssetAsync();
-            var prefab = await _SpecialOfferViewHandle;
-            var SpecialOfferView = Instantiate(prefab, sceneContext.middleLayer).GetComponent<SpecialOfferView>();
+            if (!_specialOfferViewHandle.IsDone)
+                _specialOfferViewHandle = specialOfferAssetRef.LoadAssetAsync();
+            var prefab = await _specialOfferViewHandle;
+            var specialOfferView = Instantiate(prefab, sceneContext.middleLayer).GetComponent<SpecialOfferView>();
             
-            return new SpecialOfferPresenter(SpecialOfferView);
+            return new SpecialOfferPresenter(specialOfferView);
         }
 
-        public void DestroySpecialOfferPresenter(ISpecialOfferPresenter SpecialOfferPresenter)
+        public void DestroySpecialOfferPresenter(ISpecialOfferPresenter specialOfferPresenter)
         {
-            SpecialOfferPresenter.Dispose();
+            specialOfferPresenter.Dispose();
         }
 
         public void Dispose()
         {
-            _SpecialOfferViewHandle.Release();
+            _specialOfferViewHandle.Release();
         }
     }
 }
