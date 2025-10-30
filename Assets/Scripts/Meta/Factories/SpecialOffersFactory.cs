@@ -21,6 +21,7 @@ namespace Meta.Factories
         {
             _specialOffersViewHandle = specialOffersAssetRef.LoadAssetAsync();
             var prefab = await _specialOffersViewHandle;
+            specialOffersAssetRef.ReleaseAsset();
             var specialOffersView = Instantiate(prefab, sceneContext.middleLayer).GetComponent<SpecialOffersView>();
             
             return new SpecialOffersPresenter(specialOffersView);
@@ -33,7 +34,8 @@ namespace Meta.Factories
 
         public void Dispose()
         {
-            _specialOffersViewHandle.Release();
+            if(_specialOffersViewHandle.IsValid())
+                _specialOffersViewHandle.Release();
         }
     }
 }

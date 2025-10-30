@@ -1,30 +1,30 @@
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Meta.Presenters;
 using Meta.UseCases;
 using Meta.Views;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using VContainer;
 
 namespace Meta.Factories
 {
     public class SpecialOfferFactory: MonoBehaviour, ISpecialOfferFactory
     {
-        [SerializeField] private AssetReferenceGameObject specialOfferAssetRef;
+        [SerializeField] private SpecialOffersPopUpsConfig specialOffersPopUpsConfig;
         [Inject] SceneContext sceneContext;
         
-        private AsyncOperationHandle<GameObject> _specialOfferViewHandle;
-
-        public async UniTask<ISpecialOfferPresenter> GetSpecialOfferPresenter(CancellationToken cancellationToken)
+        public async UniTask<ISpecialOfferPresenter> GetSpecialOfferPresenter(
+            string specialOfferId,
+            CancellationToken cancellationToken)
         {
-            if (!_specialOfferViewHandle.IsDone)
-                _specialOfferViewHandle = specialOfferAssetRef.LoadAssetAsync();
-            var prefab = await _specialOfferViewHandle;
-            var specialOfferView = Instantiate(prefab, sceneContext.middleLayer).GetComponent<SpecialOfferView>();
-            
-            return new SpecialOfferPresenter(specialOfferView);
+            var assetRef = specialOffersPopUpsConfig.specialOfferConfigs
+                .First(x => x.specialOfferId == specialOfferId).specialOfferAssetReference;
+            var prefab = await assetRef.LoadAssetAsync();
+            assetRef.ReleaseAsset();
+            var specialOfferView = Instantiate(prefab, sceneContext.frontLayer).GetComponent<SpecialOfferView>();
+            var specialOfferPresenter = new SpecialOfferPresenter(specialOfferView);
+            return specialOfferPresenter;
         }
 
         public void DestroySpecialOfferPresenter(ISpecialOfferPresenter specialOfferPresenter)
@@ -34,7 +34,7 @@ namespace Meta.Factories
 
         public void Dispose()
         {
-            _specialOfferViewHandle.Release();
+            
         }
     }
 }

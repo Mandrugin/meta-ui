@@ -14,6 +14,8 @@ namespace Meta.DataConfigs
         public List<VehicleData> vehiclesData;
         public List<WheelsData> wheelsData;
 
+        public List<string> usedOffers;
+
         [Serializable]
         public class VehicleData
         {

@@ -1,13 +1,10 @@
-using System;
+using Cysharp.Threading.Tasks;
 using Meta.UseCases;
 
 namespace Meta.Presenters
 {
     public class SpecialOfferPresenter: ISpecialOfferPresenter
     {
-        public event Action<string> OnGetSpecialOffer = delegate { };
-        public event Action DismissSpecialOffer = delegate { };
-        
         private readonly ISpecialOfferView _specialOfferView;
 
         public SpecialOfferPresenter(ISpecialOfferView specialOfferView)
@@ -20,9 +17,9 @@ namespace Meta.Presenters
             _specialOfferView.Dispose();
         }
 
-        public void Init(string specialOfferId)
+        public UniTask<bool> GetUserChoice()
         {
-            _specialOfferView.Init(specialOfferId);
+            return _specialOfferView.GetUserChoice();
         }
     }
 }

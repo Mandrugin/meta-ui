@@ -35,6 +35,7 @@ namespace Meta.Views
             var specialOffersElementView = specialOffersElements.First(x => x.Id == specialOfferId.Id);
             specialOffersElementView.onClick -= OnClickSpecialOfferInvocator;
             specialOffersElements.Remove(specialOffersElementView);
+            Destroy(specialOffersElementView.gameObject);
         }
 
         public void AddSpecialOffers(List<SpecialOfferDataView> specialOfferIds)
@@ -56,7 +57,6 @@ namespace Meta.Views
         public void Dispose()
         {
             if(gameObject)
-
                 Destroy(gameObject);
         }
     }

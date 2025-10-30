@@ -70,6 +70,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a3b4b1df725b894c9c65443ff5327f1
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersPopUps/SpecialOfferPopUp2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4cbd4a1f30af5e44fa5797fdcc9c258b
     m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v2_R.prefab
     m_ReadOnly: 0
@@ -95,6 +100,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6efe0463d2ab36041b95a4ece2014da7
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersPopUps/SpecialOfferPopUp1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 76c0c4640d7bf3147af47b01a33f8bf9
     m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v1_L.prefab
     m_ReadOnly: 0
@@ -115,6 +125,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b68b003df0791b348a3ddb811edc646e
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersPopUps/SpecialOfferPopUp3.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b7d429c4141f5e94e94866fdf89fb167
     m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v6_L.prefab
     m_ReadOnly: 0
@@ -122,6 +137,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b98e95fe86be3ce42a801b3dbeedf041
     m_Address: Assets/Prefabs/Meta/Views/WheelsViews/Tire_v1_R.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd4ff0c084a7bc745ac7a3922aee5e32
+    m_Address: Assets/Prefabs/Meta/Views/SpecialOffers/SpecialOffersPopUps/SpecialOfferPopUp4.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

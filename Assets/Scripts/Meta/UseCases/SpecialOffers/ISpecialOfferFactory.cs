@@ -6,7 +6,7 @@ namespace Meta.UseCases
 {
     public interface ISpecialOfferFactory : IDisposable
     {
-        public UniTask<ISpecialOfferPresenter> GetSpecialOfferPresenter(CancellationToken cancellationToken);
+        public UniTask<ISpecialOfferPresenter> GetSpecialOfferPresenter(string specialOfferId, CancellationToken cancellationToken);
         public void DestroySpecialOfferPresenter(ISpecialOfferPresenter specialOfferPresenter);
     }
 }
