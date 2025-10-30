@@ -1,6 +1,8 @@
-﻿namespace Meta.Presenters
+﻿using System;
+
+namespace Meta.Presenters
 {
-    public interface IOverlayLoadingView
+    public interface IOverlayLoadingView: IDisposable
     {
         void ShowOverlayLoading();
         void HideOverlayLoading();

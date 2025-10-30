@@ -13,7 +13,7 @@ namespace Meta.Presenters
     
         public void Dispose()
         {
-            // TODO release managed resources here
+            _overlayLoadingView.Dispose();
         }
 
         public void ShowOverlayLoading() => _overlayLoadingView.ShowOverlayLoading();

@@ -7,6 +7,6 @@ namespace Meta.UseCases
     public interface IOverlayLoadingFactory: IDisposable
     {
         UniTask<IOverlayLoadingPresenter> GetOverlayLoadingPresenter(CancellationToken cancellationToken);
-        void DestroyOverlayLoadingPresenter();
+        void DestroyOverlayLoadingPresenter(IOverlayLoadingPresenter overlayLoadingPresenter);
     }
 }

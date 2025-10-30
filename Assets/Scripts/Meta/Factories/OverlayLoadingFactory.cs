@@ -15,45 +15,33 @@ namespace Meta.Factories
         [SerializeField] private AssetReferenceGameObject overlayLoadingViewRef;
         [Inject] SceneContext sceneContext;
 
-        private AsyncOperationHandle<GameObject> overlayLoadingViewHandle;
-
         private OverlayLoadingPresenter _overlayLoadingPresenter;
-        private OverlayLoadingView _overlayLoadingView;
-
         
         public async UniTask<IOverlayLoadingPresenter> GetOverlayLoadingPresenter(CancellationToken cancellationToken)
         {
-            if (!_overlayLoadingView)
+            if (_overlayLoadingPresenter != null)
             {
-                overlayLoadingViewHandle = overlayLoadingViewRef.LoadAssetAsync();
-                var prefab = await overlayLoadingViewHandle;
-                _overlayLoadingView = Instantiate(prefab, sceneContext.overlayLayer).GetComponent<OverlayLoadingView>();
+                _overlayLoadingPresenter.ShowOverlayLoading();
+                return _overlayLoadingPresenter;
             }
             
-            _overlayLoadingPresenter ??= new OverlayLoadingPresenter(_overlayLoadingView);
+            var prefab = await overlayLoadingViewRef.LoadAssetAsync();
+            overlayLoadingViewRef.ReleaseAsset();
+            var overlayLoadingView = Instantiate(prefab, sceneContext.overlayLayer).GetComponent<OverlayLoadingView>();
+            
+            _overlayLoadingPresenter ??= new OverlayLoadingPresenter(overlayLoadingView);
             
             return _overlayLoadingPresenter;
         }
 
-        public void DestroyOverlayLoadingPresenter()
+        public void DestroyOverlayLoadingPresenter(IOverlayLoadingPresenter overlayLoadingPresenter)
         {
-            if(_overlayLoadingPresenter != null)
-            {
-                _overlayLoadingPresenter.Dispose();
-                _overlayLoadingPresenter = null;
-            }
-            
-            if (_overlayLoadingView)
-            {
-                Destroy(_overlayLoadingView.gameObject);
-                _overlayLoadingView = null;
-                overlayLoadingViewHandle.Release();
-            }
+            _overlayLoadingPresenter.HideOverlayLoading();
         }
 
         public void Dispose()
         {
-            DestroyOverlayLoadingPresenter();
+            _overlayLoadingPresenter.Dispose();
         }
     }
 }

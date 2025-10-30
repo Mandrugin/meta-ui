@@ -16,7 +16,6 @@ namespace Meta.UseCases
         private readonly IOverlayLoadingFactory _overlayLoadingFactory;
         
         private IVehiclePresenter _vehiclePresenter;
-        private IOverlayLoadingPresenter _overlayLoadingPresenter;
         
         private Vehicle _currentVehicle;
         private Wheels _currentWheels;
@@ -35,7 +34,6 @@ namespace Meta.UseCases
 
         public async UniTask StartAsync(CancellationToken cancellation = new())
         {
-            _overlayLoadingPresenter = await _overlayLoadingFactory.GetOverlayLoadingPresenter(cancellation);
             _vehiclePresenter = await _vehicleFactory.GetVehiclePresenter(cancellation);
             _useCaseMediator.OnCurrentVehicleChanged += ChangeCurrentVehicle;
             _useCaseMediator.OnCurrentWheelsChanged += ChangeCurrentWheels;
@@ -70,12 +68,12 @@ namespace Meta.UseCases
 
         private async UniTask ChangeCurrentVehicleAsync(Vehicle vehicle)
         {
-            _overlayLoadingPresenter.ShowOverlayLoading();
+            var overlayLoadingPresenter = await _overlayLoadingFactory.GetOverlayLoadingPresenter(CancellationToken.None);
             _vehiclePresenter.HideVehicle();
             await _vehiclePresenter.ChangeVehicle(vehicle.ToVehicleData());
             await _vehiclePresenter.ChangeWheels(vehicle.CurrentWheels.ToWheelsData());
             _vehiclePresenter.ShowVehicle();
-            _overlayLoadingPresenter.HideOverlayLoading();            
+            _overlayLoadingFactory.DestroyOverlayLoadingPresenter(overlayLoadingPresenter);
         }
 
         private void ChangeCurrentWheels(Wheels wheels)
