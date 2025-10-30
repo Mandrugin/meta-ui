@@ -36,6 +36,12 @@ namespace Meta.UseCases
         public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
         {
             _authenticatorPresenter = await _authenticatorFactory.GetAuthenticatorPresenter(cancellation);
+            _authenticatorPresenter.ShowInProgressState();
+
+            await _authenticationService.InitializeAsync();
+            
+            if(_authenticationService.IsAuthenticated)
+                MoveOn();
             
             _authenticatorPresenter.ShowReadyState();
             _authenticatorPresenter.OnAuthenticate += Authenticate;
@@ -63,11 +69,16 @@ namespace Meta.UseCases
             if (authResponse)
             {
                 await UniTask.WaitForSeconds(1);
-                _authenticatorFactory.DestroyAuthenticatorPresenter(_authenticatorPresenter);
-                _authenticatorPresenter = null;
-                _hangarScope = Object.Instantiate(_hangarScopePrefab);
-                _specialOffersScope = Object.Instantiate(_specialOffersScopePrefab);
+                MoveOn();
             }
+        }
+
+        private void MoveOn()
+        {
+            _authenticatorFactory.DestroyAuthenticatorPresenter(_authenticatorPresenter);
+            _authenticatorPresenter = null;
+            _hangarScope = Object.Instantiate(_hangarScopePrefab);
+            _specialOffersScope = Object.Instantiate(_specialOffersScopePrefab);            
         }
     }
 }

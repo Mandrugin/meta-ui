@@ -6,7 +6,12 @@ namespace Meta.Services
     public class TestAuthenticationService : IAuthenticationService
     {
         public bool IsAuthenticated => false;
-    
+
+        public async UniTask InitializeAsync()
+        {
+            await UniTask.WaitForSeconds(1);
+        }
+
         public async UniTask<bool> Authenticate()
         {
             await UniTask.WaitForSeconds(3);
@@ -14,6 +19,11 @@ namespace Meta.Services
             if (response)
                 await UniTask.WaitForSeconds(1);
             return response;
+        }
+
+        public void Dispose()
+        {
+            // ...
         }
     }
 }
