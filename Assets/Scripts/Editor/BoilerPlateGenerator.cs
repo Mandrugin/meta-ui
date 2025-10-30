@@ -76,8 +76,8 @@ public abstract class BoilerPlateGenerator
 
     private static string ReplacePlaceHolder(string toReplace)
     {
-        toReplace = toReplace.Replace("PlaceHolder", entityName);
-        toReplace = toReplace.Replace("placeHolder", entityNameLowerCase);
+        toReplace = toReplace.Replace("PlaceHolder", entityName, StringComparison.Ordinal);
+        toReplace = toReplace.Replace("placeHolder", entityNameLowerCase, StringComparison.Ordinal);
         return toReplace;
     }
 }
