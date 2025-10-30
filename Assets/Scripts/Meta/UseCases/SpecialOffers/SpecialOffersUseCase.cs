@@ -34,6 +34,8 @@ namespace Meta.UseCases
             
             _specialOffersPresenter.AddSpecialOffers(availableSpecialOffers);
             _specialOffersPresenter.OnClickSpecialOffer += ShowSpecialOfferPopup;
+
+            ShowCarousel();
         }
 
         public void Dispose()
@@ -46,7 +48,7 @@ namespace Meta.UseCases
 
         private void ShowSpecialOfferPopup(string specialOfferId) => SpecialOfferPopupAsync(specialOfferId).Forget();
 
-        private async UniTask SpecialOfferPopupAsync(string specialOfferId)
+        private async UniTask<bool> SpecialOfferPopupAsync(string specialOfferId)
         {
             var specialOfferPresenter =
                 await _specialOfferFactory.GetSpecialOfferPresenter(specialOfferId, _cancellationTokenSource.Token);
@@ -61,15 +63,34 @@ namespace Meta.UseCases
                 
                 if(useOffer)
                 {
-                    Debug.Log($"{specialOfferId} used offer");
+                    Debug.Log($"offer with Id {specialOfferId} is used");
                     
                     _specialOffersPresenter.RemoveSpecialOffer(new SpecialOfferData
                     {
                         Id = specialOfferId,
                     });
+
+                    return true;
                 }
             }
 
+            return false;
+        }
+
+        private void ShowCarousel()
+        {
+            ShowCarouselAsync().Forget();
+        }
+
+        private async UniTask ShowCarouselAsync()
+        {
+            var availableSpecialOffers = await _specialOffersService.GetAvailableSpecialOffers();
+
+            foreach (var availableSpecialOffer in availableSpecialOffers)
+            {
+                if (await SpecialOfferPopupAsync(availableSpecialOffer.Id))
+                    break;
+            }
         }
     }
 }
