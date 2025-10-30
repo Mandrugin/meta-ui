@@ -44,6 +44,7 @@ namespace Meta.UseCases
         {
             _useCaseMediator.OnShowWheelsChanging -= ShowPresenter;
             _useCaseMediator.OnHideWheelsChanging -= HidePresenter;
+            HidePresenter();
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
             _wheelsChangingFactory.DestroyWheelsChangingPresenter();
@@ -81,7 +82,6 @@ namespace Meta.UseCases
 
             if (_showWheelsChangingTask.Status == UniTaskStatus.Pending)
                 return;
-
 
             _wheelsChangingPresenter.OnSetWheels -= SetWheels;
             _wheelsChangingPresenter.OnBuyWheels -= BuyWheels;
