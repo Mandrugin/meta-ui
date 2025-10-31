@@ -8,7 +8,7 @@ public class OverlayLoadingView : MonoBehaviour, IOverlayLoadingView
 
     public void Dispose()
     {
-        if(gameObject)
+        if(this)
             Destroy(gameObject);
     }
 }

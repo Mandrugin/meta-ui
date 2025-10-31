@@ -47,7 +47,7 @@ namespace Meta.Views
 
         public void Dispose()
         {
-            if(gameObject)
+            if(this)
                 Destroy(gameObject);
         }
     }
