@@ -15,6 +15,7 @@ namespace Meta.UseCases
         private readonly IOverlayLoadingFactory _overlayLoadingFactory;
         
         private ISpecialOffersPresenter _specialOffersPresenter;
+        private ISpecialOfferPresenter _specialOfferPresenter;
         
         private readonly CancellationTokenSource _cancellationTokenSource = new();
         
@@ -52,6 +53,9 @@ namespace Meta.UseCases
             _specialOffersFactory.DestroySpecialOffersPresenter(_specialOffersPresenter);
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
+            
+            if(_specialOfferPresenter != null)
+                _specialOfferFactory.DestroySpecialOfferPresenter(_specialOfferPresenter);
         }
 
         private void ShowSpecialOfferPopup(string specialOfferId) => SpecialOfferPopupAsync(specialOfferId).Forget();
@@ -59,14 +63,15 @@ namespace Meta.UseCases
         private async UniTask<bool> SpecialOfferPopupAsync(string specialOfferId)
         {
             var overlay = await _overlayLoadingFactory.GetOverlayLoadingPresenter(_cancellationTokenSource.Token);
-            var specialOfferPresenter =
+            _specialOfferPresenter =
                 await _specialOfferFactory.GetSpecialOfferPresenter(specialOfferId, _cancellationTokenSource.Token);
             _overlayLoadingFactory.DestroyOverlayLoadingPresenter(overlay);
 
-            var userChoice = await specialOfferPresenter.GetUserChoice();
+            var userChoice = await _specialOfferPresenter.GetUserChoice();
             
             overlay = await _overlayLoadingFactory.GetOverlayLoadingPresenter(_cancellationTokenSource.Token);
-            _specialOfferFactory.DestroySpecialOfferPresenter(specialOfferPresenter);
+            _specialOfferFactory.DestroySpecialOfferPresenter(_specialOfferPresenter);
+            _specialOfferPresenter = null;
 
             if (userChoice)
             {
