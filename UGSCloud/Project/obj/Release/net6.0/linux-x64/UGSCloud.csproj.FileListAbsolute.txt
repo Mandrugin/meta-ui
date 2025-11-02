@@ -1,0 +1,13 @@
+C:\Work\meta-ui\UGSCloud\Project\bin\Release\net6.0\linux-x64\UGSCloud.deps.json
+C:\Work\meta-ui\UGSCloud\Project\bin\Release\net6.0\linux-x64\UGSCloud.dll
+C:\Work\meta-ui\UGSCloud\Project\bin\Release\net6.0\linux-x64\UGSCloud.pdb
+C:\Work\meta-ui\UGSCloud\Project\obj\Release\net6.0\linux-x64\UGSCloud.csproj.AssemblyReference.cache
+C:\Work\meta-ui\UGSCloud\Project\obj\Release\net6.0\linux-x64\UGSCloud.GeneratedMSBuildEditorConfig.editorconfig
+C:\Work\meta-ui\UGSCloud\Project\obj\Release\net6.0\linux-x64\UGSCloud.AssemblyInfoInputs.cache
+C:\Work\meta-ui\UGSCloud\Project\obj\Release\net6.0\linux-x64\UGSCloud.AssemblyInfo.cs
+C:\Work\meta-ui\UGSCloud\Project\obj\Release\net6.0\linux-x64\UGSCloud.csproj.CoreCompileInputs.cache
+C:\Work\meta-ui\UGSCloud\Project\obj\Release\net6.0\linux-x64\UGSCloud.sourcelink.json
+C:\Work\meta-ui\UGSCloud\Project\obj\Release\net6.0\linux-x64\UGSCloud.dll
+C:\Work\meta-ui\UGSCloud\Project\obj\Release\net6.0\linux-x64\refint\UGSCloud.dll
+C:\Work\meta-ui\UGSCloud\Project\obj\Release\net6.0\linux-x64\UGSCloud.pdb
+C:\Work\meta-ui\UGSCloud\Project\obj\Release\net6.0\linux-x64\ref\UGSCloud.dll

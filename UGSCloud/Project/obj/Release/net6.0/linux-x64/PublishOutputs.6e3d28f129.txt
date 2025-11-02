@@ -1,0 +1,13 @@
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\UGSCloud.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\UGSCloud.deps.json
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\UGSCloud.pdb
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\Unity.Services.CloudCode.Apis.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\Unity.Services.CloudCode.Core.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\Google.Protobuf.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\Grpc.Core.Api.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\Grpc.Net.Client.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\Grpc.Net.Common.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\JsonSubTypes.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation\Newtonsoft.Json.dll
