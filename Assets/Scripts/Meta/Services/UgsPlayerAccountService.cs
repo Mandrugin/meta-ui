@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Meta.Services
 {
-    public class UGSPlayerAccountService
+    public class UgsPlayerAccountService
     {
         private UniTaskCompletionSource<bool> _completionSource;
 
@@ -52,9 +52,20 @@ namespace Meta.Services
                 return UniTask.FromResult(true);
             }
 
-            PlayerAccountService.Instance.StartSignInAsync();
+            try
+            {
+                PlayerAccountService.Instance.StartSignInAsync();
+            }
+            catch (RequestFailedException ex)
+            {
+                Debug.LogException(ex);
+                _completionSource.TrySetResult(false);
+            }
 
             return _completionSource.Task;
         }
+
+        public string GetToken()
+            => PlayerAccountService.Instance.AccessToken;
     }
 }

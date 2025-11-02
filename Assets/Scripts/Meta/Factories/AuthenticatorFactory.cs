@@ -21,6 +21,7 @@ namespace Meta.Factories
         {
             _authenticatorViewHandle = authenticatorAssetRef.LoadAssetAsync();
             var prefab = await _authenticatorViewHandle;
+            authenticatorAssetRef.ReleaseAsset();
             var authenticatorView = Instantiate(prefab, sceneContext.middleLayer).GetComponent<AuthenticatorView>();
             
             return new AuthenticatorPresenter(authenticatorView);
@@ -34,7 +35,8 @@ namespace Meta.Factories
 
         public void Dispose()
         {
-            _authenticatorViewHandle.Release();
+            if(_authenticatorViewHandle.IsValid())
+                _authenticatorViewHandle.Release();
         }
     }
 }

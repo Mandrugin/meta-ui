@@ -3,7 +3,7 @@ using Meta.UseCases;
 
 namespace Meta.Services
 {
-    public class TestAuthenticationService : IAuthenticationService
+    public class TestAuthenticatorService : IAuthenticatorService
     {
         public bool IsAuthenticated => false;
 

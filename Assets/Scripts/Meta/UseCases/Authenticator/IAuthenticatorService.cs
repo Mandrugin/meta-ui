@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 
 namespace Meta.UseCases
 {
-    public interface IAuthenticationService : IDisposable
+    public interface IAuthenticatorService : IDisposable
     {
         bool IsAuthenticated { get; }
     

@@ -11,7 +11,7 @@ namespace Meta.UseCases
     public class AuthenticatorUseCase: IAsyncStartable, IDisposable
     {
         private readonly IAuthenticatorFactory  _authenticatorFactory;
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IAuthenticatorService authenticatorService;
         private readonly GameObject _hangarScopePrefab;
         private readonly GameObject _specialOffersScopePrefab;
         
@@ -23,26 +23,27 @@ namespace Meta.UseCases
 
         public AuthenticatorUseCase(
             IAuthenticatorFactory authenticatorFactory,
-            IAuthenticationService authenticationService,
+            IAuthenticatorService authenticatorService,
             [Key(ScopeKeys.HangarScope)] GameObject hangarScopePrefab,
             [Key(ScopeKeys.SpecialOffersScope)] GameObject specialOffersScopePrefab)
         {
             _authenticatorFactory = authenticatorFactory;
-            _authenticationService = authenticationService;
+            this.authenticatorService = authenticatorService;
             _hangarScopePrefab = hangarScopePrefab;
             _specialOffersScopePrefab = specialOffersScopePrefab;
         }
 
-        public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
+        public async UniTask StartAsync(CancellationToken cancellation = new())
         {
-            _authenticatorPresenter = await _authenticatorFactory.GetAuthenticatorPresenter(cancellation);
-            _authenticatorPresenter.ShowInProgressState();
-
-            await _authenticationService.InitializeAsync();
+            await authenticatorService.InitializeAsync();
             
-            if(_authenticationService.IsAuthenticated)
+            if(authenticatorService.IsAuthenticated)
+            {
                 MoveOn();
-            
+                return;
+            }
+
+            _authenticatorPresenter = await _authenticatorFactory.GetAuthenticatorPresenter(cancellation);
             _authenticatorPresenter.ShowReadyState();
             _authenticatorPresenter.OnAuthenticate += Authenticate;
         }
@@ -63,20 +64,20 @@ namespace Meta.UseCases
         private async UniTask AuthenticateAsync()
         {
             _authenticatorPresenter.ShowInProgressState();
-            var authResponse = await _authenticationService.Authenticate();
+            var authResponse = await authenticatorService.Authenticate();
             _authenticatorPresenter.ShowAuthResponse(authResponse);
 
             if (authResponse)
             {
                 await UniTask.WaitForSeconds(1);
+                _authenticatorFactory.DestroyAuthenticatorPresenter(_authenticatorPresenter);
+                _authenticatorPresenter = null;
                 MoveOn();
             }
         }
 
         private void MoveOn()
         {
-            _authenticatorFactory.DestroyAuthenticatorPresenter(_authenticatorPresenter);
-            _authenticatorPresenter = null;
             _hangarScope = Object.Instantiate(_hangarScopePrefab);
             _specialOffersScope = Object.Instantiate(_specialOffersScopePrefab);            
         }
