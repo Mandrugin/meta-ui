@@ -12,7 +12,7 @@ using UnityEngine.Scripting;
 namespace Meta.Gateways
 {
     [Preserve]
-    public class LocalHangarGateway : IHangarGateway, IDisposable
+    public class LocalHangarGateway : IHangarGateway
     {
         private readonly ProfileDataConfig _profileDataConfig;
         private readonly VehiclesDataConfig _vehiclesDataConfig;

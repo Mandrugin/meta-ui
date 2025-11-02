@@ -6,7 +6,7 @@ using Meta.Entities;
 
 namespace Meta.UseCases
 {
-    public interface IHangarGateway
+    public interface IHangarGateway: IDisposable
     {
 #region Money
     public event Action<long> OnSoftChanged;

@@ -5,7 +5,7 @@ namespace Meta.Services
 {
     public class TestAuthenticatorService : IAuthenticatorService
     {
-        public bool IsAuthenticated => false;
+        public bool IsAuthenticated { get; private set; }
 
         public async UniTask InitializeAsync()
         {
@@ -18,7 +18,7 @@ namespace Meta.Services
             var response = UnityEngine.Random.Range(0, 10) >= 3; // 30% success authentication
             if (response)
                 await UniTask.WaitForSeconds(1);
-            return response;
+            return IsAuthenticated = response;
         }
 
         public void Dispose()
