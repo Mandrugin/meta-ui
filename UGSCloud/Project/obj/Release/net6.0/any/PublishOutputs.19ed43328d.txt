@@ -1,0 +1,13 @@
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\UGSCloud.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\UGSCloud.deps.json
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\UGSCloud.pdb
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\Unity.Services.CloudCode.Apis.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\Unity.Services.CloudCode.Core.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\Google.Protobuf.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\Grpc.Core.Api.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\Grpc.Net.Client.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\Grpc.Net.Common.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\JsonSubTypes.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\valer\AppData\Local\Temp\UGSCloud\module-compilation-cross-platform\Newtonsoft.Json.dll
