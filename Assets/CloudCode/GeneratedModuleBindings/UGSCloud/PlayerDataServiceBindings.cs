@@ -5,10 +5,10 @@ using System;
 
 namespace Unity.Services.CloudCode.GeneratedBindings
 {
-    public class MyModuleBindings
+    public class PlayerDataServiceBindings
     {
         readonly ICloudCodeService k_Service;
-        public MyModuleBindings(ICloudCodeService service)
+        public PlayerDataServiceBindings(ICloudCodeService service)
         {
             k_Service = service;
         }
@@ -21,6 +21,17 @@ namespace Unity.Services.CloudCode.GeneratedBindings
                 new Dictionary<string, object>()
                 {
                     {"name", name},
+                });
+        }
+
+        public async Task<string> HandleNewPlayerNameEntry(string newPlayerName)
+        {
+            return await k_Service.CallModuleEndpointAsync<string>(
+                "UGSCloud",
+                "HandleNewPlayerNameEntry",
+                new Dictionary<string, object>()
+                {
+                    {"newPlayerName", newPlayerName},
                 });
         }
     }

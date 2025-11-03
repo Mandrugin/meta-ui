@@ -18,6 +18,22 @@ namespace Meta.Services
             _authenticationService = AuthenticationService.Instance;
         }
 
+        public bool IsAuthenticated()
+        {
+            try
+            {
+                if(_authenticationService == null)
+                    throw new NullReferenceException("UgsAuthenticationService has not been initialized");
+
+                return _authenticationService.IsAuthorized;
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                return false;
+            }
+        }
+
         public bool HasSessionToken()
         {
             try

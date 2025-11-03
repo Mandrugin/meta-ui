@@ -26,7 +26,7 @@ namespace Meta.Containers
         
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.Register<LocalHangarGateway>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<UgsHangarGateway>(Lifetime.Singleton).AsImplementedInterfaces();
 
             builder.Register<HangarUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<VehicleUseCase>(Lifetime.Singleton).AsImplementedInterfaces();

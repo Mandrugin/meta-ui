@@ -1,6 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using Meta.UseCases;
-using Unity.Services.Authentication;
 using UnityEngine.Scripting;
 
 namespace Meta.Services
@@ -8,7 +7,7 @@ namespace Meta.Services
     [Preserve]
     public class UgsAuthenticatorService : IAuthenticatorService
     {
-        public bool IsAuthenticated => AuthenticationService.Instance.IsSignedIn;
+        public bool IsAuthenticated => _ugsAuthenticationService.IsAuthenticated();
         
         private readonly UgsPlayerAccountService _ugsPlayerAccountService = new();
         private readonly UgsAuthenticationService _ugsAuthenticationService = new();

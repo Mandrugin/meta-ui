@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
-    TypeName: Meta.Containers.BasicLifetimeScope
+    TypeName: Meta.Containers.AuthLifetimeScope
   autoRun: 1
   autoInjectGameObjects: []
   vehiclesDataConfig: {fileID: 11400000, guid: 509c4dfcf84ddd74798aad2087a583b5, type: 2}

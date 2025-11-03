@@ -17,22 +17,43 @@ namespace Meta.Gateways
         
         private readonly IAuthenticatorService _authenticatorService;
         
-        private MyModuleBindings _myModuleBindings;
-        
+        private readonly PlayerDataServiceBindings _playerDataServiceBindings;
+
+        public async UniTask PlayWithUgs()
+        {
+            var playerName = "Etishka";
+            Debug.Log($"send \"{playerName}\" player name");
+            var response = await _playerDataServiceBindings.SayHello(playerName);
+            Debug.Log($"response is: \"{response}\"");
+            await SaveNewPlayerName(playerName);
+        }
+
+        private async UniTask SaveNewPlayerName(string newPlayerName)
+        {
+            try
+            {
+                var playerName = await _playerDataServiceBindings.HandleNewPlayerNameEntry(newPlayerName);
+                Debug.Log($"Saved new  player name in the could: {playerName}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+        }
 
         public UgsHangarGateway(IAuthenticatorService authenticatorService)
         {
             _authenticatorService = authenticatorService;
             
-            if(_authenticatorService.IsAuthenticated)
+            if(!_authenticatorService.IsAuthenticated)
             {
                 Debug.LogError("player is not authenticated");
                 return;
             }
 
-            _myModuleBindings = new MyModuleBindings(CloudCodeService.Instance);
+            _playerDataServiceBindings = new PlayerDataServiceBindings(CloudCodeService.Instance);
             
-            _myModuleBindings.SayHello("matou").AsUniTask().ContinueWith(result => Debug.Log($"Response is {result}"));
+            PlayWithUgs().Forget();
         }
 
         public UniTask<long> GetHardBalance(CancellationToken cancellationToken)
