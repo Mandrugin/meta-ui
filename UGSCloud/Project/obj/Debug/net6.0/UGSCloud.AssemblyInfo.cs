@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UGSCloud")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cd020361ee11e6b5ac91ac1635ecf21a7570e544")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+52a3d5b2c57ee176bc69119b045fa8ec7882946c")]
 [assembly: System.Reflection.AssemblyProductAttribute("UGSCloud")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UGSCloud")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

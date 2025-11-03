@@ -1,0 +1,13 @@
+C:\Work\meta-ui\UGSCloud\Project\bin\Debug\net6.0\UGSCloud.deps.json
+C:\Work\meta-ui\UGSCloud\Project\bin\Debug\net6.0\UGSCloud.dll
+C:\Work\meta-ui\UGSCloud\Project\bin\Debug\net6.0\UGSCloud.pdb
+C:\Work\meta-ui\UGSCloud\Project\obj\Debug\net6.0\UGSCloud.csproj.AssemblyReference.cache
+C:\Work\meta-ui\UGSCloud\Project\obj\Debug\net6.0\UGSCloud.GeneratedMSBuildEditorConfig.editorconfig
+C:\Work\meta-ui\UGSCloud\Project\obj\Debug\net6.0\UGSCloud.AssemblyInfoInputs.cache
+C:\Work\meta-ui\UGSCloud\Project\obj\Debug\net6.0\UGSCloud.AssemblyInfo.cs
+C:\Work\meta-ui\UGSCloud\Project\obj\Debug\net6.0\UGSCloud.csproj.CoreCompileInputs.cache
+C:\Work\meta-ui\UGSCloud\Project\obj\Debug\net6.0\UGSCloud.sourcelink.json
+C:\Work\meta-ui\UGSCloud\Project\obj\Debug\net6.0\UGSCloud.dll
+C:\Work\meta-ui\UGSCloud\Project\obj\Debug\net6.0\refint\UGSCloud.dll
+C:\Work\meta-ui\UGSCloud\Project\obj\Debug\net6.0\UGSCloud.pdb
+C:\Work\meta-ui\UGSCloud\Project\obj\Debug\net6.0\ref\UGSCloud.dll
