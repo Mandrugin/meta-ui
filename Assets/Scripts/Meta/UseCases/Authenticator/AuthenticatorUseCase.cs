@@ -12,6 +12,7 @@ namespace Meta.UseCases
     {
         private readonly IAuthenticatorFactory  _authenticatorFactory;
         private readonly IAuthenticatorService authenticatorService;
+        private readonly IAnalyticsService  analyticsService;
         private readonly GameObject _hangarScopePrefab;
         private readonly GameObject _specialOffersScopePrefab;
         
@@ -24,11 +25,13 @@ namespace Meta.UseCases
         public AuthenticatorUseCase(
             IAuthenticatorFactory authenticatorFactory,
             IAuthenticatorService authenticatorService,
+            IAnalyticsService analyticsService,
             [Key(ScopeKeys.HangarScope)] GameObject hangarScopePrefab,
             [Key(ScopeKeys.SpecialOffersScope)] GameObject specialOffersScopePrefab)
         {
             _authenticatorFactory = authenticatorFactory;
             this.authenticatorService = authenticatorService;
+            this.analyticsService = analyticsService;
             _hangarScopePrefab = hangarScopePrefab;
             _specialOffersScopePrefab = specialOffersScopePrefab;
         }
@@ -36,6 +39,7 @@ namespace Meta.UseCases
         public async UniTask StartAsync(CancellationToken cancellation = new())
         {
             await authenticatorService.InitializeAsync();
+            await analyticsService.InitializeAsync();
             
             if(authenticatorService.IsAuthenticated)
             {

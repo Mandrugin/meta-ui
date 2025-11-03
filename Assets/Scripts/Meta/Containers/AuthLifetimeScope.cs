@@ -20,6 +20,7 @@ namespace Meta.Containers
             builder.RegisterInstance(hangarScope).AsSelf().Keyed(ScopeKeys.HangarScope);
             builder.RegisterInstance(specialOffersScope).AsSelf().Keyed(ScopeKeys.SpecialOffersScope);
             builder.Register<AuthenticatorUseCase>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<UgsAnalytics>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<UgsAuthenticatorService>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
