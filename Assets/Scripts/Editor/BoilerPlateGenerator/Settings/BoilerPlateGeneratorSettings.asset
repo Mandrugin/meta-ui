@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 989b50f7c2c04476b47024ce156b165a, type: 3}
   m_Name: BoilerPlateGeneratorSettings
   m_EditorClassIdentifier: Assembly-CSharp-Editor::BoilerPlateGeneratorSettings
-  sourcePath: 
-  outputPath: 
+  sourcePath: Assets/Scripts/Editor/BoilerPlateGenerator/Templates
+  outputPath: Assets/Scripts/Meta
