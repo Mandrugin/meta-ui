@@ -3,12 +3,12 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class BoilerPlateGenerator
+public static class BoilerPlateGenerator
 {
     private static string entityName = "Authenticator";
     private static string entityNameLowerCase = "authenticator";
     
-    [MenuItem("Tools/BoilerPlateGenerator")]
+    //[MenuItem("Tools/BoilerPlateGenerator")]
     private static void Generate()
     {
         CreateView();
