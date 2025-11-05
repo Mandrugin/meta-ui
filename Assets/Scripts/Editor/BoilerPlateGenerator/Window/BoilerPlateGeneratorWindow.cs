@@ -1,11 +1,11 @@
-using System.Linq;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class BoilerPlateGeneratorWindow : EditorWindow
 {
-    [SerializeField] private VisualTreeAsset _visualTreeAsset;
+    [SerializeField] private VisualTreeAsset visualTreeAsset;
 
     [MenuItem("Window/UI Toolkit/BoilerPlateGeneratorWindow")]
     public static void ShowExample()
@@ -18,20 +18,43 @@ public class BoilerPlateGeneratorWindow : EditorWindow
     {
         // Each editor window contains a root VisualElement object
         VisualElement root = rootVisualElement;
+
+        var guids = AssetDatabase.FindAssets("t:BoilerPlateGeneratorSettings");
+
+        if (guids.Length == 0)
+            throw new FileNotFoundException("Scriptable object of type BoilerPlateGeneratorSettings is not found");
         
-        root.Add(_visualTreeAsset.Instantiate());
+        var settingsGuid = new GUID(guids[0]);
+        var settings = AssetDatabase.LoadAssetByGUID<BoilerPlateGeneratorSettings>(settingsGuid);
+        
+        root.Add(visualTreeAsset.Instantiate());
 
-        foreach (var visualElement in root.Query().ToList())
+        var nameField = root.Q<TextField>("NameField");
+        var sourcePathField = root.Q<TextField>("SourceField");
+        var outputPathField = root.Q<TextField>("OutputField");
+        
+        nameField.SetValueWithoutNotify("");
+
+        sourcePathField.SetValueWithoutNotify(settings.sourcePath);
+        outputPathField.SetValueWithoutNotify(settings.outputPath);
+
+        sourcePathField.RegisterValueChangedCallback(callback =>
         {
-            Debug.Log(visualElement.name);
-        }
+            settings.sourcePath = callback.newValue;
+            EditorUtility.SetDirty(settings);
+        });
+        outputPathField.RegisterValueChangedCallback(callback =>
+        {
+            settings.outputPath = callback.newValue;
+            EditorUtility.SetDirty(settings);
+        });
 
-        root.Q<Button>("Generate").clicked += Generate;
-    }
-
-    private void Generate()
-    {
-        var first = AssetDatabase.FindAssets("t:BoilerPlateGeneratorSettings").First();
-        Debug.Log(AssetDatabase.GUIDToAssetPath(first));
+        root.Q<Button>("Generate").clicked += () =>
+        {
+            BoilerPlateGenerator.CreateView(nameField.value, sourcePathField.value, outputPathField.value);
+            BoilerPlateGenerator.CreatePresenter(nameField.value, sourcePathField.value, outputPathField.value);
+            BoilerPlateGenerator.CreateUseCase(nameField.value, sourcePathField.value, outputPathField.value);
+            BoilerPlateGenerator.CreateFactory(nameField.value, sourcePathField.value, outputPathField.value);
+        };
     }
 }

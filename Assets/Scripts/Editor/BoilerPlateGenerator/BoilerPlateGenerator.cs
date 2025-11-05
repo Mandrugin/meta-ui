@@ -1,84 +1,79 @@
 using System;
 using System.IO;
-using UnityEditor;
-using UnityEngine;
 
 public static class BoilerPlateGenerator
 {
-    private static string entityName = "Authenticator";
-    private static string entityNameLowerCase = "authenticator";
-    
-    //[MenuItem("Tools/BoilerPlateGenerator")]
-    private static void Generate()
+    public static void CreateView(string entityName, string sourcePath, string outputPath)
     {
-        CreateView();
-        CreatePresenter();
-        CreateUseCase();
-        CreateFactory();
-        
-        Debug.Log("Generation is finished");
-    }
-
-    private static void CreateView()
-    {
-        Directory.CreateDirectory("Assets/Scripts/Meta/Views/" + entityName);
+        Directory.CreateDirectory(Path.Combine(outputPath, "Views", entityName));
         
         var viewFileName = entityName + "View.cs";
-        var viewText = File.ReadAllText("Assets/Scripts/Editor/Views/PlaceHolderView.cs");
-        viewText = ReplacePlaceHolder(viewText);
-        File.WriteAllText("Assets/Scripts/Meta/Views/" + entityName + "/" + viewFileName, viewText);
+        var viewText = File.ReadAllText(Path.Combine( sourcePath, "Views", "PlaceHolderView.cs"));
+        viewText = ReplacePlaceHolder(viewText, entityName);
+        
+        File.WriteAllText(Path.Combine( outputPath, "Views", entityName, viewFileName), viewText);
     }
 
-    private static void CreatePresenter()
+    public static void CreatePresenter(string entityName, string sourcePath, string outputPath)
     {
-        Directory.CreateDirectory("Assets/Scripts/Meta/Presenters/" + entityName);
+        Directory.CreateDirectory(Path.Combine(outputPath, entityName));
         
         var presenterFileName = entityName + "Presenter.cs";
         var iViewFileName = "I" + entityName + "View.cs";
         
-        var iViewText = File.ReadAllText("Assets/Scripts/Editor/Presenters/IPlaceHolderView.cs");
-        iViewText = ReplacePlaceHolder(iViewText);
-        File.WriteAllText("Assets/Scripts/Meta/Presenters/" + entityName + "/" + iViewFileName, iViewText);
+        var iViewText = File.ReadAllText(Path.Combine(sourcePath, "Presenters", "IPlaceHolderView.cs"));
+        iViewText = ReplacePlaceHolder(iViewText, entityName);
+        File.WriteAllText(Path.Combine(outputPath, "Presenters", entityName, iViewFileName), iViewText);
         
-        var presenterText = File.ReadAllText("Assets/Scripts/Editor/Presenters/PlaceHolderPresenter.cs");
-        presenterText = ReplacePlaceHolder(presenterText);
-        File.WriteAllText("Assets/Scripts/Meta/Presenters/" + entityName + "/" + presenterFileName, presenterText);
+        var presenterText = File.ReadAllText(Path.Combine(sourcePath, "Presenters", "PlaceHolderPresenter.cs"));
+        presenterText = ReplacePlaceHolder(presenterText, entityName);
+        File.WriteAllText(Path.Combine(outputPath,"Presenters", entityName, presenterFileName), presenterText);
     }
 
-    private static void CreateUseCase()
+    public static void CreateUseCase(string entityName, string sourcePath, string outputPath)
     {
-        Directory.CreateDirectory("Assets/Scripts/Meta/UseCases/" + entityName);
+        Directory.CreateDirectory(Path.Combine(outputPath, "UseCases/", entityName));
         
         var useCaseFileName = entityName + "UseCase.cs";
         var iPresenterFileName = "I" + entityName + "Presenter.cs";
         var iFactoryFileName = "I" + entityName + "Factory.cs";
         
-        var useCaseText = File.ReadAllText("Assets/Scripts/Editor/UseCases/PlaceHolderUseCase.cs");
-        useCaseText = ReplacePlaceHolder(useCaseText);
-        File.WriteAllText("Assets/Scripts/Meta/UseCases/" + entityName + "/" + useCaseFileName, useCaseText);
+        var useCaseText = File.ReadAllText(Path.Combine(sourcePath, "UseCases", "PlaceHolderUseCase.cs"));
+        useCaseText = ReplacePlaceHolder(useCaseText, entityName);
+        File.WriteAllText(Path.Combine(outputPath, "UseCases", entityName, useCaseFileName), useCaseText);
         
-        var iPresenterText = File.ReadAllText("Assets/Scripts/Editor/UseCases/IPlaceHolderPresenter.cs");
-        iPresenterText = ReplacePlaceHolder(iPresenterText);
-        File.WriteAllText("Assets/Scripts/Meta/UseCases/" + entityName + "/" + iPresenterFileName, iPresenterText);
+        var iPresenterText = File.ReadAllText(Path.Combine(sourcePath, "UseCases", "IPlaceHolderPresenter.cs"));
+        iPresenterText = ReplacePlaceHolder(iPresenterText, entityName);
+        File.WriteAllText(Path.Combine(outputPath, "UseCases", entityName, iPresenterFileName), iPresenterText);
         
-        var iFactoryText = File.ReadAllText("Assets/Scripts/Editor/UseCases/IPlaceHolderFactory.cs");
-        iFactoryText = ReplacePlaceHolder(iFactoryText);
-        File.WriteAllText("Assets/Scripts/Meta/UseCases/" + entityName + "/" + iFactoryFileName, iFactoryText);
+        var iFactoryText = File.ReadAllText(Path.Combine(sourcePath, "UseCases", "IPlaceHolderFactory.cs"));
+        iFactoryText = ReplacePlaceHolder(iFactoryText, entityName);
+        File.WriteAllText(Path.Combine(outputPath, "UseCases", entityName, iFactoryFileName), iFactoryText);
     }
 
-    private static void CreateFactory()
+    public static void CreateFactory(string entityName, string sourcePath, string outputPath)
     {
         var factoryFileName = entityName + "Factory.cs";
         
-        var factoryText = File.ReadAllText("Assets/Scripts/Editor/Factories/PlaceHolderFactory.cs");
-        factoryText = ReplacePlaceHolder(factoryText);
-        File.WriteAllText("Assets/Scripts/Meta/Factories/" + factoryFileName, factoryText);
+        var factoryText = File.ReadAllText(Path.Combine(sourcePath, "Factories", "PlaceHolderFactory.cs"));
+        factoryText = ReplacePlaceHolder(factoryText, entityName);
+        File.WriteAllText(Path.Combine(outputPath, "Meta", "Factories", factoryFileName), factoryText);
     }
 
-    private static string ReplacePlaceHolder(string toReplace)
+    private static string ReplacePlaceHolder(string toReplace, string entityName)
     {
-        toReplace = toReplace.Replace("PlaceHolder", entityName, StringComparison.Ordinal);
-        toReplace = toReplace.Replace("placeHolder", entityNameLowerCase, StringComparison.Ordinal);
+        var upperCaseName = entityName;
+        var lowerCaseCase = GetLowerCaseName(entityName);
+        
+        toReplace = toReplace.Replace("PlaceHolder", upperCaseName, StringComparison.Ordinal);
+        toReplace = toReplace.Replace("placeHolder", lowerCaseCase, StringComparison.Ordinal);
         return toReplace;
+    }
+    
+    private static string GetLowerCaseName(string upperCaseName)
+    {
+        string firstChar = upperCaseName.Substring(0, 1);
+        firstChar = firstChar.ToLower();
+        return firstChar + upperCaseName.Substring(1, upperCaseName.Length - 1);
     }
 }
