@@ -5,18 +5,20 @@ public static class BoilerPlateGenerator
 {
     public static void CreateView(string entityName, string sourcePath, string outputPath)
     {
-        Directory.CreateDirectory(Path.Combine(outputPath, "Views", entityName));
+        const string viewsFolder = "Views";
+        
+        Directory.CreateDirectory(Path.Combine(outputPath, viewsFolder, entityName));
         
         var viewFileName = entityName + "View.cs";
-        var viewText = File.ReadAllText(Path.Combine( sourcePath, "Views", "PlaceHolderView.cs"));
+        var viewText = File.ReadAllText(Path.Combine( sourcePath, viewsFolder, "PlaceHolderView.cs"));
         viewText = ReplacePlaceHolder(viewText, entityName);
         
-        File.WriteAllText(Path.Combine( outputPath, "Views", entityName, viewFileName), viewText);
+        File.WriteAllText(Path.Combine( outputPath, viewsFolder, entityName, viewFileName), viewText);
     }
 
     public static void CreatePresenter(string entityName, string sourcePath, string outputPath)
     {
-        Directory.CreateDirectory(Path.Combine(outputPath, entityName));
+        Directory.CreateDirectory(Path.Combine(outputPath, "Presenters", entityName));
         
         var presenterFileName = entityName + "Presenter.cs";
         var iViewFileName = "I" + entityName + "View.cs";
@@ -32,7 +34,7 @@ public static class BoilerPlateGenerator
 
     public static void CreateUseCase(string entityName, string sourcePath, string outputPath)
     {
-        Directory.CreateDirectory(Path.Combine(outputPath, "UseCases/", entityName));
+        Directory.CreateDirectory(Path.Combine(outputPath, "UseCases", entityName));
         
         var useCaseFileName = entityName + "UseCase.cs";
         var iPresenterFileName = "I" + entityName + "Presenter.cs";
@@ -57,7 +59,7 @@ public static class BoilerPlateGenerator
         
         var factoryText = File.ReadAllText(Path.Combine(sourcePath, "Factories", "PlaceHolderFactory.cs"));
         factoryText = ReplacePlaceHolder(factoryText, entityName);
-        File.WriteAllText(Path.Combine(outputPath, "Meta", "Factories", factoryFileName), factoryText);
+        File.WriteAllText(Path.Combine(outputPath, "Factories", factoryFileName), factoryText);
     }
 
     private static string ReplacePlaceHolder(string toReplace, string entityName)

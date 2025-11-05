@@ -55,6 +55,7 @@ public class BoilerPlateGeneratorWindow : EditorWindow
             BoilerPlateGenerator.CreatePresenter(nameField.value, sourcePathField.value, outputPathField.value);
             BoilerPlateGenerator.CreateUseCase(nameField.value, sourcePathField.value, outputPathField.value);
             BoilerPlateGenerator.CreateFactory(nameField.value, sourcePathField.value, outputPathField.value);
+            AssetDatabase.Refresh();
         };
     }
 }
