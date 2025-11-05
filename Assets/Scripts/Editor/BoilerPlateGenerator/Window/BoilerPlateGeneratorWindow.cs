@@ -32,6 +32,7 @@ public class BoilerPlateGeneratorWindow : EditorWindow
         var nameField = root.Q<TextField>("NameField");
         var sourcePathField = root.Q<TextField>("SourceField");
         var outputPathField = root.Q<TextField>("OutputField");
+        var useCaseToggle = root.Q<Toggle>("UseCaseToggle");
         
         nameField.SetValueWithoutNotify("");
 
@@ -53,7 +54,7 @@ public class BoilerPlateGeneratorWindow : EditorWindow
         {
             BoilerPlateGenerator.CreateView(nameField.value, sourcePathField.value, outputPathField.value);
             BoilerPlateGenerator.CreatePresenter(nameField.value, sourcePathField.value, outputPathField.value);
-            BoilerPlateGenerator.CreateUseCase(nameField.value, sourcePathField.value, outputPathField.value);
+            BoilerPlateGenerator.CreateUseCase(nameField.value, sourcePathField.value, outputPathField.value, useCaseToggle.value);
             BoilerPlateGenerator.CreateFactory(nameField.value, sourcePathField.value, outputPathField.value);
             AssetDatabase.Refresh();
         };

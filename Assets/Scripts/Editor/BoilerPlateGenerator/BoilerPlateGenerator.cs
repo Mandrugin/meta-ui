@@ -32,7 +32,7 @@ public static class BoilerPlateGenerator
         File.WriteAllText(Path.Combine(outputPath,"Presenters", entityName, presenterFileName), presenterText);
     }
 
-    public static void CreateUseCase(string entityName, string sourcePath, string outputPath)
+    public static void CreateUseCase(string entityName, string sourcePath, string outputPath, bool useCaseItself)
     {
         Directory.CreateDirectory(Path.Combine(outputPath, "UseCases", entityName));
         
@@ -40,10 +40,13 @@ public static class BoilerPlateGenerator
         var iPresenterFileName = "I" + entityName + "Presenter.cs";
         var iFactoryFileName = "I" + entityName + "Factory.cs";
         
-        var useCaseText = File.ReadAllText(Path.Combine(sourcePath, "UseCases", "PlaceHolderUseCase.cs"));
-        useCaseText = ReplacePlaceHolder(useCaseText, entityName);
-        File.WriteAllText(Path.Combine(outputPath, "UseCases", entityName, useCaseFileName), useCaseText);
-        
+        if(useCaseItself)
+        {
+            var useCaseText = File.ReadAllText(Path.Combine(sourcePath, "UseCases", "PlaceHolderUseCase.cs"));
+            useCaseText = ReplacePlaceHolder(useCaseText, entityName);
+            File.WriteAllText(Path.Combine(outputPath, "UseCases", entityName, useCaseFileName), useCaseText);            
+        }
+
         var iPresenterText = File.ReadAllText(Path.Combine(sourcePath, "UseCases", "IPlaceHolderPresenter.cs"));
         iPresenterText = ReplacePlaceHolder(iPresenterText, entityName);
         File.WriteAllText(Path.Combine(outputPath, "UseCases", entityName, iPresenterFileName), iPresenterText);
