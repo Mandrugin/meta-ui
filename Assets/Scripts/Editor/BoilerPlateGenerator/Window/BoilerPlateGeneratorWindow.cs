@@ -7,7 +7,7 @@ public class BoilerPlateGeneratorWindow : EditorWindow
 {
     [SerializeField] private VisualTreeAsset visualTreeAsset;
 
-    [MenuItem("Window/UI Toolkit/BoilerPlateGeneratorWindow")]
+    [MenuItem("Tools/BoilerPlateGeneratorWindow")]
     public static void ShowExample()
     {
         BoilerPlateGeneratorWindow wnd = GetWindow<BoilerPlateGeneratorWindow>();

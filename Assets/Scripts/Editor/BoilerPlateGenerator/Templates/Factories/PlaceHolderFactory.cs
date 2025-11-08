@@ -13,17 +13,20 @@ namespace Meta.Factories
     public class PlaceHolderFactory: MonoBehaviour, IPlaceHolderFactory
     {
         [SerializeField] private AssetReferenceGameObject placeHolderAssetRef;
-        [Inject] SceneContext sceneContext;
+        [Inject] private SceneContext sceneContext;
         
         private AsyncOperationHandle<GameObject> _placeHolderViewHandle;
 
         public async UniTask<IPlaceHolderPresenter> GetPlaceHolderPresenter(CancellationToken cancellationToken)
         {
-            if (!_placeHolderViewHandle.IsDone)
+            if (!_placeHolderViewHandle.IsValid() || !_placeHolderViewHandle.IsDone)
                 _placeHolderViewHandle = placeHolderAssetRef.LoadAssetAsync();
             var prefab = await _placeHolderViewHandle;
+            prefab.gameObject.SetActive(false);                 //--------------------------------//
             var placeHolderView = Instantiate(prefab, sceneContext.middleLayer).GetComponent<PlaceHolderView>();
-            
+            await UniTask.WaitForEndOfFrame(cancellationToken); //-to avoid the object flickering-//
+            placeHolderView.gameObject.SetActive(true);         //-before it starts animate-------//
+
             return new PlaceHolderPresenter(placeHolderView);
         }
 
@@ -34,7 +37,8 @@ namespace Meta.Factories
 
         public void Dispose()
         {
-            _placeHolderViewHandle.Release();
+            _placeHolderViewHandle.IsValid();
+                _placeHolderViewHandle.Release();
         }
     }
 }
